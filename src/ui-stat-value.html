@@ -1,0 +1,28 @@
+<polymer-element name="ui-stat-value" attributes="value title previous units type absolute">
+
+    <template>
+        <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
+        <section id="stat">
+          <div class="title">
+            {{title}}
+          </div>
+          <div class="value">
+            {{units}}{{value | decimalNumber}}
+          </div>
+
+          <template if="{{change && change > 0}}">
+            <div class="change increase">
+                <icon arrow-up/> {{change | percentage}}
+            </div>
+          </template>
+          
+          <template if="{{change && change < 0}}">
+            <div class="change decrease">
+                <icon arrow-down/> {{change | percentage}}
+            </div>
+          </template>
+
+        </section>
+    </template>
+    
+    <script src="./ui-stat-value.litcoffee"></script>

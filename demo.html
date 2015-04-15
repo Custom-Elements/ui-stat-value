@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>ui-stat-value</title>
+    <script src="http://localhost:35729/livereload.js"></script>
+    <link rel="import" href="node_modules/polymer/polymer.html">
+    <link rel="import" href="src/ui-stat-value.html">
+    <link rel="stylesheet" href="node_modules/ui-font-awesome/font-awesome.less">
+    <style>
+      body {
+        font-family: "Helvetica Neue", "Helvetica", Arial;
+      }
+    </style>
+  </head>
+
+  <body unresolved>
+    <div id="holder">
+      <ui-stat-value title="Money Saved Past 7 Days" units="$" value="101.25" previous="98">
+      </ui-stat-value>
+    </div>
+    
+    <div id="holder">
+      <ui-stat-value title="Tacos Eaten Past 7 Days" value="95" previous="100">
+      </ui-stat-value>
+    </div>
+
+    <div id="holder">
+      <ui-stat-value title="Widgets Sold Past 30 Days" value="45" values="10, 20, 15, 30, 45">
+      </ui-stat-value>
+    </div>
+
+    <script>
+      document.addEventListener('polymer-ready', function() {
+        //poke your element here
+      });
+    </script>
+  </body>
+
+</html>
