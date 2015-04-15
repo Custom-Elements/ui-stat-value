@@ -2,6 +2,9 @@
   "name": "ui-stat-value",
   "version": "0.0.0",
   "dependencies": {
+    "bower": "^1.4.1",
+    "google-chart": "git://github.com/GoogleWebComponents/google-chart#master",
+    "lodash": "^3.6.0",
     "numeral": "^1.5.3",
     "polymer": "git://github.com/custom-elements/polymer#master",
     "polymer-serve": "^0.0.30",
@@ -11,8 +14,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "./node_modules/.bin/bower install",
     "test": "polymer-serve ."
   },
-  "author": "",
+  "author": "Duane Fields",
   "license": "ISC"
 }

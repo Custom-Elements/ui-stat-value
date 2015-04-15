@@ -3,6 +3,26 @@ The Value visualisation is focused on the display of a metric that can be repres
 along with associated secondary metrics, such as a change or trend indication.
 
     numeral = require 'numeral'
+    _ = require 'lodash'
+
+    sparkline =
+      chartArea:
+        width: '100%'
+        height: '100%'
+      hAxis:
+        textPosition: 'none'
+        gridlines:
+          color: 'transparent'
+        viewWindowMode: 'maximized'
+      vAxis:
+        textPosition: 'none'
+        gridlines:
+          color: 'transparent'
+        viewWindowMode: 'maximized'
+      baselineColor: 'transparent'
+      enableInteractivity: false
+      legend: 'none'
+      backgroundColor: 'transparent'
 
     Polymer 'ui-stat-value',
 
@@ -23,6 +43,14 @@ The previous value of the metric, this should be a number. If specified, a previ
       previousChanged: (oldValue, newValue) ->
         @update()
 
+## values
+An array of previous values, used to create a trend graph
+
+      valuesChanged: (oldValue, newValue) ->
+        @$.trend.setAttribute 'options', JSON.stringify sparkline
+        data = _.map @values, (value) -> ["x", value]
+        data.unshift ["X", "Y"]
+        @$.trend.setAttribute 'data', JSON.stringify data
 
 ## Computed Properties
 
@@ -51,6 +79,7 @@ The previous value of the metric, this should be a number. If specified, a previ
         @value = 0
         @previous = null
         @change = null
+        @values = []
 
       ready: ->
 

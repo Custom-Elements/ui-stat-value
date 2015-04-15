@@ -1,10 +1,11 @@
-<polymer-element name="ui-stat-value" attributes="value title previous units type absolute">
+<link rel="import" href="../bower_components/google-chart/google-chart.html">
+<polymer-element name="ui-stat-value" attributes="value values label previous units type absolute">
 
     <template>
         <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
         <section id="stat">
-          <div class="title">
-            {{title}}
+          <div class="label">
+            {{label}}
           </div>
           <div class="value">
             {{units}}{{value | decimalNumber}}
@@ -20,6 +21,11 @@
             <div class="change decrease">
                 <icon arrow-down/> {{change | percentage}}
             </div>
+          </template>
+          
+          <template if={{values}}>
+            <google-chart id="trend" type="line">
+            </google-chart>
           </template>
 
         </section>
