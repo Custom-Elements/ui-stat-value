@@ -44,13 +44,16 @@ The previous value of the metric, this should be a number. If specified, a previ
         @update()
 
 ## values
-An array of previous values, used to create a trend graph
+An array of previous values, used to create a sparkline if present
 
       valuesChanged: (oldValue, newValue) ->
         @$.trend.setAttribute 'options', JSON.stringify sparkline
         data = _.map @values, (value) -> ["x", value]
         data.unshift ["X", "Y"]
         @$.trend.setAttribute 'data', JSON.stringify data
+
+## label
+Title of the primary metric
 
 ## Computed Properties
 
