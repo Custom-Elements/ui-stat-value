@@ -1,15 +1,16 @@
 @import "../node_modules/ui-styles/variables";
+@import "../node_modules/ui-styles/borders";
 @import "../node_modules/ui-font-awesome/font-awesome.less";
 @import "../node_modules/ui-font-awesome/font-awesome-icons.less";
 
 :host {
   display: inline-block;
   margin: 1em;
-  border: solid 1px black;
-  background-color: #1f1f1f;
-  width: 175px;
-  height: 175px;
-  font-family: "Helvetica Neue", "Helvetica", Arial;
+  .border;
+  .ultra-dark-tint;
+  width: 12em;
+  height: 12em;
+  overflow: hidden;
 }
 
 .value {  
@@ -30,14 +31,12 @@
 .label {
   padding: 1em 0;
   text-align: center;
-
-  color: #999;
+  color: @light-grey;
   text-transform: uppercase;
   font-weight: 200;
   font-size: 0.5em;
-  border-bottom: 1px solid #454545;
-  background: #454545;
-  background-image: linear-gradient(#2f2f2f, #303030);
+  .bottom-border;
+  .dark-tint;
 }
 
 .fraction {
@@ -57,14 +56,14 @@
 }
 
 .increase {
-  color: green; 
+  color: @green; 
   icon {
     top: 8px;
   }
 }
 
 .decrease {
-  color: red;
+  color: @red;
   icon {
     top: -5px;
   }
