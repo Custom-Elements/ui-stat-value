@@ -1,36 +1,36 @@
-<link rel="import" href="../bower_components/google-chart/google-chart.html">
-<polymer-element name="ui-stat-value" attributes="value values label previous units type absolute">
+<polymer-element name="ui-stat-value" attributes="value values label previous units url property maxValues">
+  <link rel="import" href="../bower_components/google-chart/google-chart.html">
 
-    <template>
-        <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
-        <section id="stat">
-          <div class="label">
-            {{label}}
+  <template>
+      <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
+      <section id="stat">
+        <div class="label">
+          {{label}}
+        </div>
+        <div class="value">
+          <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
+        </div>
+
+        <template if="{{change && change > 0}}">
+          <div class="change increase">
+              <icon sort-up></icon>
+              {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
           </div>
-          <div class="value">
-            <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
+        </template>
+        
+        <template if="{{change && change < 0}}">
+          <div class="change decrease">
+              <icon sort-down></icon>
+              {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
           </div>
-
-          <template if="{{change && change > 0}}">
-            <div class="change increase">
-                <icon sort-up></icon>
-                {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
-            </div>
-          </template>
-          
-          <template if="{{change && change < 0}}">
-            <div class="change decrease">
-                <icon sort-down></icon>
-                {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
-            </div>
-          </template>
-          
-          <template if={{values}}>
-            <google-chart id="trend" type="line">
-            </google-chart>
-          </template>
-
-        </section>
-    </template>
+        </template>
+        
+        <template if={{values}}>
+          <google-chart id="trend" type="line">
+          </google-chart>
+        </template>
+      </section>
+  </template>
+  <script src="./ui-stat-value.litcoffee"></script>
+</polymer-element>
     
-    <script src="./ui-stat-value.litcoffee"></script>

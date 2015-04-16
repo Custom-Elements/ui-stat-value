@@ -1,9 +1,12 @@
 # ui-stat-value
 The Value visualisation is focused on the display of a metric that can be represented by a single number,
-along with associated secondary metrics, such as a change or trend indication.
+along with associated secondary metrics, such as a change indicator or sparkline.
 
     numeral = require 'numeral'
     _ = require 'lodash'
+    $ = require 'jquery'
+
+Define a set of chart options for our sparkline
 
     sparkline =
       chartArea:
@@ -38,20 +41,37 @@ The primary metric and should be a number. The primary number is formatted accor
       valueChanged: (oldValue, newValue) ->
         @update()
 
-## previous
+### previous
 The previous value of the metric, this should be a number. If specified, a previous value shows the comparision value.
 
       previousChanged: (oldValue, newValue) ->
         @update()
 
-## values
+### values
 An array of previous values, used to create a sparkline if present
 
       valuesChanged: (oldValue, newValue) ->
         @$.trend.setAttribute 'options', JSON.stringify sparkline
         data = _.map @values, (value) -> ["x", value]
-        data.unshift ["X", "Y"]
+        data.unshift ["x", "y"]
         @$.trend.setAttribute 'data', JSON.stringify data
+        
+        @value = _.last @values if not @value?
+
+### url
+A url that returns an array of JSON objects and will be used to populate the sparkline
+
+      urlChanged: (oldValue, newValue) ->
+        $.ajax
+          type: 'POST'
+          url: 'https://query.glgroup.com/councilApplicant/getStats.mustache'
+          contentType: 'application/json'
+          dataType: 'jsonp'
+          success: (json) =>
+            @values = _.pluck(json, @property).slice(-@maxValues)
+
+## maxValues
+The maximum number of values to consider when drawing the sparkline
 
 ## label
 Title of the primary metric
@@ -86,10 +106,11 @@ Title of the primary metric
 
       created: ->
         @units = ""
-        @value = 0
+        @value = null
         @previous = null
         @change = null
         @values = []
+        @maxValues = 30
 
       ready: ->
 
