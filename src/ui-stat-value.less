@@ -1,7 +1,7 @@
 @import "../node_modules/ui-styles/variables";
 @import "../node_modules/ui-styles/borders";
 @import "../node_modules/ui-font-awesome/font-awesome.less";
-@import "../node_modules/ui-font-awesome/font-awesome-icons.less";
+@import "../node_modules/ui-font-awesome/icons.less";
 
 :host {
   display: inline-block;
@@ -11,6 +11,12 @@
   width: 12em;
   height: 12em;
   overflow: hidden;
+}
+
+.loader {
+  font-size: 0.5em;
+  color: white;
+  padding: 0.5em 0em 0em 0em;
 }
 
 .value {  
@@ -69,8 +75,12 @@
   }
 }
 
-.hidden {
+.invisible {
   visibility: hidden;
+}
+
+.hidden {
+  display: none;
 }
 
 #trend {

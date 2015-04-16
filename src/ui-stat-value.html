@@ -8,8 +8,12 @@
       <div class="label">
         {{label}}
       </div>
+      
+      <div class="loader {{ {hidden: !loading} | tokenList }}">
+        Loading....
+      </div>
 
-      <div class="{{ {hidden: loading} | tokenList }}">
+      <div class="{{ {invisible: loading} | tokenList }}">
         <div class="value">
           <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
         </div>
