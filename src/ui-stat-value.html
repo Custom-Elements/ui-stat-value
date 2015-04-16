@@ -8,18 +8,20 @@
             {{label}}
           </div>
           <div class="value">
-            {{units}}{{value | decimalNumber}}
+            <span class="units">{{units}}</span>{{value | decimalNumber}}
           </div>
 
           <template if="{{change && change > 0}}">
             <div class="change increase">
-                <icon arrow-up/> {{change | percentage}}
+                <icon sort-up></icon>
+                {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
             </div>
           </template>
           
           <template if="{{change && change < 0}}">
             <div class="change decrease">
-                <icon arrow-down/> {{change | percentage}}
+                <icon sort-down></icon>
+                {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
             </div>
           </template>
           

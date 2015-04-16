@@ -23,6 +23,7 @@ along with associated secondary metrics, such as a change or trend indication.
       enableInteractivity: false
       legend: 'none'
       backgroundColor: 'transparent'
+      colors: [ 'white' ]
 
     Polymer 'ui-stat-value',
 
@@ -71,7 +72,13 @@ Title of the primary metric
         numeral(value).format '0,0[.]00'
       
       percentage: (value) ->
-        numeral(value).format '0[.]00%'
+        numeral(value).format '0.0%'
+        
+      wholenumber: (string) ->
+        _.first string.split '.'
+      
+      fraction: (string) ->
+        ".#{_.last string.split '.'}" if string.match /\./
 
 ## Event Handlers
 
