@@ -8,7 +8,7 @@
             {{label}}
           </div>
           <div class="value">
-            <span class="units">{{units}}</span>{{value | decimalNumber}}
+            <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
           </div>
 
           <template if="{{change && change > 0}}">
