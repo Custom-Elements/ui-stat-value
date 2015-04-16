@@ -61,7 +61,9 @@ An array of previous values, used to create a sparkline if present
 ### url
 A url that returns an array of JSON objects and will be used to populate the sparkline
 
+      # todo: replace with request.js, don't load jquery
       urlChanged: (oldValue, newValue) ->
+        @loading = true
         $.ajax
           type: 'POST'
           url: 'https://query.glgroup.com/councilApplicant/getStats.mustache'
@@ -69,6 +71,8 @@ A url that returns an array of JSON objects and will be used to populate the spa
           dataType: 'jsonp'
           success: (json) =>
             @values = _.pluck(json, @property).slice(-@maxValues)
+            # really could wait till we get the graph drawn event
+            @loading = false
 
 ## maxValues
 The maximum number of values to consider when drawing the sparkline
@@ -88,11 +92,15 @@ Title of the primary metric
 
 ## Filters
 
+Pretty formatting of numbers
+
       decimalNumber: (value) ->
         numeral(value).format '0,0[.]00'
       
       percentage: (value) ->
         numeral(value).format '0.0%'
+
+Splits numbers into whole and fractional parts so we can style them separately
         
       wholenumber: (string) ->
         _.first string.split '.'
@@ -111,6 +119,7 @@ Title of the primary metric
         @change = null
         @values = []
         @maxValues = 30
+        @loading = @url?
 
       ready: ->
 

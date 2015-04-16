@@ -2,12 +2,14 @@
   <link rel="import" href="../bower_components/google-chart/google-chart.html">
 
   <template>
-      <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
-      <section id="stat">
-        <div class="label">
-          {{label}}
-        </div>
+    <link rel="stylesheet" type="text/css" href="./ui-stat-value.less">
 
+    <section id="stat">
+      <div class="label">
+        {{label}}
+      </div>
+
+      <div class="{{ {hidden: loading} | tokenList }}">
         <div class="value">
           <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
         </div>
@@ -20,11 +22,13 @@
           </div>
         </template>
         
-        <template if={{values}}>
+        <template if="{{values}}">
           <google-chart id="trend" type="line">
           </google-chart>
         </template>
-      </section>
+      </div>
+      
+    </section>
   </template>
 
   <script src="./ui-stat-value.litcoffee"></script>
