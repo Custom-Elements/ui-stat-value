@@ -7,20 +7,15 @@
         <div class="label">
           {{label}}
         </div>
+
         <div class="value">
           <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
         </div>
 
-        <template if="{{change && change > 0}}">
-          <div class="change increase">
-              <icon sort-up></icon>
-              {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
-          </div>
-        </template>
-        
-        <template if="{{change && change < 0}}">
-          <div class="change decrease">
-              <icon sort-down></icon>
+        <template if="{{change}}">
+          <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}">
+              <template if="{{change > 0}}"><icon sort-up></icon></template>
+              <template if="{{change < 0}}"><icon sort-down></icon></template>
               {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
           </div>
         </template>
@@ -31,6 +26,7 @@
         </template>
       </section>
   </template>
+
   <script src="./ui-stat-value.litcoffee"></script>
 </polymer-element>
     
