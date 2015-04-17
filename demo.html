@@ -3,10 +3,10 @@
 <html>
 
   <head>
-    <title>ui-stat-value</title>
+    <title>ui-stats</title>
     <script src="http://localhost:35729/livereload.js"></script>
     <link rel="import" href="node_modules/polymer/polymer.html">
-    <link rel="import" href="src/ui-stat-value.html">
+    <link rel="import" href="src/ui-stats.html">
     <link rel="stylesheet" href="node_modules/ui-font-awesome/font-awesome.less">
     <style>
     body {
@@ -16,18 +16,18 @@
   </head>
 
   <body unresolved>
-      <ui-stat-value title="Money Saved Past 7 Days" units="$" value="101.25" previous="98">
-      </ui-stat-value>
+      <ui-stats-number title="Money Saved Past 7 Days" units="$" value="101.25" previous="98">
+      </ui-stats-number>
     
-      <ui-stat-value title="Tacos Eaten Past 7 Days" value="95" previous="100">
-      </ui-stat-value>
+      <ui-stats-number title="Tacos Eaten Past 7 Days" value="95" previous="100">
+      </ui-stats-number>
 
-      <ui-stat-value title="Widgets Sold Past 30 Days" value="45" values="[10, 20, 15, 30, 45]">
-      </ui-stat-value>
+      <ui-stats-number title="Widgets Sold Past 30 Days" value="45" values="[10, 20, 15, 30, 45]">
+      </ui-stats-number>
     
-      <ui-stat-value title="CM Applications" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      <ui-stats-number title="CM Applications" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
        property="applied">
-      </ui-stat-value>
+      </ui-stats-number>
   </body>
 
 </html>
