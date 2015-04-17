@@ -1,5 +1,5 @@
 # ui-stats-number
-The Value visualisation is focused on the display of a metric that can be represented by a single number,
+The Number tile is focused on the display of a metric that can be represented by a single number,
 along with associated secondary metrics, such as a change indicator or sparkline.
 
     numeral = require 'numeral'

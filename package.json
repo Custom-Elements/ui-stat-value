@@ -1,5 +1,5 @@
 {
-  "name": "ui-stat-value",
+  "name": "ui-stats",
   "version": "0.0.0",
   "dependencies": {
     "bower": "^1.4.1",
