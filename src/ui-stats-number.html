@@ -1,4 +1,4 @@
-<polymer-element name="ui-stats-number" attributes="value values title previous units src property maxValues">
+<polymer-element name="ui-stats-number" attributes="value values name previous units src property maxValues">
   <link rel="import" href="../bower_components/google-chart/google-chart.html">
 
   <template>
@@ -6,7 +6,7 @@
 
     <section id="stat">
       <div class="title">
-        {{title}}
+        {{name}}
       </div>
       
       <div class="loader {{ {hidden: !loading} | tokenList }}">

@@ -77,7 +77,7 @@ A url that returns an array of JSON objects and will be used to populate the spa
 ## maxValues
 The maximum number of values to consider when drawing the sparkline
 
-## title
+## name
 Title of the primary metric
 
 ## Computed Properties
