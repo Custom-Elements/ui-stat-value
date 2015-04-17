@@ -58,11 +58,11 @@ An array of previous values, used to create a sparkline if present
         
         @value = _.last @values if not @value?
 
-### url
+### src
 A url that returns an array of JSON objects and will be used to populate the sparkline
 
       # todo: replace with request.js, don't load jquery
-      urlChanged: (oldValue, newValue) ->
+      srcChanged: (oldValue, newValue) ->
         @loading = true
         $.ajax
           type: 'POST'
