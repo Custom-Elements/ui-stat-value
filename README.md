@@ -17,12 +17,13 @@ Import polymer, easiest to use the shared instance, but locally is fine too.
 <link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">
 ```
     
-Import the `ui-stats` component and the `font-awesome` component stylesheet, which must be imported at the root DOM.
+Import the `ui-stats` component.
 
 ```html
 <link rel="import" href="node_modules/ui-stats/ui-stats.html">
-<link rel="stylesheet" href="node_modules/ui-font-awesome/font-awesome.less">
 ```
+
+The components currently require [polymer-serve] (https://github.com/Custom-Elements/polymer-serve) to compile the less and coffeescript.
 
 Here's a starting template that puts it all together.
 
@@ -32,7 +33,6 @@ Here's a starting template that puts it all together.
   <head>
     <link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">    
     <link rel="import" href="node_modules/ui-stats/ui-stats.html">
-    <link rel="stylesheet" href="node_modules/ui-font-awesome/font-awesome.less">
   </head>
 
   <body>
@@ -82,12 +82,12 @@ Data can be provided in one of several ways:
 The layout of the tile is automatically configured by the type of data you pass into it, with the following behaviors.
 
 * If you set the `value` attribute to a single value, that value will be used as the primary display metric, overriding any other ways of setting that value, such as loading the data from a URL.
-
+mark
 * If you set the `values` attribute to a single value, it is the same as setting the `value` attribute.
 
 * If you set the `values` attribute to exactly two values, the first value will be used as the primary metric, and the second value will be considered the previous value for that metric. A percent change will automatically be shown in this case. If you want to display the previous value, rather than the change, set the `absolute` attribute to `true`.
 
-* If you set the `values` attribute to three or more values, a primary metric will be displayed and a sparkline of the values will be generated. By default the last element of the array will be the primary metric, but this can be controlled via the `operation` attribute. If you only want to consider a subset of the values, set the `maxValues` attribute to truncate the list to the last `maxValues` elements. For example, the following src returns 365 days of data, but we only care about the last 7 days.
+* If you set the `values` attribute to three or more values, a primary metric will be displayed and a sparkline of the values will be generated. By default the last element of the array will be the primary metric, but this can be controlled via the `function` attribute. If you only want to consider a subset of the values, set the `maxValues` attribute to truncate the list to the last `maxValues` elements. For example, the following src returns 365 days of data, but we only care about the last 7 days.
   
   ```html
   <ui-stats-number name="CM Applications (7 days)" 
@@ -98,6 +98,31 @@ The layout of the tile is automatically configured by the type of data you pass 
 
 ### Attributes
 
-prefix
+#### value
 
-operation
+#### values
+
+#### maxValues
+
+&lt;integer&gt;
+
+#### function
+
+_&lt;string&gt;_
+
+Sets the reduction function to apply the data values to create the primary metric. The default values is `sum`.
+
+Possible values are:
+  * `first`, `last`, `sum`, `average`, `min`, `max`, `count`
+
+#### src
+
+#### name
+
+#### property
+
+#### absolute
+
+#### smooth
+
+#### prefix

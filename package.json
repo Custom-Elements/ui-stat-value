@@ -8,7 +8,6 @@
     "numeral": "^1.5.3",
     "polymer": "git://github.com/custom-elements/polymer#master",
     "polymer-serve": "^0.0.30",
-    "ui-font-awesome": "git://github.com/custom-elements/ui-font-awesome.git",
     "ui-styles": "git://github.com/custom-elements/ui-styles#master"
   },
   "description": "",

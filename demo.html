@@ -7,8 +7,6 @@
     <script src="http://localhost:35729/livereload.js"></script>
     <link rel="import" href="node_modules/polymer/polymer.html">
     <link rel="import" href="ui-stats.html">
-
-    <link rel="stylesheet" href="node_modules/ui-font-awesome/font-awesome.less">
     <style>
     body {
       font-family: "Helvetica Neue", "Helvetica", Arial;
@@ -23,11 +21,11 @@
       <ui-stats-number name="Value and Previous Value" value="95" previous="100">
       </ui-stats-number>
 
-      <ui-stats-number name="Static Array of Values" values="[10, 20, 15, 30, 45]">
+      <ui-stats-number name="Static Array of Values" values="[10, 20, 15, 30, 45, 12]" mode="last" smoothing="true">
       </ui-stats-number>
     
-      <ui-stats-number name="CM Applications" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-       property="applied">
+      <ui-stats-number name="CM Applications (7 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+       property="applied" maxValues="7">
       </ui-stats-number>
   </body>
 

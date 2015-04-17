@@ -1,4 +1,4 @@
-<polymer-element name="ui-stats-number" attributes="value values name previous units src property maxValues mode">
+<polymer-element name="ui-stats-number" attributes="value values name previous units src property maxValues function smooth absolute">
   <link rel="import" href="../bower_components/google-chart/google-chart.html">
 
   <template>
@@ -20,14 +20,14 @@
 
         <template if="{{change}}">
           <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}">
-              <template if="{{change > 0}}"><icon sort-up></icon></template>
-              <template if="{{change < 0}}"><icon sort-down></icon></template>
+              <template if="{{change > 0}}">▲</template>
+              <template if="{{change < 0}}">▼</template>
               {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
           </div>
         </template>
         
         <template if="{{sparkline}}">
-          <div class="annotation">{{value}}</div>
+          <div class="annotation">{{lastValue | decimalNumber}}</div>
         </template>
         <google-chart id="trend" type="line" on-google-chart-render="{{onGoogleChartRender}}">
         </google-chart>

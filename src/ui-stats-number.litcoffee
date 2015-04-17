@@ -48,14 +48,41 @@ An array of previous values, used to create a sparkline if present
           legend: 'none'
           backgroundColor: 'transparent'
           colors: [ 'white' ]
-
+          curveType: if @smooth? then "function" else "none"
+        
+        dataValues = @values.slice(-@maxValues)
         if @values.length > 1
           @$.trend.setAttribute 'options', JSON.stringify sparklineOptions
-          data = _.map @values.slice(-@maxValues), (value) -> ["x", value]
+          data = _.map dataValues, (value) -> ["x", value]
           data.unshift ["x", "y"]
           @$.trend.setAttribute 'data', JSON.stringify data
-        
-        @value = _.last @values if not @value?
+          @lastValue = _.last dataValues
+
+Apply functional reduction, if any.
+
+          if not @value
+            switch @function
+              when "first"
+                @value = _.first dataValues
+              when "last"
+                @value = _.last dataValues
+              when "min"
+                @value = _.min dataValues
+              when "max"
+                @value = _.max dataValues
+              when "count"
+                @value = dataValues.length
+              when "sum"
+                @value = _.reduce dataValues, (sum, value) ->
+                  sum + value
+                ,0
+              when "average"
+                sum = _.reduce dataValues, (sum, value) ->
+                  sum + value
+                ,0
+                @value = sum / dataValues.length
+              
+              else @value = _.last dataValues
 
 ### src
 A url that returns an array of JSON objects and will be used to populate the sparkline
@@ -119,7 +146,8 @@ Splits numbers into whole and fractional parts so we can style them separately
         @previous = null
         @change = null
         @values = []
-        @maxValues = 30
+        @function = "sum"
+        
 
       ready: ->
 
