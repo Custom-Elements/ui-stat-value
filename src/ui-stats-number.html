@@ -26,10 +26,11 @@
           </div>
         </template>
         
-        <template if="{{values}}">
-          <google-chart id="trend" type="line">
-          </google-chart>
+        <template if="{{sparkline}}">
+          <div class="annotation">{{value}}</div>
         </template>
+        <google-chart id="trend" type="line" on-google-chart-render="{{onGoogleChartRender}}">
+        </google-chart>
       </div>
       
     </section>

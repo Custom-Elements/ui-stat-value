@@ -6,28 +6,6 @@ along with associated secondary metrics, such as a change indicator or sparkline
     _ = require 'lodash'
     $ = require 'jquery'
 
-Define a set of chart options for our sparkline
-
-    sparkline =
-      chartArea:
-        width: '100%'
-        height: '100%'
-      hAxis:
-        textPosition: 'none'
-        gridlines:
-          color: 'transparent'
-        viewWindowMode: 'maximized'
-      vAxis:
-        textPosition: 'none'
-        gridlines:
-          color: 'transparent'
-        viewWindowMode: 'maximized'
-      baselineColor: 'transparent'
-      enableInteractivity: false
-      legend: 'none'
-      backgroundColor: 'transparent'
-      colors: [ 'white' ]
-
     Polymer 'ui-stats-number',
 
 ## Attributes and Change Handlers
@@ -51,10 +29,31 @@ The previous value of the metric, this should be a number. If specified, a previ
 An array of previous values, used to create a sparkline if present
 
       valuesChanged: (oldValue, newValue) ->
-        @$.trend.setAttribute 'options', JSON.stringify sparkline
-        data = _.map @values, (value) -> ["x", value]
-        data.unshift ["x", "y"]
-        @$.trend.setAttribute 'data', JSON.stringify data
+        sparklineOptions =
+          chartArea:
+            width: '100%'
+            height: '100%'
+          hAxis:
+            textPosition: 'none'
+            gridlines:
+              color: 'transparent'
+            viewWindowMode: 'maximized'
+          vAxis:
+            textPosition: 'none'
+            gridlines:
+              color: 'transparent'
+            viewWindowMode: 'maximized'
+          baselineColor: 'transparent'
+          enableInteractivity: false
+          legend: 'none'
+          backgroundColor: 'transparent'
+          colors: [ 'white' ]
+
+        if @values.length > 1
+          @$.trend.setAttribute 'options', JSON.stringify sparklineOptions
+          data = _.map @values.slice(-@maxValues), (value) -> ["x", value]
+          data.unshift ["x", "y"]
+          @$.trend.setAttribute 'data', JSON.stringify data
         
         @value = _.last @values if not @value?
 
@@ -66,12 +65,11 @@ A url that returns an array of JSON objects and will be used to populate the spa
         @loading = true
         $.ajax
           type: 'POST'
-          url: 'https://query.glgroup.com/councilApplicant/getStats.mustache'
+          url: @src
           contentType: 'application/json'
           dataType: 'jsonp'
           success: (json) =>
-            @values = _.pluck(json, @property).slice(-@maxValues)
-            # really could wait till we get the graph drawn event
+            @values = _.pluck json, @property
             @loading = false
 
 ## maxValues
@@ -110,6 +108,9 @@ Splits numbers into whole and fractional parts so we can style them separately
 
 ## Event Handlers
 
+      onGoogleChartRender: ->
+        @sparkline = true
+
 ## Polymer Lifecycle
 
       created: ->
@@ -119,7 +120,6 @@ Splits numbers into whole and fractional parts so we can style them separately
         @change = null
         @values = []
         @maxValues = 30
-        @loading = @url?
 
       ready: ->
 
