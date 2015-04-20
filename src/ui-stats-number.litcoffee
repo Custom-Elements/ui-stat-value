@@ -4,7 +4,8 @@ along with associated secondary metrics, such as a change indicator or sparkline
 
     numeral = require 'numeral'
     _ = require 'lodash'
-    request = require 'request'
+    Promise = require 'bluebird'
+    request = Promise.promisifyAll require 'request'
 
     Polymer 'ui-stats-number',
 
@@ -87,13 +88,15 @@ Apply functional reduction, if any.
 ### src
 A url that returns an array of JSON objects and will be used to populate the sparkline
 
-      # todo: replace with request.js, don't load jquery
       srcChanged: (oldValue, newValue) ->
         @loading = true
-        request @src, (error, response, body) =>
-          json = JSON.parse body
-          @values = _.pluck json, @property
-          @loading = false
+        request.getAsync(@src)
+          .spread (res, body) =>
+            json = JSON.parse body
+            @values = _.pluck json, @property
+            @loading = false
+          .catch (err) ->
+            console.log err
 
 ## maxValues
 The maximum number of values to consider when drawing the sparkline
