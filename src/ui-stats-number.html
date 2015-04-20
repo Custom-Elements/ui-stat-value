@@ -1,4 +1,4 @@
-<polymer-element name="ui-stats-number" attributes="value values name previous units src property maxValues function smooth absolute">
+<polymer-element name="ui-stats-number" attributes="value values name units src property maxValues function smooth absolute">
   <link rel="import" href="../bower_components/google-chart/google-chart.html">
 
   <template>
@@ -15,14 +15,19 @@
 
       <div class="{{ {invisible: loading} | tokenList }}">
         <div class="value">
-          <span class="units">{{units}}</span>{{value | decimalNumber | wholenumber}}<span class="fraction">{{value | decimalNumber | fraction }}</span>
+          <span class="units">{{units}}</span>{{primaryMetric | decimalNumber | wholenumber}}<span class="fraction">{{primaryMetric | decimalNumber | fraction }}</span>
         </div>
 
         <template if="{{change}}">
           <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}">
               <template if="{{change > 0}}">▲</template>
               <template if="{{change < 0}}">▼</template>
-              {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
+              <template if="{{absolute}}">
+                {{change | decimalNumber | wholenumber }}<span class="fraction">{{change | decimalNumber | fraction }}</span>
+              </template>
+              <template if="{{!absolute}}">
+                {{change | percentage | wholenumber }}<span class="fraction">{{change | percentage | fraction }}</span>
+              </template>
           </div>
         </template>
         

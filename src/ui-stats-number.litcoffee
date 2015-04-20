@@ -7,6 +7,29 @@ along with associated secondary metrics, such as a change indicator or sparkline
     Promise = require 'bluebird'
     request = Promise.promisifyAll require 'request'
 
+Google chart options to draw a sparkline
+
+    sparklineOptions =
+      chartArea:
+        width: '100%'
+        height: '100%'
+      hAxis:
+        textPosition: 'none'
+        gridlines:
+          color: 'transparent'
+        viewWindowMode: 'maximized'
+      vAxis:
+        textPosition: 'none'
+        gridlines:
+          color: 'transparent'
+        viewWindowMode: 'maximized'
+      baselineColor: 'transparent'
+      enableInteractivity: false
+      legend: 'none'
+      backgroundColor: 'transparent'
+      colors: [ 'white' ]
+      curveType: if @smooth? then "function" else "none"
+  
     Polymer 'ui-stats-number',
 
 ## Attributes and Change Handlers
@@ -18,72 +41,58 @@ Text prefix prepended to the value, for example "$" or "ms"
 The primary metric and should be a number. The primary number is formatted according to the usual formatting rules.
 
       valueChanged: (oldValue, newValue) ->
-        @update()
-
-### previous
-The previous value of the metric, this should be a number. If specified, a previous value shows the comparision value.
-
-      previousChanged: (oldValue, newValue) ->
-        @update()
+        @values = [ @value ]
 
 ### values
 An array of previous values, used to create a sparkline if present
 
       valuesChanged: (oldValue, newValue) ->
-        sparklineOptions =
-          chartArea:
-            width: '100%'
-            height: '100%'
-          hAxis:
-            textPosition: 'none'
-            gridlines:
-              color: 'transparent'
-            viewWindowMode: 'maximized'
-          vAxis:
-            textPosition: 'none'
-            gridlines:
-              color: 'transparent'
-            viewWindowMode: 'maximized'
-          baselineColor: 'transparent'
-          enableInteractivity: false
-          legend: 'none'
-          backgroundColor: 'transparent'
-          colors: [ 'white' ]
-          curveType: if @smooth? then "function" else "none"
         
-        dataValues = @values.slice(-@maxValues)
-        if @values.length > 1
-          @$.trend.setAttribute 'options', JSON.stringify sparklineOptions
-          data = _.map dataValues, (value) -> ["x", value]
-          data.unshift ["x", "y"]
-          @$.trend.setAttribute 'data', JSON.stringify data
-          @lastValue = _.last dataValues
+Values is trunctated to the last `maxValues` elements of the array
 
-Apply functional reduction, if any.
+        data = @values.slice -@maxValues
+        
+The primary value is the result of applying the reduction `function`, unless overriden. By default we sum the values
+if we have more than 2 values, otherwise we show the last value
 
-          if not @value
-            switch @function
-              when "first"
-                @value = _.first dataValues
-              when "last"
-                @value = _.last dataValues
-              when "min"
-                @value = _.min dataValues
-              when "max"
-                @value = _.max dataValues
-              when "count"
-                @value = dataValues.length
-              when "sum"
-                @value = _.reduce dataValues, (sum, value) ->
-                  sum + value
-                ,0
-              when "average"
-                sum = _.reduce dataValues, (sum, value) ->
-                  sum + value
-                ,0
-                @value = sum / dataValues.length
-              
-              else @value = _.last dataValues
+        if not @function?
+          @function = "sum" if @data.length > 2
+          @function = "last" if @data.length <= 2
+        @primaryMetric = @applyReduction @function, data
+          
+        console.log "#{@name}, #{data}"
+        switch data.length
+          when 1
+            @change = null
+          when 2
+            @change = (data[1] - data[0]) / data[0] unless @absolute
+            @change = data[1] - data[0] if @absolute
+          else
+            @change = null
+            chartValues = _.map data, (value) -> ["x", value]
+            chartValues.unshift ["x", "y"]
+            @$.trend.setAttribute 'data', JSON.stringify chartValues
+            @lastValue = _.last data
+
+Reduction function, specified by the `@function` attribute
+
+      applyReduction: (operation, values) ->
+        switch operation
+          when "first" then return _.first values
+          when "last" then return _.last values
+          when "min" then return _.min values
+          when "max"then return _.max values
+          when "count"then return values.length
+          when "sum"
+            return _.reduce values, (sum, value) ->
+              sum + value
+            ,0
+          when "average"
+            sum = _.reduce values, (sum, value) ->
+              sum + value
+            ,0
+            return sum / values.length       
+          else return _.last values
 
 ### src
 A url that returns an array of JSON objects and will be used to populate the sparkline
@@ -97,24 +106,6 @@ A url that returns an array of JSON objects and will be used to populate the spa
             @loading = false
           .catch (err) ->
             console.log err
-
-## maxValues
-The maximum number of values to consider when drawing the sparkline
-
-## name
-Title of the primary metric
-
-## Computed Properties
-
-## Methods
-
-      update: ->
-        if @previous
-          @change = (@value - @previous) / @previous
-        else
-          @change = null
-
-## Filters
 
 Pretty formatting of numbers
 
@@ -142,16 +133,20 @@ Splits numbers into whole and fractional parts so we can style them separately
       created: ->
         @units = ""
         @value = null
-        @previous = null
         @change = null
         @values = []
-        @function = "sum"
-        
+        @data = []
+        @primaryMetric = null
+        @function = null
+        @maxValues = 100
+        @absolute = false
 
       ready: ->
 
       attached: ->
 
       domReady: ->
+        @$.trend.setAttribute 'options', JSON.stringify sparklineOptions
+
 
       detached: ->

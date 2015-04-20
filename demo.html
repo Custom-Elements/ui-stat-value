@@ -15,10 +15,13 @@
   </head>
 
   <body unresolved>
-      <ui-stats-number name="Money Prefix" units="$" value="101.25" previous="98">
+      <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
       </ui-stats-number>
     
-      <ui-stats-number name="Value and Previous Value" value="95" previous="100">
+      <ui-stats-number name="Value and Previous" values="[95, 100]">
+      </ui-stats-number>
+
+      <ui-stats-number name="Value and Previous (abs)" values="[95, 100]" absolute="true">
       </ui-stats-number>
 
       <ui-stats-number name="Static Array of Values" values="[10, 20, 15, 30, 45, 12]" mode="last" smoothing="true">
