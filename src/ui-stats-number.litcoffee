@@ -7,31 +7,8 @@ along with associated secondary metrics, such as a change indicator or sparkline
     Promise = require 'bluebird'
     request = Promise.promisifyAll require 'request'
 
-Google chart options to draw a sparkline
-
-    sparklineOptions =
-      chartArea:
-        width: '100%'
-        height: '100%'
-      hAxis:
-        textPosition: 'none'
-        gridlines:
-          color: 'transparent'
-        viewWindowMode: 'maximized'
-      vAxis:
-        textPosition: 'none'
-        gridlines:
-          color: 'transparent'
-        viewWindowMode: 'maximized'
-      baselineColor: 'transparent'
-      enableInteractivity: false
-      legend: 'none'
-      backgroundColor: 'transparent'
-      colors: [ 'white' ]
-      curveType: if @smooth? then "function" else "none"
-  
     Polymer 'ui-stats-number',
-
+    
 ## Attributes and Change Handlers
 
 ### units
@@ -56,8 +33,9 @@ The primary value is the result of applying the reduction `function`, unless ove
 if we have more than 2 values, otherwise we show the last value
 
         if not @function?
-          @function = "sum" if @data.length > 2
-          @function = "last" if @data.length <= 2
+          @function = "sum" if data.length > 2
+          @function = "last" if data.length <= 2
+          console.log "Function is #{@function}"
         @primaryMetric = @applyReduction @function, data
           
         console.log "#{@name}, #{data}"
@@ -73,6 +51,8 @@ if we have more than 2 values, otherwise we show the last value
             chartValues.unshift ["x", "y"]
             @$.trend.setAttribute 'data', JSON.stringify chartValues
             @lastValue = _.last data
+
+        console.log "#{@name}: smoothing is #{@smooth}, #{@sparklineOptions.curveType}"
 
 Reduction function, specified by the `@function` attribute
 
@@ -107,6 +87,12 @@ A url that returns an array of JSON objects and will be used to populate the spa
           .catch (err) ->
             console.log err
 
+### smooth
+
+      smoothChanged: (oldValue, newValue) ->
+        @sparklineOptions.curveType = if @smooth? then "function" else "none"
+        @$.trend.setAttribute 'options', JSON.stringify @sparklineOptions
+
 Pretty formatting of numbers
 
       decimalNumber: (value) ->
@@ -131,22 +117,44 @@ Splits numbers into whole and fractional parts so we can style them separately
 ## Polymer Lifecycle
 
       created: ->
+        @values =  []
+        @data = []
         @units = ""
         @value = null
         @change = null
-        @values = []
-        @data = []
         @primaryMetric = null
         @function = null
         @maxValues = 100
         @absolute = false
+        @smooth = false
+
+        @sparklineOptions =
+          chartArea:
+            width: '100%'
+            height: '100%'
+          hAxis:
+            textPosition: 'none'
+            gridlines:
+              color: 'transparent'
+            viewWindowMode: 'maximized'
+          vAxis:
+            textPosition: 'none'
+            gridlines:
+              color: 'transparent'
+            viewWindowMode: 'maximized'
+          baselineColor: 'transparent'
+          enableInteractivity: false
+          legend: 'none'
+          backgroundColor: 'transparent'
+          colors: [ 'white' ]
+          curveType: if @smooth? then 'none' else 'function'
+
 
       ready: ->
 
       attached: ->
 
       domReady: ->
-        @$.trend.setAttribute 'options', JSON.stringify sparklineOptions
-
+        @$.trend.setAttribute 'options', JSON.stringify @sparklineOptions
 
       detached: ->
