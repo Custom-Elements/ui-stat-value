@@ -13,7 +13,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "./node_modules/.bin/bower install",
+    "postinstall": "./node_modules/.bin/bower install",
     "start": "./node_modules/.bin/polymer-serve --cache .",
     "test": "./node_modules/.bin/polymer-serve ."
   },
