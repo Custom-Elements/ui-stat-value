@@ -4,7 +4,7 @@ along with associated secondary metrics, such as a change indicator or sparkline
 
     numeral = require 'numeral'
     _ = require 'lodash'
-    $ = require 'jquery'
+    request = require 'request'
 
     Polymer 'ui-stats-number',
 
@@ -90,14 +90,10 @@ A url that returns an array of JSON objects and will be used to populate the spa
       # todo: replace with request.js, don't load jquery
       srcChanged: (oldValue, newValue) ->
         @loading = true
-        $.ajax
-          type: 'POST'
-          url: @src
-          contentType: 'application/json'
-          dataType: 'jsonp'
-          success: (json) =>
-            @values = _.pluck json, @property
-            @loading = false
+        request @src, (error, response, body) =>
+          json = JSON.parse body
+          @values = _.pluck json, @property
+          @loading = false
 
 ## maxValues
 The maximum number of values to consider when drawing the sparkline
