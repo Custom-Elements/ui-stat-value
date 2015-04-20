@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "install": "./node_modules/.bin/bower install",
-    "test": "polymer-serve ."
+    "test": "./node_modules/.bin/polymer-serve ."
   },
   "author": "Duane Fields",
   "license": "ISC"
