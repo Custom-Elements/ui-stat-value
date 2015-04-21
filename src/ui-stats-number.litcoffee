@@ -52,8 +52,6 @@ if we have more than 2 values, otherwise we show the last value
             @$.trend.setAttribute 'data', JSON.stringify chartValues
             @lastValue = _.last data
 
-        console.log "#{@name}: smoothing is #{@smooth}, #{@sparklineOptions.curveType}"
-
 Reduction function, specified by the `@function` attribute
 
       applyReduction: (operation, values) ->

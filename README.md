@@ -2,7 +2,7 @@
 
 ## Summary
 
-`ui-stats` is a series of polymer components which allow you to quickly and easily create a statusboard to track whatever it is you need to track. Data can be loaded explicitly, programmatically, or more commonly via URL. Different components can generate different types of tiles for displaying different types of data. Check out the [demo](services.glgresearch.com/ui-stats/)
+`ui-stats` is a series of polymer components which allow you to quickly and easily create a statusboard to track whatever it is you need to track. Data can be loaded explicitly, programmatically, or more commonly via URL. Different components can generate different types of tiles for displaying different types of data. Check out the [demo](https://services.glgresearch.com/ui-stats/)
 
 
 ## Installation and Usage

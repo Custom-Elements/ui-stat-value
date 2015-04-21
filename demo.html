@@ -15,6 +15,7 @@
   </head>
 
   <body unresolved>
+<!--
       <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
       </ui-stats-number>
     
@@ -24,12 +25,45 @@
       <ui-stats-number name="Value and Previous (abs)" values="[95, 100]" absolute="true">
       </ui-stats-number>
 
-      <ui-stats-number name="Static Array of Values" values="[10, 20, 15, 30, 45, 12]" mode="last" smoothing="true">
+      <ui-stats-number name="Not Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="false">
+      </ui-stats-number>
+      
+      <ui-stats-number name="Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="true">
       </ui-stats-number>
     
       <ui-stats-number name="CM Applications (7 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
        property="applied" maxValues="7">
       </ui-stats-number>
-  </body>
+    -->
+      
+      <ui-stats-chart name="Simple Array" values="[10, 20, 15, 30, 45, 12]">
+      </ui-stats-chart>
+
+      <ui-stats-chart name="2 Dimensional Array" values="[ [1, 12], [2, 14], [3, 9], [4, 44], [5, 16], [6, 18] ]">
+      </ui-stats-chart>
+
+      <ui-stats-chart name="2 Dimensional Array Strings" values="[ ['Jan', 12], ['Feb', 14], ['March', 9], ['April', 44], ['May', 16], ['June', 18] ]">
+      </ui-stats-chart>
+
+      <ui-stats-chart name="Object Array" values="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
+        property="count">
+      </ui-stats-chart>
+
+      <ui-stats-chart name="Object Array" values="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
+        properties="['date', 'count']">
+      </ui-stats-chart>
+
+      <ui-stats-chart name="Object Array Column" type="column" values="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
+        properties="['date', 'count']" >
+      </ui-stats-chart>
+      
+      <ui-stats-chart name="Pie from Object Array" values="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
+      properties="['type', 'count']" type="pie">
+      </ui-stats-chart>
+      
+<!--       <ui-stats-chart name="CM Applications (30 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+ property="applied" maxValues="30">
+</ui-stats-chart>
+ -->  </body>
 
 </html>

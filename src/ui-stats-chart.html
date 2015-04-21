@@ -1,0 +1,19 @@
+<polymer-element name="ui-stats-chart" attributes="values maxValues name smooth type properties property">
+  <link rel="import" href="../bower_components/google-chart/google-chart.html">
+
+  <template>
+    <link rel="stylesheet" type="text/css" href="./ui-stats-chart.less">
+
+    <section id="stat">
+      <div class="title">
+        {{name}}
+      </div>
+      
+      <google-chart id="chart" type="{{type}}">
+      </google-chart>
+    </section>
+  </template>
+
+  <script src="./ui-stats-chart.litcoffee"></script>
+</polymer-element>
+  
