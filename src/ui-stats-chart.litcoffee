@@ -21,6 +21,16 @@ The Chart tile displays a chart in various formats
       typeChanged: (oldValue, newValue) ->
         @chartOptions.legend = if @type is "pie" then "" else "none"
         @$.chart.setAttribute 'options', JSON.stringify @chartOptions
+        
+      srcChanged: (oldValue, newValue) ->
+        @loading = true
+        request.getAsync(@src)
+          .spread (res, body) =>
+            @data = JSON.parse body
+            @loading = false
+          .catch (err) ->
+            console.log err
+        
 
 ## Methods
 
@@ -48,6 +58,8 @@ The Chart tile displays a chart in various formats
         @property = ""
         @type = 'line'
         @limit = 100
+        @loading = false
+
         @chartOptions =
         chartArea:
           width: '85%'

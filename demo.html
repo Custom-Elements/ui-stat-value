@@ -61,9 +61,11 @@
       properties="['type', 'count']" type="pie">
       </ui-stats-chart>
       
-<!--       <ui-stats-chart name="CM Applications (30 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
- property="applied" maxValues="30">
-</ui-stats-chart>
- -->  </body>
+      <ui-stats-chart name="CM Applications (30 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+       xxproperties="['date', 'applied']" limit="30"
+       properties="[{'property':'date', 'type':'date'}, {'property':'applied', 'type':'number'}]">
+    </ui-stats-chart>
+ 
+  </body>
 
 </html>
