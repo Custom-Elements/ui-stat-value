@@ -11,10 +11,7 @@ The Chart tile displays a chart in various formats
 
       observe:
           properties: 'draw'
-          values: 'draw'
-
-### values
-An array of previous values, used to create a sparkline if present
+          data: 'draw'
 
       propertyChanged: (oldValue, newValue) ->
         @properties = [ @property ]
@@ -28,11 +25,10 @@ An array of previous values, used to create a sparkline if present
 ## Methods
 
       draw: ->
-        return if not @properties? and @values?
+        return if not @properties? and @data?
         
         @properties.unshift "" if @properties.length < 2
-        data = @values.slice -@maxValues
-        chartValues = _.map data, (item) =>
+        chartValues = _.map @data.slice(-@limit), (item) =>
           if typeIsArray item
             item
           else if typeof item is "object"
@@ -43,16 +39,15 @@ An array of previous values, used to create a sparkline if present
         chartValues.unshift @properties
         console.log "ChartValues for #{@name}", chartValues
         @$.chart.setAttribute 'data', JSON.stringify chartValues
-        console.log "Data for #{@name}", data        
 
 ## Polymer Lifecycle
 
       created: ->
-        @values = []
+        @data = []
         @properties = ["x", "y"]
         @property = ""
         @type = 'line'
-        @maxValues = 100
+        @limit = 100
         @chartOptions =
         chartArea:
           width: '85%'
