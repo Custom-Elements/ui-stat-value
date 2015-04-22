@@ -36,36 +36,54 @@
       </ui-stats-number>
     -->
       
-      <ui-stats-chart name="Simple Array" data="[10, 20, 15, 30, 45, 12]">
-      </ui-stats-chart>
+<!--       <ui-stats-chart name="Simple Array" data="[10, 20, 15, 30, 45, 12]">
+</ui-stats-chart>
 
-      <ui-stats-chart name="2 Dimensional Array" data="[ [1, 12], [2, 14], [3, 9], [4, 44], [5, 16], [6, 18] ]">
-      </ui-stats-chart>
+<ui-stats-chart name="2 Dimensional Array" data="[ [1, 12], [2, 14], [3, 9], [4, 44], [5, 16], [6, 18] ]">
+</ui-stats-chart>
 
-      <ui-stats-chart name="2 Dimensional Array Strings" data="[ ['Jan', 12], ['Feb', 14], ['March', 9], ['April', 44], ['May', 16], ['June', 18] ]">
-      </ui-stats-chart>
+<ui-stats-chart name="2 Dimensional Array Strings" data="[ ['Jan', 12], ['Feb', 14], ['March', 9], ['April', 44], ['May', 16], ['June', 18] ]">
+</ui-stats-chart>
 
-      <ui-stats-chart name="Object Array" data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
-        property="count">
-      </ui-stats-chart>
+<ui-stats-chart name="Object Array" data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
+  property="count">
+</ui-stats-chart>
 
-      <ui-stats-chart name="Object Array" data="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
-        properties="['date', 'count']">
-      </ui-stats-chart>
+<ui-stats-chart name="Object Array" data="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
+  properties="['date', 'count']">
+</ui-stats-chart>
 
-      <ui-stats-chart name="Object Array Column" type="column" data="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
-        properties="['date', 'count']" >
-      </ui-stats-chart>
+<ui-stats-chart name="Object Array Column" type="column" data="[ {'date':'2014-01-01', 'count':3}, {'date':'2014-02-01', 'count':11}, {'date':'2014-03-01', 'count':2}, {'date':'2014-04-01', 'count':5} ]"
+  properties="['date', 'count']" >
+</ui-stats-chart>
+
+ -->
+
+    <ui-stats-chart name="Simple Array" data="[10, 20, 15, 30, 45, 12]">
+    </ui-stats-chart>
+
+    <ui-stats-chart name="2 Dimensional Array Strings" data="[ ['Jan', 12], ['Feb', 14], ['March', 9], ['April', 44], ['May', 16], ['June', 18] ]">
+    </ui-stats-chart>
+
+    <ui-stats-chart name="Object Array (Columns)" type="column"
+      data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
+      cols="[{'id':'color', 'type':'string'}, {'id':'count', 'type':'number'}]">
+    </ui-stats-chart>
+    
+    <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied', 'type':'number'}]">
+    </ui-stats-chart>
       
-      <ui-stats-chart name="Pie from Object Array" data="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
-      properties="['type', 'count']" type="pie">
-      </ui-stats-chart>
-      
-      <ui-stats-chart name="CM Applications (30 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-       xxproperties="['date', 'applied']" limit="30"
-       properties="[{'property':'date', 'type':'date'}, {'property':'applied', 'type':'number'}]">
+    <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'type':'number', 'label':'Applications'}]">       
     </ui-stats-chart>
  
+    <ui-stats-chart name="Pie from Object Array" type="pie"
+      data="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
+      cols="[{'id':'type', 'type':'string'}, {'id':'count', 'type':'number'}]">
+    </ui-stats-chart>
   </body>
 
 </html>
