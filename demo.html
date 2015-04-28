@@ -56,12 +56,12 @@
 
     <ui-stats-chart name="Object Array (Columns)" type="column"
       data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
-      cols="[{'id':'color', 'type':'string'}, {'id':'count', 'type':'number'}]">
+      cols="[{'id':'color', 'type':'string'}, {'id':'count'}]">
     </ui-stats-chart>
     
     <ui-stats-chart name="Single Value Object Array"
       data="[ {'count':3}, {'count':11}, {'count':2}, {'count':5} ]"
-      cols="[{'id':'count', 'type':'number'}]">
+      cols="[{'id':'count'}]">
     </ui-stats-chart>
     
     <ui-stats-chart id="dynamic" name="Random Data" type="column">
@@ -71,12 +71,12 @@
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-      cols="[{'id':'date', 'type':'date'}, {'id':'applied', 'type':'number'}]">
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
     </ui-stats-chart>
       
     <ui-stats-chart name="Epiquery: Custom Labels" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-      cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'type':'number', 'label':'Applications'}]">       
+      cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'label':'Applications'}]">       
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (line)" limit="30"
@@ -95,8 +95,8 @@
     </ui-stats-chart>
      
     <ui-stats-chart name="Pie from Object Array" type="pie"
-      data="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
-      cols="[{'id':'type', 'type':'string'}, {'id':'count', 'type':'number'}]">
+      data="[ {'method':'boat', 'count':3}, {'method':'airplane', 'count':11}, {'method':'car', 'count':2}, {'method':'truck', 'count':5} ]"
+      cols="[{'id':'method', 'type':'string'}, {'id':'count'}]">
     </ui-stats-chart> 
 
     <script>
