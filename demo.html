@@ -15,27 +15,29 @@
   </head>
 
   <body unresolved>
-<!--
-      <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
-      </ui-stats-number>
     
-      <ui-stats-number name="Value and Previous" values="[95, 100]">
-      </ui-stats-number>
+    <h2>Stat Tiles</h2>
 
-      <ui-stats-number name="Value and Previous (abs)" values="[95, 100]" absolute="true">
-      </ui-stats-number>
+    <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
+    </ui-stats-number>
 
-      <ui-stats-number name="Not Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="false">
-      </ui-stats-number>
-      
-      <ui-stats-number name="Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="true">
-      </ui-stats-number>
+    <ui-stats-number name="Value and Previous" values="[95, 100]">
+    </ui-stats-number>
+
+    <ui-stats-number name="Value and Previous (abs)" values="[95, 100]" absolute="true">
+    </ui-stats-number>
+
+    <ui-stats-number name="Not Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="false">
+    </ui-stats-number>
     
-      <ui-stats-number name="CM Applications (7 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-       property="applied" maxValues="7">
-      </ui-stats-number>
--->
+    <ui-stats-number name="Smooth" values="[10, 20, 15, 30, 45, 12]" function="last" smooth="true">
+    </ui-stats-number>
+
+    <ui-stats-number name="CM Applications (7 days)" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+     property="applied" maxValues="7">
+    </ui-stats-number>
       
+    <h2>Charts From Data</h2>
 
     <ui-stats-chart name="Array of numbers" data="[10, 20, 15, 30, 45, 12]">
     </ui-stats-chart>
@@ -58,13 +60,18 @@
       data="[ {'count':3}, {'count':11}, {'count':2}, {'count':5} ]"
       cols="[{'id':'count', 'type':'number'}]">
     </ui-stats-chart>
+    
+    <ui-stats-chart id="dynamic" name="Random Data" type="column">
+    </ui-stats-chart>
+    
+    <h2>Charts From Epiquery</h2>
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied', 'type':'number'}]">
     </ui-stats-chart>
       
-    <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
+    <ui-stats-chart name="Epiquery: Custom Labels" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'type':'number', 'label':'Applications'}]">       
     </ui-stats-chart>
@@ -73,6 +80,18 @@
       data="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
       cols="[{'id':'type', 'type':'string'}, {'id':'count', 'type':'number'}]">
     </ui-stats-chart> 
+
+    <script>
+      function updateRandomData() {
+        var data = []
+        for (var i=0; i < 30; i++) {
+          data.push(Math.random() * 50);
+        }
+        document.getElementById('dynamic').setAttribute("data", JSON.stringify(data));
+      }
+      updateRandomData();
+      window.setInterval(updateRandomData, 3000);
+    </script>
 
   </body>
 

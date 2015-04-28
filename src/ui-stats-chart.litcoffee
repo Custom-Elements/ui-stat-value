@@ -10,12 +10,10 @@ The Chart tile displays a chart in various formats
 
 ## Attributes and Change Handlers
 
-### type
-        
       typeChanged: (oldValue, newValue) ->
         @chartOptions.legend = if @type is "pie" then "" else "none"
         @$.chart.setAttribute 'options', JSON.stringify @chartOptions
-        
+
       srcChanged: (oldValue, newValue) ->
         @loading = true
         request.getAsync(@src)
@@ -25,8 +23,6 @@ The Chart tile displays a chart in various formats
           .catch (err) ->
             console.log err
       
-## Methods
-
       dataChanged: (oldValue, newValue) ->
 
 Normalize columns, adding default labels, etc
@@ -39,9 +35,8 @@ Normalize columns, adding default labels, etc
         console.log "cols for #{@name}", cols
         @$.chart.cols = cols
 
-Prepare the data
+Prepare the row data
 
-        console.log "Drawing #{@name}"
         @$.chart.rows = _.map @data.slice(-@limit), (item) =>
           if typeIsArray item
             x = @getValue item[0], cols[0]
@@ -59,8 +54,10 @@ Prepare the data
             x = ""
             y = item
             [ x, y ]
-        console.log "rows for #{@name}", @$.chart.rows
-        
+        console.log "Charting #{@name}: ", @$.chart.rows
+
+Parse values to the correct type
+
       getValue: (item, col) ->
         if typeof item is "object"
           value = item[[col.id]]
