@@ -11,23 +11,14 @@ along with associated secondary metrics, such as a change indicator or sparkline
     
 ## Attributes and Change Handlers
 
-### units
-Text prefix prepended to the value, for example "$" or "ms"
+      valueChanged: ->
+        @data = [ @value ]
 
-### value
-The primary metric and should be a number. The primary number is formatted according to the usual formatting rules.
-
-      valueChanged: (oldValue, newValue) ->
-        @values = [ @value ]
-
-### values
-An array of previous values, used to create a sparkline if present
-
-      valuesChanged: (oldValue, newValue) ->
+      dataChanged: ->
         
-Values is trunctated to the last `maxValues` elements of the array
+Values is trunctated to the last `limit` elements of the array
 
-        data = @values.slice -@maxValues
+        data = @data.slice -@limit
         
 The primary value is the result of applying the reduction `function`, unless overriden. By default we sum the values
 if we have more than 2 values, otherwise we show the last value
@@ -35,10 +26,9 @@ if we have more than 2 values, otherwise we show the last value
         if not @function?
           @function = "sum" if data.length > 2
           @function = "last" if data.length <= 2
-          console.log "Function is #{@function}"
         @primaryMetric = @applyReduction @function, data
           
-        console.log "#{@name}, #{data}"
+        console.log "NumberStat: #{@name}, #{data}"
         switch data.length
           when 1
             @change = null
@@ -72,24 +62,21 @@ Reduction function, specified by the `@function` attribute
             return sum / values.length       
           else return _.last values
 
-### src
-A url that returns an array of JSON objects and will be used to populate the sparkline
-
-      srcChanged: (oldValue, newValue) ->
+      srcChanged: ->
         @loading = true
         request.getAsync(@src)
           .spread (res, body) =>
             json = JSON.parse body
-            @values = _.pluck json, @property
+            @data = _.pluck json, @property
             @loading = false
           .catch (err) ->
             console.log err
 
-### smooth
-
-      smoothChanged: (oldValue, newValue) ->
+      smoothChanged: ->
         @sparklineOptions.curveType = if @smooth? then "function" else "none"
         @$.trend.setAttribute 'options', JSON.stringify @sparklineOptions
+
+## Filters
 
 Pretty formatting of numbers
 
@@ -115,14 +102,13 @@ Splits numbers into whole and fractional parts so we can style them separately
 ## Polymer Lifecycle
 
       created: ->
-        @values =  []
-        @data = []
+        @data =  []
         @units = ""
         @value = null
         @change = null
         @primaryMetric = null
         @function = null
-        @maxValues = 100
+        @limit = 100
         @absolute = false
         @smooth = false
 
@@ -145,8 +131,6 @@ Splits numbers into whole and fractional parts so we can style them separately
           legend: 'none'
           backgroundColor: 'transparent'
           colors: [ 'white' ]
-          curveType: if @smooth? then 'none' else 'function'
-
 
       ready: ->
 

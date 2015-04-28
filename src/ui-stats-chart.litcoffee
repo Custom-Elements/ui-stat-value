@@ -14,6 +14,10 @@ The Chart tile displays a chart in various formats
         @chartOptions.legend = if @type is "pie" then "" else "none"
         @$.chart.setAttribute 'options', JSON.stringify @chartOptions
 
+      smoothChanged: (oldValue, newValue) ->
+        @chartOptions.curveType = if @smooth? then "function" else "none"
+        @$.chart.setAttribute 'options', JSON.stringify @chartOptions
+
       srcChanged: (oldValue, newValue) ->
         @loading = true
         request.getAsync(@src)
