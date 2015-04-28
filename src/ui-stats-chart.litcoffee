@@ -12,11 +12,11 @@ The Chart tile displays a chart in various formats
 
       typeChanged: (oldValue, newValue) ->
         @chartOptions.legend = if @type is "pie" then "" else "none"
-        @$.chart.setAttribute 'options', JSON.stringify @chartOptions
+        @$.chart.options = @chartOptions
 
       smoothChanged: (oldValue, newValue) ->
         @chartOptions.curveType = if @smooth? then "function" else "none"
-        @$.chart.setAttribute 'options', JSON.stringify @chartOptions
+        @$.chart.options = @chartOptions
 
       srcChanged: (oldValue, newValue) ->
         @loading = true
@@ -32,12 +32,17 @@ The Chart tile displays a chart in various formats
 Normalize columns, adding default labels, etc
 
         cols = _.map @cols, (col) ->
-          col.label = col.id unless col.label?
+          col.label = col.label ? col.id 
+          col.type = col.type ? "number"
           col
         if cols.length is 1
           cols = [{label:'', type:'string'}, cols[0]]
         console.log "cols for #{@name}", cols
         @$.chart.cols = cols
+        
+        # if cols.length > 2
+        #   @chartOptions.legend = { position: 'bottom' }
+        #   @$.chart.options = @chartOptions
 
 Prepare the row data
 
@@ -48,16 +53,12 @@ Prepare the row data
             [ x, y ]
           else if typeof item is "object"
             if @cols.length is 1
-              x = ""
-              y = @getValue item, cols[1]
+              [ "", @getValue item, cols[1] ]
             else
-              x = @getValue item, cols[0]
-              y = @getValue item, cols[1]
-            [ x, y ]
+              _.map cols, (col) =>
+                @getValue item, col
           else if typeof item is "number"
-            x = ""
-            y = item
-            [ x, y ]
+            [ "", item ]
         console.log "Charting #{@name}: ", @$.chart.rows
 
 Parse values to the correct type

@@ -78,6 +78,21 @@
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'type':'number', 'label':'Applications'}]">       
     </ui-stats-chart>
+
+    <ui-stats-chart name="Epiquery: Multiple Y Columns (line)" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
+    </ui-stats-chart>
+
+    <ui-stats-chart name="Epiquery: Multiple Y Columns (column)" limit="7"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="column"
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
+    </ui-stats-chart>
+
+    <ui-stats-chart name="Epiquery: Multiple Y Columns (area)" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
+    </ui-stats-chart>
      
     <ui-stats-chart name="Pie from Object Array" type="pie"
       data="[ {'type':'boat', 'count':3}, {'type':'airplane', 'count':11}, {'type':'car', 'count':2}, {'type':'truck', 'count':5} ]"
