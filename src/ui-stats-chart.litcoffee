@@ -10,9 +10,6 @@ The Chart tile displays a chart in various formats
 
 ## Attributes and Change Handlers
 
-      observe:
-          data: 'draw'
-
 ### type
         
       typeChanged: (oldValue, newValue) ->
@@ -28,25 +25,35 @@ The Chart tile displays a chart in various formats
           .catch (err) ->
             console.log err
       
-      colsChanged: (oldValue, newValue) ->
-        @$.chart.cols = _.map @cols, (col) ->
-          col.label = col.id unless col.label?
-          col
-        console.log "cols for #{@name}", @$.chart.cols
-
 ## Methods
 
-      draw: ->
-        return if not @cols? and @data?
+      dataChanged: (oldValue, newValue) ->
+
+Normalize columns, adding default labels, etc
+
+        cols = _.map @cols, (col) ->
+          col.label = col.id unless col.label?
+          col
+        if cols.length is 1
+          cols = [{label:'', type:'string'}, cols[0]]
+        console.log "cols for #{@name}", cols
+        @$.chart.cols = cols
+
+Prepare the data
+
         console.log "Drawing #{@name}"
         @$.chart.rows = _.map @data.slice(-@limit), (item) =>
           if typeIsArray item
-            x = @getValue item[0], @cols[0]
-            y = @getValue item[1], @cols[1]
+            x = @getValue item[0], cols[0]
+            y = @getValue item[1], cols[1]
             [ x, y ]
           else if typeof item is "object"
-            x = @getValue item, @cols[0]
-            y = @getValue item, @cols[1]
+            if @cols.length is 1
+              x = ""
+              y = @getValue item, cols[1]
+            else
+              x = @getValue item, cols[0]
+              y = @getValue item, cols[1]
             [ x, y ]
           else if typeof item is "number"
             x = ""
@@ -81,16 +88,13 @@ The Chart tile displays a chart in various formats
 
         @chartOptions =
           chartArea:
-            width: '85%'
+            width: 'auto'
             height: 'auto'
           legend: 'none'
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
       domReady: ->
         @$.chart.options = @chartOptions
-        @$.chart.cols = @cols
-
-
 
 ## Helpers
     

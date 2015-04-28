@@ -53,6 +53,11 @@
       data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
       cols="[{'id':'color', 'type':'string'}, {'id':'count', 'type':'number'}]">
     </ui-stats-chart>
+    
+    <ui-stats-chart name="Single Value Object Array"
+      data="[ {'count':3}, {'count':11}, {'count':2}, {'count':5} ]"
+      cols="[{'id':'count', 'type':'number'}]">
+    </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
