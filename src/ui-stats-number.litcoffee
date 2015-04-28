@@ -2,8 +2,8 @@
 The Number tile is focused on the display of a metric that can be represented by a single number,
 along with associated secondary metrics, such as a change indicator or sparkline.
 
-    numeral = require 'numeral'
     _ = require 'lodash'
+    numeral = require 'numeral'
     Promise = require 'bluebird'
     request = Promise.promisifyAll require 'request'
 
@@ -16,7 +16,7 @@ along with associated secondary metrics, such as a change indicator or sparkline
 
       dataChanged: ->
         
-Values is trunctated to the last `limit` elements of the array
+Data is trunctated to the last `limit` elements of the array
 
         data = @data.slice -@limit
         
@@ -26,7 +26,7 @@ if we have more than 2 values, otherwise we show the last value
         if not @function?
           @function = "sum" if data.length > 2
           @function = "last" if data.length <= 2
-        @primaryMetric = @applyReduction @function, data
+        @primaryMetric = @reduce @function, data
           
         console.log "NumberStat: #{@name}, #{data}"
         switch data.length
@@ -39,28 +39,8 @@ if we have more than 2 values, otherwise we show the last value
             @change = null
             chartValues = _.map data, (value) -> ["x", value]
             chartValues.unshift ["x", "y"]
-            @$.trend.setAttribute 'data', JSON.stringify chartValues
+            @$.trend.data = chartValues
             @lastValue = _.last data
-
-Reduction function, specified by the `@function` attribute
-
-      applyReduction: (operation, values) ->
-        switch operation
-          when "first" then return _.first values
-          when "last" then return _.last values
-          when "min" then return _.min values
-          when "max"then return _.max values
-          when "count"then return values.length
-          when "sum"
-            return _.reduce values, (sum, value) ->
-              sum + value
-            ,0
-          when "average"
-            sum = _.reduce values, (sum, value) ->
-              sum + value
-            ,0
-            return sum / values.length       
-          else return _.last values
 
       srcChanged: ->
         @loading = true
@@ -74,7 +54,7 @@ Reduction function, specified by the `@function` attribute
 
       smoothChanged: ->
         @sparklineOptions.curveType = if @smooth? then "function" else "none"
-        @$.trend.setAttribute 'options', JSON.stringify @sparklineOptions
+        @$.trend.options = @sparklineOptions
 
 ## Filters
 
@@ -93,6 +73,28 @@ Splits numbers into whole and fractional parts so we can style them separately
       
       fraction: (string) ->
         ".#{_.last string.split '.'}" if string.match /\./
+
+## Helpers
+
+Reduction function, specified by the `@function` attribute
+
+      reduce: (operation, values) ->
+        switch operation
+          when "first" then return _.first values
+          when "last" then return _.last values
+          when "min" then return _.min values
+          when "max"then return _.max values
+          when "count"then return values.length
+          when "sum"
+            return _.reduce values, (sum, value) ->
+              sum + value
+            ,0
+          when "average"
+            sum = _.reduce values, (sum, value) ->
+              sum + value
+            ,0
+            return sum / values.length       
+          else return _.last values
 
 ## Event Handlers
 
@@ -132,11 +134,5 @@ Splits numbers into whole and fractional parts so we can style them separately
           backgroundColor: 'transparent'
           colors: [ 'white' ]
 
-      ready: ->
-
-      attached: ->
-
       domReady: ->
-        @$.trend.setAttribute 'options', JSON.stringify @sparklineOptions
-
-      detached: ->
+        @$.trend.options = @sparklineOptions
