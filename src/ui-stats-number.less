@@ -5,21 +5,21 @@
   display: inline-block;
   margin: 1em;
   .border;
-  .ultra-dark-tint;
   width: 12em;
   height: 12em;
   overflow: hidden;
+  background-color: @white;
 }
 
 .loader {
   font-size: 0.5em;
-  color: white;
+  color: @black;
   padding: 0.5em 0em 0em 0em;
 }
 
 .value {  
   font-size: 2.5em;
-  color: white;
+  color: black;
   padding: 0.5em 0em 0em 0em;
   text-align: center;
   position: relative;
@@ -48,7 +48,7 @@
 }
 
 .change {
-  color: white;
+  color: @black;
   text-align: center;
   font-weight: 100;
   font-size: 2em;
@@ -56,11 +56,12 @@
   icon {
     font-size: 1em;
     position: relative;
+    top: 0.5em;
   }
 }
 
 .increase {
-  color: @green; 
+  color: darkgreen; 
 }
 
 .decrease {
@@ -84,7 +85,7 @@
   text-align: right;
   font-size: 0.5em;
   font-weight: normal;
-  color: @white;
+  color: @black;
   padding: 3px;
   position: relative;
   top: 6em;

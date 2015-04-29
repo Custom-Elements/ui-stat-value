@@ -132,7 +132,7 @@ Reduction function, specified by the `@function` attribute
           enableInteractivity: false
           legend: 'none'
           backgroundColor: 'transparent'
-          colors: [ 'white' ]
+          colors: [ 'blue' ]
 
       domReady: ->
         @$.trend.options = @sparklineOptions
