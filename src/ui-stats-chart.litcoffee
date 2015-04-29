@@ -10,15 +10,7 @@ The Chart tile displays a chart in various formats
 
 ## Attributes and Change Handlers
 
-      typeChanged: (oldValue, newValue) ->
-        @chartOptions.legend = if @type is "pie" then "" else "none"
-        @$.chart.options = @chartOptions
-
-      smoothChanged: (oldValue, newValue) ->
-        @chartOptions.curveType = if @smooth? then "function" else "none"
-        @$.chart.options = @chartOptions
-
-      srcChanged: (oldValue, newValue) ->
+      srcChanged: ->
         @loading = true
         request.getAsync(@src)
           .spread (res, body) =>
@@ -27,23 +19,36 @@ The Chart tile displays a chart in various formats
           .catch (err) ->
             console.log err
       
-      dataChanged: (oldValue, newValue) ->
-
+      dataChanged: ->
+      
 Normalize columns, adding default labels, etc
 
         cols = _.map @cols, (col) ->
           col.label = col.label ? col.id 
           col.type = col.type ? "number"
           col
+
+Special case for single column data
+
         if cols.length is 1
           cols = [{label:'', type:'string'}, cols[0]]
-        console.log "cols for #{@name}", cols
         @$.chart.cols = cols
-        
-        # if cols.length > 2
-        #   @chartOptions.legend = { position: 'bottom' }
-        #   @$.chart.options = @chartOptions
+        console.log "cols for #{@name}", @$.chart.cols
 
+Customize chart options based on the type of data we are showing, and other settings
+
+        @$.chart.options.curveType = if @smooth? then "function" else "none"
+
+        if @type is 'pie'
+          @$.chart.options.legend = { position: 'right' }
+        else if cols.length > 2
+          @$.chart.options.legend = { position: 'top', alignment: 'center' }
+        else
+          @$.chart.options.legend = { position: 'none' }
+          
+        if cols[0].type is 'date'
+          @$.chart.options.hAxis = { format: 'M/d' }
+        
 Prepare the row data
 
         @$.chart.rows = _.map @data.slice(-@limit), (item) =>
@@ -83,20 +88,17 @@ Parse values to the correct type
 
       created: ->
         @data = []
-        @property = ""
         @type = 'line'
         @limit = 100
         @loading = false
+        @initialized = false
 
-        @chartOptions =
-          chartArea:
-            width: 'auto'
-            height: 'auto'
-          legend: 'none'
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
       domReady: ->
-        @$.chart.options = @chartOptions
+        console.log "#{@name} dom is ready"
+        @initialized = true
+        @$.chart.options = { legend: { position: 'none' } }
 
 ## Helpers
     
