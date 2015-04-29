@@ -28,10 +28,16 @@
     <ui-stats-number name="Value and Previous (absolute)" data="[200, 175]" absolute="true">
     </ui-stats-number>
 
-    <ui-stats-number name="History - Not Smooth" data="[10, 20, 15, 30, 45, 12]" function="last" smooth="false">
+    <ui-stats-number name="History - Not Smooth" data="[10, 20, 15, 30, 45, 12]" smooth="false">
     </ui-stats-number>
     
-    <ui-stats-number name="History - Smooth" data="[10, 20, 15, 30, 45, 12]" function="last" smooth="true">
+    <ui-stats-number name="History - Smooth" data="[10, 20, 15, 30, 45, 12]" smooth="true">
+    </ui-stats-number>
+
+    <ui-stats-number name="History - Last" data="[10, 20, 15, 30, 45, 12]" smooth="true" function="last">
+    </ui-stats-number>
+
+    <ui-stats-number name="History - Avg" data="[10, 20, 15, 30, 45, 12]" smooth="true" function="average">
     </ui-stats-number>
 
     <ui-stats-number name="Epiquery Results" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
