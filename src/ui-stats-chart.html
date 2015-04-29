@@ -8,6 +8,10 @@
       <div class="title">
         {{name}}
       </div>
+
+      <div class="loader {{ {hidden: !loading} | tokenList }}">
+        Loading....
+      </div>
       
       <google-chart id="chart" type="{{type}}">
       </google-chart>

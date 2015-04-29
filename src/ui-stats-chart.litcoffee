@@ -48,6 +48,8 @@ Customize chart options based on the type of data we are showing, and other sett
           
         if cols[0].type is 'date'
           @$.chart.options.hAxis = { format: 'M/d' }
+        else
+          @$.chart.options.hAxis = { }
         
 Prepare the row data
 
@@ -96,9 +98,8 @@ Parse values to the correct type
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
       domReady: ->
-        console.log "#{@name} dom is ready"
-        @initialized = true
         @$.chart.options = { legend: { position: 'none' } }
+        @initialized = true
 
 ## Helpers
     
