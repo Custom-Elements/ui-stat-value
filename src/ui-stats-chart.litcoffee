@@ -26,6 +26,7 @@ Normalize columns, adding default labels, etc
         cols = _.map @cols, (col) ->
           col.label = col.label ? col.id 
           col.type = col.type ? "number"
+          col.pattern = col.pattern ? 'YYYY-MM-DD'
           col
 
 Special case for single column data
@@ -48,7 +49,7 @@ Customize chart options based on the type of data we are showing, and other sett
           
         if cols[0].type is 'date'
           @$.chart.options.hAxis = { format: 'M/d' }
-        else
+        else if @type isnt 'pie'
           @$.chart.options.hAxis = { }
         
 Prepare the row data
@@ -77,8 +78,7 @@ Parse values to the correct type
           value = item
         switch col.type
           when 'date'
-            col.pattern = col.pattern ? 'YYYY-MM-DD'
-            return moment(value, 'YYYY-MM-DD').toDate()
+            return moment(value, col.pattern).toDate()
           when 'string'
             return value.toString()
           when 'number'
@@ -91,14 +91,13 @@ Parse values to the correct type
       created: ->
         @data = []
         @type = 'line'
-        @limit = 100
+        @limit = 1000
         @loading = false
         @initialized = false
 
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
       domReady: ->
-        @$.chart.options = { legend: { position: 'none' } }
         @initialized = true
 
 ## Helpers
