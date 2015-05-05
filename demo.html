@@ -80,6 +80,11 @@
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
     </ui-stats-chart>
+
+    <ui-stats-chart name="Epiquery: CM Applications (1 year, weekly)" limit="365" groupBy="week"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
+    </ui-stats-chart>
       
     <ui-stats-chart name="Epiquery: Custom Labels" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"

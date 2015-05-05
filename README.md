@@ -218,3 +218,10 @@ and you are expected to put dates in column 0 if generating a timeline chart.
 _&lt;string&gt;_
 
 Type of chart to draw. Can be one of `pie`, `bar`, `column`, `line`, 'scatter', 'area'
+
+### groupBy
+
+_&lt;string&gt;_
+
+Grouping, currently only supports the option "week" which groups all the data by the start of the week, using your
+first date column as the key. Simply sums all the other property fields.

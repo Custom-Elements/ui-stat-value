@@ -20,6 +20,29 @@ The Chart tile displays a chart in various formats
             console.log err
       
       dataChanged: ->
+        @values = @data
+        if @groupBy is 'week'
+          # find the first date column
+          dateColumn = _.find @cols, (col) ->
+            col.type is 'date'
+          # group value by the date column
+          pattern = dateColumn.pattern ? 'YYYY-MM-DD'
+          groupedByWeek = _.groupBy @values, (item) ->
+            moment(item[dateColumn.id], pattern).startOf('week').format(pattern)
+          # sum each property in the data, by week
+          @values = _.map groupedByWeek, (items, date) ->
+            o = {}
+            o[dateColumn.id] = moment(date, pattern).toDate()
+            for item in items
+              for key, value of item
+                continue if key is dateColumn.id
+                o[key] = 0 if not o[key]?
+                o[key] += value
+            o
+
+        @redraw()
+      
+      redraw: ->
       
 Normalize columns, adding default labels, etc
 
@@ -54,7 +77,7 @@ Customize chart options based on the type of data we are showing, and other sett
         
 Prepare the row data
 
-        @$.chart.rows = _.map @data.slice(-@limit), (item) =>
+        @$.chart.rows = _.map @values.slice(-@limit), (item) =>
           if typeIsArray item
             x = @getValue item[0], cols[0]
             y = @getValue item[1], cols[1]
@@ -78,6 +101,7 @@ Parse values to the correct type
           value = item
         switch col.type
           when 'date'
+            return value if value instanceof Date
             return moment(value, col.pattern).toDate()
           when 'string'
             return value.toString()
@@ -90,10 +114,12 @@ Parse values to the correct type
 
       created: ->
         @data = []
+        @values = []
         @type = 'line'
         @limit = 1000
         @loading = false
         @initialized = false
+        @groupBy = ''
 
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
