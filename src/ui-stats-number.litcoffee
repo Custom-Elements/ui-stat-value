@@ -4,8 +4,7 @@ along with associated secondary metrics, such as a change indicator or sparkline
 
     _ = require 'lodash'
     numeral = require 'numeral'
-    Promise = require 'bluebird'
-    request = Promise.promisifyAll require 'request'
+    request = require 'browser-request'
 
     Polymer 'ui-stats-number',
     
@@ -44,13 +43,12 @@ if we have more than 2 values, otherwise we show the last value
 
       srcChanged: ->
         @loading = true
-        request.getAsync(@src)
-          .spread (res, body) =>
-            json = JSON.parse body
+        request { method: 'POST', url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
+          if not err?
             @data = _.pluck json, @property
             @loading = false
-          .catch (err) ->
-            console.log err
+          else
+            console.log "Error loading data", err
 
       smoothChanged: ->
         @sparklineOptions.curveType = if @smooth? then "function" else "none"

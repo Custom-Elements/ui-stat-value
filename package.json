@@ -2,13 +2,12 @@
   "name": "ui-stats",
   "version": "0.0.0",
   "dependencies": {
-    "bluebird": "^2.9.24",
+    "browser-request": "^0.3.3",
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
     "numeral": "^1.5.3",
     "polymer": "git://github.com/custom-elements/polymer#master",
     "polymer-serve": "^0.0.30",
-    "request": "^2.55.0",
     "ui-styles": "git://github.com/custom-elements/ui-styles#master"
   },
   "description": "",
