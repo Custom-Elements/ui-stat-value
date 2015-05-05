@@ -225,3 +225,9 @@ _&lt;string&gt;_
 
 Grouping, currently only supports the option "week" which groups all the data by the start of the week, using your
 first date column as the key. Simply sums all the other property fields.
+
+### width
+
+&lt;length&gt;
+
+Width of the nested chart element. Defaults to 26em

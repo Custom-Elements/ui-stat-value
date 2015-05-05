@@ -10,7 +10,7 @@
     <style>
     body {
       font-family: "Helvetica Neue", "Helvetica", Arial;
-      background-color: antiquewhite;
+      background-color: white;
     }
     </style>
   </head>
@@ -106,7 +106,7 @@
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
-    <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by week)" limit="30" groupBy="week"
+    <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by week)" limit="30" groupBy="week" width="54.5em"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>

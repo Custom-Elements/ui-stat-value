@@ -10,6 +10,9 @@ The Chart tile displays a chart in various formats
 
 ## Attributes and Change Handlers
 
+      widthChanged: ->
+        @$.chart.style.width = @width
+
       srcChanged: ->
         @loading = true
         request.getAsync(@src)
