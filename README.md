@@ -18,7 +18,7 @@ Install the `ui-stats` polymer component
 Import polymer, easiest to use the shared instance, but locally is fine too.
 
 ```html
-<link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">
+<link rel="import" href="node_modules/polymer/polymer.html">
 ```
     
 Import the `ui-stats` component.
@@ -35,8 +35,9 @@ Here's a starting template that puts it all together.
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">    
-    <link rel="import" href="node_modules/ui-stats/ui-stats.html">
+    <script><!-- work around polymer bug, that requires a script tag in head --></script>
+    <link rel="import" href="node_modules/polymer/polymer.html">
+    <link rel="import" href="node_modules/ui-stats/src/ui-stats.html">
   </head>
 
   <body>
