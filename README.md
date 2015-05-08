@@ -45,6 +45,16 @@ propertly formated JSON data via the `data` attribute, but the typical usage is 
 to specify the URL of query that returns an array of JSON objects, and use the `dateProperty` and `valueProperty`
 attributes to select your X and Y columns.
 
+```html
+<ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week"
+  src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+  valueProperty="accept_rate">
+</ui-stats-timeline>
+```
+
+![screenshot](images/screenshot2.png)
+
+
 ### label
 
 The name of the metric you are displaying
