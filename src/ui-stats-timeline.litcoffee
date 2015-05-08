@@ -20,12 +20,22 @@
 
       domReady: ->
         @$.chart.options =
-          xbackgroundColor: 'yellow'
           legend: { position: 'none' }
           series: [ color: 'black' ]
+          lineWidth: 2
+          pointSize: 0
           vAxis:
             format: "#,####{@units}"
-            
+            textStyle:
+              color: '#aaa'
+              fontSize: 8
+            baselineColor: '#aaa'
+          hAxis:
+            textStyle:
+              color: '#aaa'
+              fontSize: 9
+            baselineColor: '#aaa'
+
       srcChanged: ->
         @loading = true
         options = { method: 'POST', url: @src,  json: { relaxed: true }, withCredentials: true }
@@ -48,7 +58,6 @@
         grouped = _.groupBy arrayOfArrays, (array) =>
           moment(array[0]).startOf(@groupBy).format(@datePattern)
         _.map grouped, (items, date) =>
-          console.log "items", items
           dateObject = moment(date, @datePattern).toDate()
           values = _.map items, (array) -> array[1]
           value = @applyReductionFunction @groupByFunction, values
@@ -65,7 +74,6 @@
 
       applyReductionFunction: (f, data) ->
         return 0 if not data.length?
-        console.log "reduce", f, data
         value = switch f
           when 'average'
             _.sum(data) / data.length
