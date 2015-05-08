@@ -23,16 +23,17 @@ The Chart tile displays a chart in various formats
       
       dataChanged: ->
         @values = @data
-        if @groupBy is 'week'
+        if @groupBy in ['week', 'month', 'day']
           # find the first date column
           dateColumn = _.find @cols, (col) ->
             col.type is 'date'
           # group value by the date column
           pattern = dateColumn.pattern ? 'YYYY-MM-DD'
-          groupedByWeek = _.groupBy @values, (item) ->
-            moment(item[dateColumn.id], pattern).startOf('week').format(pattern)
+          grouped = _.groupBy @values, (item) =>
+            m = moment(item[dateColumn.id], pattern)
+            m.startOf(@groupBy).format(pattern)
           # sum each property in the data, by week
-          @values = _.map groupedByWeek, (items, date) ->
+          @values = _.map grouped, (items, date) ->
             o = {}
             o[dateColumn.id] = moment(date, pattern).toDate()
             for item in items

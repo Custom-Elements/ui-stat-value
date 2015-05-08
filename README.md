@@ -224,8 +224,8 @@ Type of chart to draw. Can be one of `pie`, `bar`, `column`, `line`, 'scatter', 
 
 _&lt;string&gt;_
 
-Grouping, currently only supports the option "week" which groups all the data by the start of the week, using your
-first date column as the key. Simply sums all the other property fields.
+Grouping by date. One of either `day`, `week`, or `month` which groups all the data by the start of the time period,
+using your first date column as the key. Simply sums all the other property fields.
 
 ### width
 
