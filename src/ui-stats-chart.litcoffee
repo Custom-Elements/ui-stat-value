@@ -64,7 +64,7 @@ Special case for single column data
 
 Customize chart options based on the type of data we are showing, and other settings
 
-        @$.chart.options.curveType = if @smooth? then "function" else "none"
+        @$.chart.options.curveType = if @smooth is true then "function" else "none"
 
         if @type is 'pie'
           @$.chart.options.legend = { position: 'right' }

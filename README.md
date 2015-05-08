@@ -89,8 +89,13 @@ is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `ma
 The units, for example `%` (between 0 and 1), `ms`, or some arbitrary string. Defaults to empty.
 Note that the percentage symbol triggers % formatting.
 
+### smooth
+
+If `false` disables data smoothing.
+
 ### data
 
+Explicitely set the object array of data, rather than loading it from a URL
 
 ## ui-stats-number
 

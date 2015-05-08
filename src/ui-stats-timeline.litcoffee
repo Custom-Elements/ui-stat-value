@@ -17,7 +17,7 @@
         @units = ''
         @limit = Number.MAX_VALUE
         @value = ''
-        @smooth = false
+        @smooth = true
 
       domReady: ->
         @$.chart.options =
@@ -95,7 +95,6 @@
         
       dataChanged: ->
         console.log "Timeline #{@label}", @data
+        @$.chart.options.curveType = if @smooth is true then "function" else "none"
+        console.log "smooth", @smooth, @$.chart.options.curveType
         @$.chart.rows = @data
-
-      smoothChanged: ->
-        @$.chart.options.curveType = if @smooth? then "function" else "none"

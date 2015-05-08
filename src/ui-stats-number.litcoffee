@@ -33,7 +33,7 @@ if we have more than 2 values, otherwise we show the last value
             @change = null
           when 2
             @change = (data[1] - data[0]) / data[0] unless @absolute
-            @change = data[1] - data[0] if @absolute
+            @change = data[1] - data[0] if @absolute is true
           else
             @change = null
             chartValues = _.map data, (value) -> ["x", value]
@@ -51,7 +51,7 @@ if we have more than 2 values, otherwise we show the last value
             console.log "Error loading data", err
 
       smoothChanged: ->
-        @sparklineOptions.curveType = if @smooth? then "function" else "none"
+        @sparklineOptions.curveType = if @smooth is true then "function" else "none"
         @$.trend.options = @sparklineOptions
 
 ## Filters
