@@ -46,9 +46,9 @@ to specify the URL of query that returns an array of JSON objects, and use the `
 attributes to select your X and Y columns.
 
 ```html
-<ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week"
+<ui-stats-timeline label="Avg Daily CM Applications" groupBy="day" limit="30"
   src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-  valueProperty="accept_rate">
+  valueProperty="applied">
 </ui-stats-timeline>
 ```
 
