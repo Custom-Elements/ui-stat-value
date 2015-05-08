@@ -87,7 +87,7 @@ Defaults to no grouping.
 ### groupByFunction
 
 Sets the reduction function to apply when aggregating groupbed values. The default value
-is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
+is `sum`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
 
 ### function
 

@@ -28,22 +28,22 @@
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
     
-    <ui-stats-timeline label="Mean Response time" units="ms" limit="30"
+    <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="paid">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day"
+    <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       dateProperty="date" valueProperty="applied">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Weekly Mean Applications" groupBy="week"
+    <ui-stats-timeline label="Weekly Mean Applications" groupBy="week" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="applied">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Monthly Mean Applications" groupBy="month"
+    <ui-stats-timeline label="Monthly Mean Applications" groupBy="month" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="applied">
     </ui-stats-timeline>
