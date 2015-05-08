@@ -4,11 +4,13 @@
   <template>
     <link rel="stylesheet" type="text/css" href="./ui-stats-timeline.less">
 
-    <div class="graph">
+    <div class="timeline">
+
       <div class="data">
         <h2>{{label}}</h2>
         <span class="number">{{value}}{{units}}</span>
       </div>
+
       <div class="graph">
         <div class="graph-container">
           <google-chart id="chart" type="line"

@@ -20,6 +20,7 @@
 
       domReady: ->
         @$.chart.options =
+          xbackgroundColor: 'yellow'
           legend: { position: 'none' }
           series: [ color: 'black' ]
           vAxis:
