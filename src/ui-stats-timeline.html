@@ -1,0 +1,25 @@
+<polymer-element name="ui-stats-timeline" attributes="data src limit label groupBy groupByFunction function units xproperty yproperty pattern">
+  <link rel="import" href="../google-chart/google-chart.html">
+
+  <template>
+    <link rel="stylesheet" type="text/css" href="./ui-stats-timeline.less">
+
+    <div class="graph">
+      <div class="data">
+        <h2>{{label}}</h2>
+        <span class="number">{{value}}{{units}}</span>
+      </div>
+      <div class="graph">
+        <div class="graph-container">
+          <google-chart id="chart" type="line"
+            cols='[{"label":"Date", "type":"date"}, {"label":"Value", "type":"number"}]'
+          >
+          </google-chart>
+      </div>
+    </div>
+
+  </template>
+
+  <script src="./ui-stats-timeline.litcoffee"></script>
+</polymer-element>
+  

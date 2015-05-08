@@ -16,7 +16,34 @@
 
   <body unresolved>
     
-    <h2>Number Tiles</h2>
+    <h1>Timelines</h1>
+    
+    <ui-stats-timeline label="Mean Acceptance Rate" units="%" groupBy="week"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      xproperty="date" yproperty="accept_rate">
+    </ui-stats-timeline>
+    
+    <ui-stats-timeline label="Mean Response time" units="ms" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      xproperty="date" yproperty="paid">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Mean Applications" groupBy="day"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      xproperty="date" yproperty="applied">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Mean Applications" groupBy="week"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      xproperty="date" yproperty="applied">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Mean Applications" groupBy="month"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      xproperty="date" yproperty="applied">
+    </ui-stats-timeline>
+    
+    <h1>Number Tiles</h1>
 
     <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
     </ui-stats-number>
@@ -43,7 +70,7 @@
      property="applied" limit="7">
     </ui-stats-number>
       
-    <h2>Charts From Data</h2>
+    <h1>Charts From Data</h1>
 
     <ui-stats-chart name="Array of numbers" data="[10, 20, 15, 30, 45, 12]">
     </ui-stats-chart>
@@ -73,7 +100,7 @@
     <ui-stats-chart id="dynamic" name="Random Data" type="column">
     </ui-stats-chart>
     
-    <h2>Charts From Epiquery</h2>
+    <h1>Charts From Epiquery</h1>
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
