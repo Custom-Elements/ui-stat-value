@@ -13,7 +13,7 @@
         @dateProperty = 'date'
         @valueProperty = 'value'
         @function = 'average'
-        @groupByFunction = 'average'
+        @groupByFunction = 'sum'
         @units = ''
         @limit = Number.MAX_VALUE
         @value = ''

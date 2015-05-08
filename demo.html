@@ -18,14 +18,14 @@
     
     <h1>Timelines</h1>
     
-    <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week"
+    <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" function="max" smooth="false"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
-      valueProperty="accept_rate">
+      valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30"
@@ -33,17 +33,17 @@
       valueProperty="paid">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Mean CM Applications" groupBy="day"
+    <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       dateProperty="date" valueProperty="applied">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Mean Applications" groupBy="week"
+    <ui-stats-timeline label="Weekly Mean Applications" groupBy="week"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="applied">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Mean Applications" groupBy="month"
+    <ui-stats-timeline label="Monthly Mean Applications" groupBy="month"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="applied">
     </ui-stats-timeline>
