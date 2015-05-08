@@ -62,7 +62,7 @@
           dateObject = moment(date, @datePattern).toDate()
           values = _.map items, (array) -> array[1]
           value = @applyReductionFunction @groupByFunction, values
-          [ dateObject, value ]
+          [ dateObject, parseFloat value.toFixed(2) ]
           
       calculateValue: (data) ->
         values = _.map data, (array) -> array[1]
