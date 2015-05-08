@@ -6,29 +6,28 @@
     Polymer 'ui-stats-timeline',
     
       created: ->
-        @pattern = "YYYY-MM-DD"
+        @label = "Timeline"
+        @datePattern = "YYYY-MM-DD"
         @data = []
         @loading = false
-        @xproperty = 'date'
-        @yproperty = 'value'
+        @dateProperty = 'date'
+        @valueProperty = 'value'
+        @function = 'average'
         @groupByFunction = 'average'
         @units = ''
         @limit = Number.MAX_VALUE
         @value = ''
-        @function = 'average'
-        
+
       domReady: ->
         @$.chart.options =
           legend: { position: 'none' }
-          series: [
-            color: 'black'
-          ]
+          series: [ color: 'black' ]
           vAxis:
             format: "#,####{@units}"
             
       srcChanged: ->
         @loading = true
-        options = { method: 'POST', url: @src,  json:{ relaxed: true }, withCredentials: true }
+        options = { method: 'POST', url: @src,  json: { relaxed: true }, withCredentials: true }
         request options, (err, response, json) =>
           if not err?
             @data = @createDataFromJson(json).slice -@limit
@@ -39,43 +38,51 @@
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
-          return [
-            moment(item[@xproperty], @pattern).toDate() 
-            item[@yproperty]
-          ]        
+          dateObject = moment(item[@dateProperty], @datePattern).toDate()
+          value = item[@valueProperty]
+          [ dateObject, value ]
           
       applyGrouping: (arrayOfArrays) ->
         return arrayOfArrays if not @groupBy?
-        
         grouped = _.groupBy arrayOfArrays, (array) =>
-          moment(array[0]).startOf(@groupBy).format(@pattern)
-        _.map grouped, (values, date) =>
-          sum  = _.sum values, (array) -> array[1]
-          value = switch @groupByFunction
-            when 'average'
-              sum / values.length
-            else
-              sum
-          [
-            moment(date, @pattern).toDate()
-            value
-          ]
+          moment(array[0]).startOf(@groupBy).format(@datePattern)
+        _.map grouped, (items, date) =>
+          console.log "items", items
+          dateObject = moment(date, @datePattern).toDate()
+          values = _.map items, (array) -> array[1]
+          value = @applyReductionFunction @groupByFunction, values
+          [ dateObject, value ]
           
       calculateValue: (data) ->
-        sum  = _.sum data, (array) -> array[1]
-        value = switch @function
-          when 'average'
-            sum / data.length
-          else
-            sum
+        values = _.map data, (array) -> array[1]
+        value = @applyReductionFunction @function, values
         @value = switch @units
           when '%'
             numeral(value * 100).format '0.0'
           else
             numeral(value).format '0,0[.]00'
 
-
+      applyReductionFunction: (f, data) ->
+        return 0 if not data.length?
+        console.log "reduce", f, data
+        value = switch f
+          when 'average'
+            _.sum(data) / data.length
+          when 'sum'
+            _.sum data
+          when 'min'
+            _.min data
+          when 'max'
+            _.max data
+          when 'first'
+            _.first data
+          when 'last'
+            _.last data
+          when 'count'
+            data.length
+          else
+            _.sum data
         
       dataChanged: ->
-        console.log "timeline", @data
+        console.log "Timeline #{@label}", @data
         @$.chart.rows = @data

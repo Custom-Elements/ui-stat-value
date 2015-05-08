@@ -2,51 +2,95 @@
 
 ## Summary
 
-`ui-stats` is a series of polymer components which allow you to quickly and easily create a statusboard to track whatever it is you need to track. Data can be loaded explicitly, programmatically, or more commonly via URL. Different components can generate different types of tiles for displaying different types of data.
+`ui-stats` is a series of polymer components which allow you to quickly and easily create a
+[statusboard](https://services.glgresearch.com/statusboard) to track whatever it is you need to track. Data can be loaded explicitly, programmatically, or more commonly via URL. Different components can generate different types of tiles for displaying different types of data.
 
 Check out the [demo](https://services.glgresearch.com/ui-stats/)
 
 
 ## Installation and Usage
 
-Install the `ui-stats` polymer component
-
-```bash
-    npm install --save Custom-Elements/ui-stats.git
-```
-
-Import polymer, easiest to use the shared instance, but locally is fine too.
+Import polymer and the `ui-stats` component, easiest to use the shared instance, but locally is fine too.
 
 ```html
-<link rel="import" href="node_modules/polymer/polymer.html">
-```
-    
-Import the `ui-stats` component.
-
-```html
-<link rel="import" href="node_modules/ui-stats/ui-stats.html">
+<link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">
+<link rel="import" href="https://services.glgresearch.com/ui-toolkit/node_modules/ui-stats/src/ui-stats.html">
 ```
 
-The components currently require [polymer-serve](https://github.com/Custom-Elements/polymer-serve) to compile the less and coffeescript.
-
-Here's a starting template that puts it all together.
+Due to a bug in polymer libraries, if you don't have a `<script>` tag in your document's `<head>`
+you'll need to add one, though it can be empty. Here's a starting template that puts it all together.
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
     <script><!-- work around polymer bug, that requires a script tag in head --></script>
-    <link rel="import" href="node_modules/polymer/polymer.html">
-    <link rel="import" href="node_modules/ui-stats/src/ui-stats.html">
+    <link rel="import" href="https://services.glgresearch.com/ui-toolkit/polymer.html">
+    <link rel="import" href="https://services.glgresearch.com/ui-toolkit/node_modules/ui-stats/src/ui-stats.html">
   </head>
 
   <body>
-    <ui-stats-number value="55">
-    </ui-stats>
+    <ui-stats-timeline label="CM Acceptance Percentage" units="%" groupBy="week" valueProperty="accept_rate"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache">
+    </ui-stats-timeline>
   </body>
 
 </html>
 ```
+
+## ui-stats-timeline
+
+Display a value and its changes over time, with optional grouping by month, day, or hour. You can pass
+propertly formated JSON data via the `data` attribute, but the typical usage is to use the `src` attribute
+to specify the URL of query that returns an array of JSON objects, and use the `dateProperty` and `valueProperty`
+attributes to select your X and Y columns.
+
+### label
+
+The name of the metric you are displaying
+
+### src
+
+### dateProperty
+
+The name of the data property that holds the X-axis value. Must be a valid date. Defaults to `date`.
+
+### datePattern
+
+The moment.js date formatting pattern to use when parsing date values. Defaults to `YYYY-MM-DD`
+
+### valueProperty
+
+The name of the data property that holds the Y-axis value. Must be a number. Defaults to `value`
+
+### limit
+
+The number of rows to keep (after applying any grouping), taken from the end of the list. Defaults
+to MAX_INT
+
+### groupBy
+
+Grouping by date. One of either `hour`, `day`, `week`, or `month` which groups all the data by the start of
+the time period, using your first date column as the key. Simply sums all the other property fields.
+Defaults to no grouping.
+
+### groupByFunction
+
+Sets the reduction function to apply when aggregating groupbed values. The default value
+is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
+
+### function
+
+Sets the reduction function to apply the data values to create the primary metric. The default value
+is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
+
+### units
+
+The units, for example `%` (between 0 and 1), `ms`, or some arbitrary string. Defaults to empty.
+Note that the percentage symbol triggers % formatting.
+
+### data
+
 
 ## ui-stats-number
 
@@ -224,8 +268,8 @@ Type of chart to draw. Can be one of `pie`, `bar`, `column`, `line`, 'scatter', 
 
 _&lt;string&gt;_
 
-Grouping by date. One of either `day`, `week`, or `month` which groups all the data by the start of the time period,
-using your first date column as the key. Simply sums all the other property fields.
+Grouping by date. One of either `hour`, `day`, `week`, or `month` which groups all the data by the start of
+the time period, using your first date column as the key. Simply sums all the other property fields.
 
 ### width
 
