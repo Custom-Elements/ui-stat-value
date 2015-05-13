@@ -42,8 +42,7 @@
         options = { method: 'POST', url: @src,  json: { relaxed: true }, withCredentials: true }
         request options, (err, response, json) =>
           if not err?
-            @data = @createDataFromJson(json).slice -@limit
-            @calculateValue(@data)
+            @data = json
           else
             console.log "Error loading data", err
           @loading = false
@@ -94,7 +93,9 @@
             _.sum data
         
       dataChanged: ->
-        console.log "Timeline #{@label}", @data
+        rows = @createDataFromJson(@data).slice -@limit
+        @calculateValue(rows)
+        console.log "Timeline #{@label}",rows
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
         console.log "smooth", @smooth, @$.chart.options.curveType
-        @$.chart.rows = @data
+        @$.chart.rows = rows
