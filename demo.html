@@ -24,12 +24,12 @@
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" function="max" smooth="false"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="column"
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
       valueProperty="paid">
     </ui-stats-timeline>
 

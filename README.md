@@ -107,6 +107,10 @@ If `false` disables data smoothing.
 
 Explicitely set the object array of data, rather than loading it from a URL
 
+### type
+
+Type of chart, defaults to line. Useful values are `column` and `area`
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:

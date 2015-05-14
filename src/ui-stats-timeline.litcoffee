@@ -18,6 +18,7 @@
         @limit = Number.MAX_VALUE
         @value = ''
         @smooth = true
+        @type = 'line'
 
       domReady: ->
         @$.chart.options =
@@ -96,6 +97,8 @@
         rows = @createDataFromJson(@data).slice -@limit
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows
+
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
-        console.log "smooth", @smooth, @$.chart.options.curveType
+        @$.chart.type = @type
+
         @$.chart.rows = rows

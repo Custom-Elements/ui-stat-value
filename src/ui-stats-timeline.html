@@ -1,10 +1,10 @@
-<polymer-element name="ui-stats-timeline" attributes="data src limit label groupBy groupByFunction function units dateProperty valueProperty datePattern smooth">
+<polymer-element name="ui-stats-timeline" attributes="data src limit label groupBy groupByFunction function units dateProperty valueProperty datePattern smooth type">
   <link rel="import" href="../google-chart/google-chart.html">
 
   <template>
     <link rel="stylesheet" type="text/css" href="./ui-stats-timeline.less">
 
-    <div class="timeline">
+    <section class="timeline">
 
       <div class="data">
         <h2>{{label}}</h2>
@@ -14,12 +14,12 @@
 
       <div class="graph">
         <div class="graph-container">
-          <google-chart id="chart" type="line"
+          <google-chart id="chart"
             cols='[{"label":"Date", "type":"date"}, {"type":"number"}]'
           >
           </google-chart>
       </div>
-    </div>
+    </section>
 
   </template>
 
