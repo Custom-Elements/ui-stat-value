@@ -12,6 +12,7 @@
         @loading = false
         @dateProperty = 'date'
         @valueProperty = 'value'
+        @valueProperties = []
         @function = 'average'
         @groupByFunction = 'sum'
         @units = ''
@@ -22,7 +23,14 @@
 
       domReady: ->
         @$.chart.options =
-          legend: { position: 'none' }
+          fontSize: 8
+          legend:
+            position: 'none'
+            color: '#aaa'
+            alignment: 'center'
+            textStyle:
+              color: '#aaa'
+              fontSize: 9
           series: [ color: 'black' ]
           lineWidth: 2
           pointSize: 0
@@ -34,14 +42,21 @@
             format: "#,####{@units}"
             textStyle:
               color: '#aaa'
-              fontSize: 8
             baselineColor: '#aaa'
           hAxis:
             textStyle:
               color: '#aaa'
-              fontSize: 9
             baselineColor: '#aaa'
 
+      valuePropertyChanged: ->
+        @valueProperties = [ @valueProperty ]
+
+      valuePropertiesChanged: ->
+        columns = [ { "label": "Date", "type": "date" } ]
+        for property in @valueProperties
+          columns.push { "label": property, "type": "number" }
+        @$.chart.cols = columns
+        
       srcChanged: ->
         @loading = true
         options = { method: 'POST', url: @src,  json: { relaxed: true }, withCredentials: true }
@@ -55,8 +70,10 @@
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
-          value = item[@valueProperty]
-          [ dateObject, value ]
+          values = [ dateObject ]
+          for property in @valueProperties
+            values.push item[property]
+          values
           
       applyGrouping: (arrayOfArrays) ->
         return arrayOfArrays if not @groupBy?
@@ -106,5 +123,9 @@
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
         @$.chart.type = @type
+        if @$.chart.cols.length > 2
+          @$.chart.options.legend.position = 'top'
+          @$.chart.options.chartArea.top += 10
+          @$.chart.options.series = []
 
         @$.chart.rows = rows

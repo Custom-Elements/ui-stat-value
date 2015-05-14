@@ -73,6 +73,10 @@ The moment.js date formatting pattern to use when parsing date values. Defaults 
 
 The name of the data property that holds the Y-axis value. Must be a number. Defaults to `value`
 
+### valueProperties
+
+An array of data properties for the Y-axis values. Will generate multi-series data with a legend
+
 ### limit
 
 The number of rows to keep (after applying any grouping), taken from the end of the list. Defaults
