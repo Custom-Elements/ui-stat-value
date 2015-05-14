@@ -75,7 +75,10 @@ The name of the data property that holds the Y-axis value. Must be a number. Def
 
 ### valueProperties
 
-An array of data properties for the Y-axis values. Will generate multi-series data with a legend
+An array of data properties for the Y-axis values. Will generate multi-series data with a legend.
+If you specify multiple properties here, the `function` attribute will be applied to each series first,
+and then to the collection of resulting values. Rolling up the roll ups as it were. If you want to hide
+the primary metric, set the `function` attribute to `none`
 
 ### limit
 

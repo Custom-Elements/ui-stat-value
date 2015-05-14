@@ -87,9 +87,13 @@
             value = @applyReductionFunction @groupByFunction, values
             result.push parseFloat(value.toFixed(2))
           result
-      calculateValue: (data) ->
-        values = _.map data, (array) -> array[1]
-        value = @applyReductionFunction @function, values
+
+      calculateValue: (rows) ->
+        seriesValues = []
+        for propertyName, index in @valueProperties
+          values = _.map rows, (row) -> row[index + 1]
+          seriesValues.push @applyReductionFunction @function, values
+        value = @applyReductionFunction @function, seriesValues
         @value = switch @units
           when '%'
             numeral(value * 100).format '0.0'
