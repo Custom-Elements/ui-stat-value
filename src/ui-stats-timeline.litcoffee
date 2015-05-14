@@ -26,6 +26,10 @@
           series: [ color: 'black' ]
           lineWidth: 2
           pointSize: 0
+          chartArea:
+            left: 50
+            top: 15
+            width: "100%"
           vAxis:
             format: "#,####{@units}"
             textStyle:
@@ -90,6 +94,8 @@
             _.last data
           when 'count'
             data.length
+          when 'none'
+            0
           else
             _.sum data
         

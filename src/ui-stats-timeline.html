@@ -4,10 +4,10 @@
   <template>
     <link rel="stylesheet" type="text/css" href="./ui-stats-timeline.less">
 
+    <h2>{{label}}</h2>
     <section class="timeline">
 
-      <div class="data">
-        <h2>{{label}}</h2>
+      <div class="data" hidden?="{{function == 'none'}}">
         <span class="number" hidden?="{{loading}}">{{value}}{{units}}</span>
         <span class="loading" hidden?="{{!loading}}">Loading...</span>
       </div>

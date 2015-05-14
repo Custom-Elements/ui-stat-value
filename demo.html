@@ -33,6 +33,11 @@
       valueProperty="paid">
     </ui-stats-timeline>
 
+    <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" function="none"
+      valueProperty="paid">
+    </ui-stats-timeline>
+
     <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       dateProperty="date" valueProperty="applied">
