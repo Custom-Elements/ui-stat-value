@@ -81,10 +81,12 @@
           moment(array[0]).startOf(@groupBy).format(@datePattern)
         _.map grouped, (items, date) =>
           dateObject = moment(date, @datePattern).toDate()
-          values = _.map items, (array) -> array[1]
-          value = @applyReductionFunction @groupByFunction, values
-          [ dateObject, parseFloat value.toFixed(2) ]
-          
+          result = [ dateObject ]
+          for propertyName, index in @valueProperties
+            values = _.map items, (array) -> array[index + 1]
+            value = @applyReductionFunction @groupByFunction, values
+            result.push parseFloat(value.toFixed(2))
+          result
       calculateValue: (data) ->
         values = _.map data, (array) -> array[1]
         value = @applyReductionFunction @function, values
