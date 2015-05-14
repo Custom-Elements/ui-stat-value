@@ -13,7 +13,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/polymer-serve --cache .",
+    "start": "./node_modules/.bin/polymer-serve --precache .",
     "test": "./node_modules/.bin/polymer-serve ."
   },
   "author": "Duane Fields",
