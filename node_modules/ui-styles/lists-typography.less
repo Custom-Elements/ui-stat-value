@@ -2,11 +2,31 @@ dl, ol, ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  width: 100%;
-}
-
-li {
-  border-bottom: 1px dotted @hairline-grey;
+  li {
+    .bottom-border;
+  }
+  li:last-child {
+    .no-border;
+  }
+  &[horizontal] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    li {
+      padding-left: @pad;
+      padding-right: @pad;
+      .only-right-border
+    }
+    li:last-child {
+      .no-border;
+    }
+  }
+  &[start] {
+    justify-content: flex-start;
+  }
+  &[end] {
+    justify-content: flex-end;
+  }
 }
 
 li[dotted] {
@@ -17,11 +37,6 @@ li[dotted] {
   }
 }
 
-li:last-child {
-  border-bottom: 0;
-}
-
-
 dt {
   display: block;
 }
@@ -29,7 +44,7 @@ dt {
 dd {
   display: inline-block;
   margin: 0;
-  padding-left: 1em;
+  padding-left: @pad;
   font-size: 0.62em;
-  line-height: 1em;
+  line-height: 1;
 }

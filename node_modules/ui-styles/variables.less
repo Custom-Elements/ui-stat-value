@@ -9,9 +9,9 @@
 @animation-duration: 1s;
 @animation-duration-fast: 0.6s;
 @transition: 0.2s cubic-bezier(0.4, 0.0, 1, 1);
-@pad: 0.5em;
+@pad: 0.6em;
 @micropad: 0.25em;
-@margin: 0.5em;
+@margin: 0.6em;
 @input-transition: 0.1s ease-out;
 @line-height: 1.5em;
 
@@ -78,11 +78,11 @@
 }
 
 .tint, [tint] {
-  background-image: linear-gradient(fade(@black, @disabled), fade(@black, @disabled + 6%) 80%, fade(@black, @disabled + 4%));
+  background-image: linear-gradient(fade(@black, @justahint), fade(@black, @justahint + 6%) 80%, fade(@black, @justahint + 4%));
 }
 
 .light-tint, [light-tint] {
-  background-image: linear-gradient(fade(@white, @faded), fade(@white, @faded + 6%) 80%, fade(@white, @faded + 4%));
+  background-image: linear-gradient(fade(@white, @justahint), fade(@white, @justahint + 6%) 80%, fade(@white, @justahint + 4%));
 }
 //color inversion, this is useful to disable things
 .invert {
