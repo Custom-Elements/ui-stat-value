@@ -12,7 +12,7 @@
         @loading = false
         @dateProperty = 'date'
         @valueProperty = 'value'
-        @valueProperties = []
+        @valueProperties = [ 'value' ]
         @function = 'average'
         @groupByFunction = 'sum'
         @units = ''
@@ -52,12 +52,6 @@
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
 
-      valuePropertiesChanged: ->
-        columns = [ { "label": "Date", "type": "date" } ]
-        for property in @valueProperties
-          columns.push { "label": property, "type": "number" }
-        @$.chart.cols = columns
-        
       srcChanged: ->
         @loading = true
         options = { method: @method, url: @src,  json: { relaxed: true }, withCredentials: true }
@@ -127,6 +121,12 @@
         rows = @createDataFromJson(@data).slice -@limit
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows
+
+        columns = [ { "label": "Date", "type": "date" } ]
+        console.log "#{@label}", @valueProperties
+        for property in @valueProperties
+          columns.push { "label": property, "type": "number" }
+        @$.chart.cols = columns
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
         @$.chart.type = @type
