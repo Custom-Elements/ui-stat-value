@@ -20,6 +20,7 @@
         @value = ''
         @smooth = true
         @type = 'line'
+        method = 'GET'
 
       domReady: ->
         @$.chart.options =
@@ -59,7 +60,7 @@
         
       srcChanged: ->
         @loading = true
-        options = { method: 'POST', url: @src,  json: { relaxed: true }, withCredentials: true }
+        options = { method: @method, url: @src,  json: { relaxed: true }, withCredentials: true }
         request options, (err, response, json) =>
           if not err?
             @data = json

@@ -43,7 +43,7 @@ if we have more than 2 values, otherwise we show the last value
 
       srcChanged: ->
         @loading = true
-        request { method: 'POST', url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
+        request { method: @method, url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
           if not err?
             @data = _.pluck json, @property
             @loading = false
@@ -111,6 +111,7 @@ Reduction function, specified by the `@function` attribute
         @limit = 100
         @absolute = false
         @smooth = false
+        @method = 'GET'
 
         @sparklineOptions =
           chartArea:

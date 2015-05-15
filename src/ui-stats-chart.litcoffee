@@ -14,7 +14,7 @@ The Chart tile displays a chart in various formats
 
       srcChanged: ->
         @loading = true
-        request { method: 'POST', url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
+        request { method: @method, url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
           if not err?
             @data = json
             @loading = false
@@ -123,6 +123,7 @@ Parse values to the correct type
         @loading = false
         @initialized = false
         @groupBy = ''
+        @method = 'GET'
 
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 

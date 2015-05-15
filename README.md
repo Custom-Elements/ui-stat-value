@@ -119,6 +119,10 @@ Explicitely set the object array of data, rather than loading it from a URL
 
 Type of chart, defaults to line. Useful values are `column` and `area`
 
+### method
+
+GET or POST, defaults to GET, applied only if src is specified
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:
@@ -235,6 +239,10 @@ _&lt;string&gt;_
 
 String prepended to the metrics, for example `$` or `ms`.
 
+### method
+
+GET or POST, defaults to GET, applied only if src is specified
+
 ## ui-stats-chart
 
 Simplified wrapper around [Google Charts](https://developers.google.com/chart/) designed to display charts from JSON data.
@@ -303,3 +311,7 @@ the time period, using your first date column as the key. Simply sums all the ot
 &lt;length&gt;
 
 Width of the nested chart element. Defaults to 26em
+
+### method
+
+GET or POST, defaults to GET, applied only if src is specified
