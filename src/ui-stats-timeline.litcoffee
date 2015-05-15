@@ -123,7 +123,6 @@
         console.log "Timeline #{@label}",rows
 
         columns = [ { "label": "Date", "type": "date" } ]
-        console.log "#{@label}", @valueProperties
         for property in @valueProperties
           columns.push { "label": property, "type": "number" }
         @$.chart.cols = columns
