@@ -3,7 +3,7 @@ The Chart tile displays a chart in various formats
 
     _ = require 'lodash'
     moment = require 'moment'
-    request = require 'browser-request'
+    RequestCache = require './request.litcoffee'
 
     Polymer 'ui-stats-chart',
 
@@ -14,12 +14,13 @@ The Chart tile displays a chart in various formats
 
       srcChanged: ->
         @loading = true
-        request { method: @method, url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
-          if not err?
-            @data = json
-            @loading = false
+        request = window.ui_stats_cache ?= new RequestCache()
+        request.loadDataForUrlAsync @src, @method, (err, json) =>
+          @loading = false
+          if err
+            console.log "Error loading data from #{@src}", err
           else
-            console.log "Error loading data", err
+            @data = json
       
       dataChanged: ->
         @values = @data

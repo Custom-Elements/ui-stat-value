@@ -7,14 +7,14 @@ Request Cache
         @data = {}
         @observers = {}
       
-      loadDataForUrlAsync: (url, next) ->
+      loadDataForUrlAsync: (url, method, next) ->
         if @data[url]
           console.log "Cache hit for #{url}"
           return @data[url]
 
         if not @observers[url]
           observers = @observers[url] = []
-          options = { method: @method, url: url,  json: { relaxed: true }, withCredentials: true }
+          options = { method: method, url: url,  json: { relaxed: true }, withCredentials: true }
           request options, (err, response, json) =>
             return @observer(err, null) if err?
             @data[url] = json

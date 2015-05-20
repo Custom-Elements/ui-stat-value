@@ -4,7 +4,7 @@ along with associated secondary metrics, such as a change indicator or sparkline
 
     _ = require 'lodash'
     numeral = require 'numeral'
-    request = require 'browser-request'
+    RequestCache = require './request.litcoffee'
 
     Polymer 'ui-stats-number',
     
@@ -43,12 +43,13 @@ if we have more than 2 values, otherwise we show the last value
 
       srcChanged: ->
         @loading = true
-        request { method: @method, url: @src,  json:{ relaxed: true }, withCredentials: true }, (err, response, json) =>
-          if not err?
-            @data = _.pluck json, @property
-            @loading = false
+        request = window.ui_stats_cache ?= new RequestCache()
+        request.loadDataForUrlAsync @src, @method, (err, json) =>
+          @loading = false
+          if err
+            console.log "Error loading data from #{@src}", err
           else
-            console.log "Error loading data", err
+            @data = _.pluck json, @property
 
       smoothChanged: ->
         @sparklineOptions.curveType = if @smooth is true then "function" else "none"

@@ -55,13 +55,12 @@
       srcChanged: ->
         @loading = true
         request = window.ui_stats_cache ?= new RequestCache()
-        request.loadDataForUrlAsync @src, (err, json) =>
+        request.loadDataForUrlAsync @src, @method, (err, json) =>
           @loading = false
           if err
             console.log "Error loading data from #{@src}", err
           else
             @data = json
-          
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
