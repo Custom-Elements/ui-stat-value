@@ -67,7 +67,7 @@
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           values = [ dateObject ]
           for property in @valueProperties
-            values.push item[property]
+            values.push parseFloat item[property]
           values
           
       applyGrouping: (arrayOfArrays) ->
