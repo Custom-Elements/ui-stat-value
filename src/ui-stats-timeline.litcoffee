@@ -78,7 +78,7 @@
           dateObject = moment(date, @datePattern).toDate()
           result = [ dateObject ]
           for propertyName, index in @valueProperties
-            values = _.map items, (array) -> array[index + 1]
+            values = _.map items, (array) -> parseFloat array[index + 1]
             value = @applyReductionFunction @groupByFunction, values
             result.push parseFloat(value.toFixed(2))
           result
