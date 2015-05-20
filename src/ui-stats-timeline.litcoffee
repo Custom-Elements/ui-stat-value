@@ -1,7 +1,7 @@
     _ = require 'lodash'
     moment = require 'moment'
-    request = require 'browser-request'
     numeral = require 'numeral'
+    RequestCache = require './request.litcoffee'
 
     Polymer 'ui-stats-timeline',
     
@@ -53,35 +53,15 @@
         @valueProperties = [ @valueProperty ]
         
       srcChanged: ->
-        url = @src
-        cache = window.ui_stats_cache ?=  {} 
-        observers = cache.observers ?= []
-        requests = cache.requests ?= []
-        
-        if cache[url]
-          console.log "Cache hit for #{url}"
-          @data = cache[url]
-
         @loading = true
-        observers.push this
-        console.log "Cache setting up observer for #{url}"
-
-        if url in requests
-          console.log "Cache request already in progress for #{url}..."
-          return
-        
-        requests.push url
-        options = { method: @method, url: @src,  json: { relaxed: true }, withCredentials: true }
-        request options, (err, response, json) ->
-          if not err?
-            for observer in observers
-              if observer.src is url
-                observer.data = json
-                console.log "Cache completed request for #{url}"
+        request = window.ui_stats_cache ?= new RequestCache()
+        request.loadDataForUrlAsync @src, (err, json) =>
+          @loading = false
+          if err
+            console.log "Error loading data from #{@src}", err
           else
-            console.log "Error loading data", err
-          for observer in observers
-            observer.loading = false if observer.src is url
+            @data = json
+          
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
