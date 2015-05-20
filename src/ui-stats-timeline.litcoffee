@@ -51,16 +51,37 @@
 
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
-
+        
       srcChanged: ->
+        url = @src
+        cache = window.ui_stats_cache ?=  {} 
+        observers = cache.observers ?= []
+        requests = cache.requests ?= []
+        
+        if cache[url]
+          console.log "Cache hit for #{url}"
+          @data = cache[url]
+
         @loading = true
+        observers.push this
+        console.log "Cache setting up observer for #{url}"
+
+        if url in requests
+          console.log "Cache request already in progress for #{url}..."
+          return
+        
+        requests.push url
         options = { method: @method, url: @src,  json: { relaxed: true }, withCredentials: true }
-        request options, (err, response, json) =>
+        request options, (err, response, json) ->
           if not err?
-            @data = json
+            for observer in observers
+              if observer.src is url
+                observer.data = json
+                console.log "Cache completed request for #{url}"
           else
             console.log "Error loading data", err
-          @loading = false
+          for observer in observers
+            observer.loading = false if observer.src is url
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
