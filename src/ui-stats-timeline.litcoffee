@@ -131,7 +131,8 @@
         _.map rows, (row) =>
           result = [ row[0] ]
           for propertyName in @valueProperties
-            result.push smoothedValues[propertyName][rowIndex++]
+            result.push smoothedValues[propertyName][rowIndex]
+          rowIndex++
           result
 
       movingAverage: (values, lookback) ->
