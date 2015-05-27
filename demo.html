@@ -29,7 +29,12 @@
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="7 day Moving Average" units="%" groupBy="day" smoothingFunction="movingAverage"
+    <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" smoothingFunction="movingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" smoothingFunction="weightedMovingAverage"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
       valueProperty="accept_rate">
     </ui-stats-timeline>

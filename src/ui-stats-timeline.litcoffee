@@ -140,9 +140,17 @@
         window = []
         for value in values
           window.push value
-          if window.length > lookback
-            window.shift()
-          results.push _.sum(window) / window.length
+          window.shift() if window.length > lookback
+
+          if @smoothingFunction is 'weightedMovingAverage'
+            index = 0
+            results.push _.reduce window, (total, n) ->
+              index++
+              multiplier = index / _.sum [1..window.length]
+              total + n * multiplier
+            , 0
+          else
+            results.push _.sum(window) / window.length
         results
 
       dataChanged: ->
