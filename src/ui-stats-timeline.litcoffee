@@ -20,6 +20,7 @@
         @value = ''
         @smooth = true
         @type = 'line'
+        @trendline = false
         method = 'GET'
 
       domReady: ->
@@ -48,7 +49,6 @@
             textStyle:
               color: '#aaa'
             baselineColor: '#aaa'
-
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
         
@@ -128,6 +128,8 @@
         @$.chart.cols = columns
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
+        @$.chart.options.trendlines = { 0: {} } if @trendline
+
         @$.chart.type = @type
         if @$.chart.cols.length > 2
           @$.chart.options.legend.position = 'top'

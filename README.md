@@ -123,6 +123,10 @@ Type of chart, defaults to line. Useful values are `column` and `area`
 
 GET or POST, defaults to GET, applied only if src is specified
 
+### trendline
+
+If true, show a trendline
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:

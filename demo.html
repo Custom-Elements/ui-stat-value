@@ -17,7 +17,12 @@
   <body unresolved>
     
     <h1>Timelines</h1>
-    
+
+    <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="6" trendline="true"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+        
     <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"
       valueProperty="accept_rate">
