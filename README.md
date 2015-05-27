@@ -109,7 +109,15 @@ Note that the percentage symbol triggers % formatting.
 
 ### smooth
 
-If `false` disables data smoothing.
+If `false` disables simple graphic smoothing.
+
+### smoothingFunction
+
+Possible values are `movingAverage` or `none`, defaults to `none`
+
+### smoothingArgs
+
+Size of the sliding window for moving averages, defaults to `7`
 
 ### data
 

@@ -18,8 +18,19 @@
     
     <h1>Timelines</h1>
 
-    <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="6" trendline="true"
+
+    <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Raw Data with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="7 day Moving Average" units="%" groupBy="day" smoothingFunction="movingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
       valueProperty="accept_rate">
     </ui-stats-timeline>
         

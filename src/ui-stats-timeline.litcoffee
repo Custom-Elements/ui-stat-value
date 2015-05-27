@@ -20,9 +20,12 @@
         @limit = Number.MAX_VALUE
         @value = ''
         @smooth = true
+        @smoothingFunction = ''
         @type = 'line'
         @trendline = false
-        method = 'GET'
+        @method = 'GET'
+        @smoothingFunction = 'none'
+        @smoothingArgs = 7
 
       domReady: ->
         @$.chart.options =
@@ -117,9 +120,33 @@
             0
           else
             _.sum data
-        
+
+      applySmoothing: (rows) ->
+        return rows if @smoothingFunction is 'none'
+        smoothedValues = {}
+        for propertyName, propertyIndex in @valueProperties
+          values = _.map rows, (row) -> row[propertyIndex + 1]
+          smoothedValues[propertyName] = @movingAverage values, @smoothingArgs
+        rowIndex = 0
+        _.map rows, (row) =>
+          result = [ row[0] ]
+          for propertyName in @valueProperties
+            result.push smoothedValues[propertyName][rowIndex++]
+          result
+
+      movingAverage: (values, lookback) ->
+        results = []
+        window = []
+        for value in values
+          window.push value
+          if window.length > lookback
+            window.shift()
+          results.push _.sum(window) / window.length
+        results
+
       dataChanged: ->
-        rows = @createDataFromJson(@data).slice -@limit
+        rows = @applySmoothing(@createDataFromJson(@data)).slice -@limit
+        
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows
 
