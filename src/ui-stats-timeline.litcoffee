@@ -14,6 +14,7 @@
         @valueProperty = 'value'
         @valueProperties = [ 'value' ]
         @function = 'average'
+        @groupBy = 'day'
         @groupByFunction = 'sum'
         @units = ''
         @limit = Number.MAX_VALUE

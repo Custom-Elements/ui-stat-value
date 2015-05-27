@@ -89,7 +89,7 @@ to MAX_INT
 
 Grouping by date. One of either `hour`, `day`, `week`, or `month` which groups all the data by the start of
 the time period, using your first date column as the key. Simply sums all the other property fields.
-Defaults to no grouping.
+Defaults to group by day.
 
 ### groupByFunction
 
