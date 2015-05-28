@@ -99,7 +99,7 @@ is `sum`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, 
 ### reduction
 
 Sets the reduction function to apply the data values to create the primary metric. The default value
-is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`, 'cummulative'
+is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`, 'cumulative'
 and `none`. The value of `none` hides the metric area, just showing the graph.
 
 ### units
