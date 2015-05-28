@@ -116,6 +116,8 @@
             _.last data
           when 'count'
             data.length
+          when 'cumulative'
+            @accumulate data
           when 'none'
             0
           else
@@ -129,7 +131,7 @@
           if @smoothingFunction in ['weightedMovingAverage', 'movingAverage']
             smoothedValues[propertyName] = @movingAverage values, @smoothingArgs
           else if @smoothingFunction is 'cumulative'
-            smoothedValues[propertyName] = @cumulativeValues values
+            smoothedValues[propertyName] = @accumulate values
           else
             smoothedValues[propertyName] = values
         rowIndex = 0
@@ -140,7 +142,7 @@
           rowIndex++
           result
       
-      cumulativeValues: (values) ->
+      accumulate: (values) ->
         results = []
         for value,index in values
           results.push _.sum values.slice(0,index)
