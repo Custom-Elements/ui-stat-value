@@ -30,17 +30,17 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="3 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage(3)"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" transform="weightedMovingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
