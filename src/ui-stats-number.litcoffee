@@ -13,6 +13,12 @@ along with associated secondary metrics, such as a change indicator or sparkline
       valueChanged: ->
         @data = [ @value ]
 
+deprecated properties
+
+      functionChanged: ->
+        @reduction = @function
+
+
       dataChanged: ->
         
 Data is trunctated to the last `limit` elements of the array
@@ -22,10 +28,10 @@ Data is trunctated to the last `limit` elements of the array
 The primary value is the result of applying the reduction `function`, unless overriden. By default we sum the values
 if we have more than 2 values, otherwise we show the last value
 
-        if not @function?
-          @function = "sum" if data.length > 2
-          @function = "last" if data.length <= 2
-        @primaryMetric = @reduce @function, data
+        if not @reduction?
+          @reduction = "sum" if data.length > 2
+          @reduction = "last" if data.length <= 2
+        @primaryMetric = @reduce @reduction, data
           
         console.log "NumberStat: #{@name}, #{data}"
         switch data.length
@@ -75,7 +81,7 @@ Splits numbers into whole and fractional parts so we can style them separately
 
 ## Helpers
 
-Reduction function, specified by the `@function` attribute
+Reduction function, specified by the `@reduction` attribute
 
       reduce: (operation, values) ->
         switch operation
@@ -108,7 +114,7 @@ Reduction function, specified by the `@function` attribute
         @value = null
         @change = null
         @primaryMetric = null
-        @function = null
+        @reduction = null
         @limit = 100
         @absolute = false
         @smooth = false

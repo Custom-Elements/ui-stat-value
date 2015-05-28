@@ -13,7 +13,7 @@
         @dateProperty = 'date'
         @valueProperty = 'value'
         @valueProperties = [ 'value' ]
-        @function = 'average'
+        @reduction = 'average'
         @groupBy = 'day'
         @groupByFunction = 'sum'
         @units = ''
@@ -55,6 +55,8 @@
             baselineColor: '#aaa'
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
+
+property handlers
         
       srcChanged: ->
         @loading = true
@@ -65,6 +67,13 @@
             console.log "Error loading data from #{@src}", err
           else
             @data = json
+
+deprecated properties
+
+      functionChanged: ->
+        @reduction = @function
+
+other stuff
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
@@ -91,8 +100,8 @@
         seriesValues = []
         for propertyName, index in @valueProperties
           values = _.map rows, (row) -> row[index + 1]
-          seriesValues.push @applyReductionFunction @function, values
-        value = @applyReductionFunction @function, seriesValues
+          seriesValues.push @applyReductionFunction @reduction, values
+        value = @applyReductionFunction @reduction, seriesValues
         @value = switch @units
           when '%'
             numeral(value * 100).format '0.0'

@@ -76,9 +76,9 @@ The name of the data property that holds the Y-axis value. Must be a number. Def
 ### valueProperties
 
 An array of data properties for the Y-axis values. Will generate multi-series data with a legend.
-If you specify multiple properties here, the `function` attribute will be applied to each series first,
+If you specify multiple properties here, the `reduction` attribute will be applied to each series first,
 and then to the collection of resulting values. Rolling up the roll ups as it were. If you want to hide
-the primary metric, set the `function` attribute to `none`
+the primary metric, set the `reduction` attribute to `none`
 
 ### limit
 
@@ -96,7 +96,7 @@ Defaults to group by day.
 Sets the reduction function to apply when aggregating groupbed values. The default value
 is `sum`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
 
-### function
+### reduction
 
 Sets the reduction function to apply the data values to create the primary metric. The default value
 is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`, 'cummulative'
@@ -179,7 +179,7 @@ The layout of the tile is automatically configured by the type of data you pass 
 
 * If you set the `data` attribute to exactly two values, the first value will be used as the primary metric, and the second value will be considered the previous value for that metric. A percent change will automatically be shown in this case. If you want to display the previous value, rather than the change, set the `absolute` attribute to `true`.
 
-* If you set the `data` attribute to three or more values, a primary metric will be displayed and a sparkline of the values will be generated. By default the sum of the array will be the primary metric, but this can be controlled via the `function` attribute. If you only want to consider a subset of the values, set the `limit` attribute to truncate the list to the last `limit` elements. For example, the following URL returns 365 days of data in JSON format, but we only care about the last 7 days, and the "applied" property.
+* If you set the `data` attribute to three or more values, a primary metric will be displayed and a sparkline of the values will be generated. By default the sum of the array will be the primary metric, but this can be controlled via the `reduction` attribute. If you only want to consider a subset of the values, set the `limit` attribute to truncate the list to the last `limit` elements. For example, the following URL returns 365 days of data in JSON format, but we only care about the last 7 days, and the "applied" property.
   
   ```html
   <ui-stats-number name="CM Applications (7 days)" 
@@ -221,7 +221,7 @@ _&lt;integer&gt;_
 
 Number of elements (from the end of the array) to use from `data`
 
-#### function
+#### reduction
 
 _&lt;string&gt;_
 
