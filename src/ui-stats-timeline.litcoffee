@@ -83,12 +83,21 @@ deprecated properties
 other stuff
       
       createDataFromJson: (json) ->
-        @applyGrouping _.map json, (item) =>
+        values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           values = [ dateObject ]
           for property in @valueProperties
             values.push parseFloat item[property]
           values
+
+sort by date ascending
+
+        sortedValues = _.sortBy values, (a, b) ->
+          dateA = moment a[0]
+          dateB = moment b[0]
+          dateA.diff(dateB)
+
+        @applyGrouping sortedValues
           
       applyGrouping: (arrayOfArrays) ->
         return arrayOfArrays if not @groupBy?
