@@ -18,9 +18,35 @@
     
     <h1>Timelines</h1>
 
-    <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="6" trendline="true"
+
+    <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Raw Data with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="3 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage(3)"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" transform="weightedMovingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+    
+    <ui-stats-timeline label="Cumulative" groupBy="week" transform="cumulative" type="area" reduction="sum"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="paid">
     </ui-stats-timeline>
         
     <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
@@ -28,7 +54,7 @@
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
-    <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" function="max" smooth="false"
+    <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" reduction="max" smooth="false"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="column"
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
@@ -38,13 +64,13 @@
       valueProperty="paid">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Multi-Series Data: Accepted and Paid"  limit="365" function="sum" groupBy="week"
+    <ui-stats-timeline label="Multi-Series Data: Accepted and Paid"  limit="365" reduction="sum" groupBy="week"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
       valueProperties="['paid', 'accepted']">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" function="none"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" reduction="none"
       valueProperty="paid">
     </ui-stats-timeline>
 
@@ -65,22 +91,22 @@
 
     <ui-stats-timeline label="Static Object Array"
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
-      valueProperty="count" function="last">
+      valueProperty="count" reduction="last">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Static Object Array NumStrings"
       data="[ {'date':'2015-01-01', 'count':'3'}, {'date':'2015-02-01','count':'11'}, {'date':'2015-03-01','count':'2'}, {'date':'2015-04-01','count':'5'} ]"
-      valueProperty="count" function="last">
+      valueProperty="count" reduction="last">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Static Object Array NumStrings (Week)" groupBy="week"
       data="[ {'date':'2015-01-01', 'count':'3'}, {'date':'2015-02-01','count':'11'}, {'date':'2015-03-01','count':'2'}, {'date':'2015-04-01','count':'5'} ]"
-      valueProperty="count" function="last">
+      valueProperty="count" reduction="last">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Static Object Array Defaults"
       data="[ {'date':'2015-01-01', 'value':3}, {'date':'2015-02-01','value':11}, {'date':'2015-03-01','value':2}, {'date':'2015-04-01','value':5} ]"
-      function="last">
+      reduction="last">
     </ui-stats-timeline>
     
     <h1>Number Tiles</h1>
@@ -100,10 +126,10 @@
     <ui-stats-number name="History - Smooth" data="[10, 20, 15, 30, 45, 12]" smooth="true">
     </ui-stats-number>
 
-    <ui-stats-number name="History - Last" data="[10, 20, 15, 30, 45, 12]" smooth="true" function="last">
+    <ui-stats-number name="History - Last" data="[10, 20, 15, 30, 45, 12]" smooth="true" reduction="last">
     </ui-stats-number>
 
-    <ui-stats-number name="History - Avg" data="[10, 20, 15, 30, 45, 12]" smooth="true" function="average">
+    <ui-stats-number name="History - Avg" data="[10, 20, 15, 30, 45, 12]" smooth="true" reduction="average">
     </ui-stats-number>
 
     <ui-stats-number name="Epiquery Results" src="https://query.glgroup.com/councilApplicant/getStats.mustache"

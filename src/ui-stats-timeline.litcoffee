@@ -13,7 +13,8 @@
         @dateProperty = 'date'
         @valueProperty = 'value'
         @valueProperties = [ 'value' ]
-        @function = 'average'
+        @reduction = 'average'
+        @groupBy = 'day'
         @groupByFunction = 'sum'
         @units = ''
         @limit = Number.MAX_VALUE
@@ -21,7 +22,8 @@
         @smooth = true
         @type = 'line'
         @trendline = false
-        method = 'GET'
+        @method = 'GET'
+        @transformFunction = 'none'        
 
       domReady: ->
         @$.chart.options =
@@ -51,6 +53,8 @@
             baselineColor: '#aaa'
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
+
+property handlers
         
       srcChanged: ->
         @loading = true
@@ -61,6 +65,22 @@
             console.log "Error loading data from #{@src}", err
           else
             @data = json
+
+      transformChanged: ->
+        matches = /^(\w+)\((.*?)\)?$/.exec @transform
+        if matches
+          @transformFunction = matches[1]
+          @transformArgs = if matches[2]? then parseInt(matches[2]) else 0
+        else
+          @transformFunction = @transform
+          @transformArgs = 0
+
+deprecated properties
+
+      functionChanged: ->
+        @reduction = @function
+
+other stuff
       
       createDataFromJson: (json) ->
         @applyGrouping _.map json, (item) =>
@@ -87,8 +107,8 @@
         seriesValues = []
         for propertyName, index in @valueProperties
           values = _.map rows, (row) -> row[index + 1]
-          seriesValues.push @applyReductionFunction @function, values
-        value = @applyReductionFunction @function, seriesValues
+          seriesValues.push @applyReductionFunction @reduction, values
+        value = @applyReductionFunction @reduction, seriesValues
         @value = switch @units
           when '%'
             numeral(value * 100).format '0.0'
@@ -112,13 +132,60 @@
             _.last data
           when 'count'
             data.length
+          when 'cumulative'
+            @accumulate data
           when 'none'
             0
           else
             _.sum data
+
+      applyTransform: (rows) ->
+        return rows if @transformFunction is 'none'
+        transformed = {}
+        for propertyName, propertyIndex in @valueProperties
+          values = _.map rows, (row) -> row[propertyIndex + 1]
+          if @transformFunction in ['weightedMovingAverage', 'movingAverage']
+            transformed[propertyName] = @movingAverage values, @transformArgs
+          else if @transformFunction is 'cumulative'
+            transformed[propertyName] = @accumulate values
+          else
+            transformed[propertyName] = values
+        rowIndex = 0
+        _.map rows, (row) =>
+          result = [ row[0] ]
+          for propertyName in @valueProperties
+            result.push transformed[propertyName][rowIndex]
+          rowIndex++
+          result
+      
+      accumulate: (values) ->
+        results = []
+        for value,index in values
+          results.push _.sum values.slice(0,index)
+        results
         
+      movingAverage: (values, lookback) ->
+        lookback = if lookback > 0 then lookback else 7
+        results = []
+        window = []
+        for value in values
+          window.push value
+          window.shift() if window.length > lookback
+
+          if @transformFunction is 'weightedMovingAverage'
+            index = 0
+            results.push _.reduce window, (total, n) ->
+              index++
+              multiplier = index / _.sum [1..window.length]
+              total + n * multiplier
+            , 0
+          else
+            results.push _.sum(window) / window.length
+        results
+
       dataChanged: ->
-        rows = @createDataFromJson(@data).slice -@limit
+        rows = @applyTransform(@createDataFromJson(@data)).slice -@limit
+        
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows
 
