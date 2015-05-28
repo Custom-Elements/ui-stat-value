@@ -38,6 +38,11 @@
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
       valueProperty="accept_rate">
     </ui-stats-timeline>
+    
+    <ui-stats-timeline label="Cumulative" groupBy="week" smoothingFunction="cumulative" type="area" function="sum"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="paid">
+    </ui-stats-timeline>
         
     <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache"

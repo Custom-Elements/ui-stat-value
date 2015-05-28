@@ -126,7 +126,12 @@
         smoothedValues = {}
         for propertyName, propertyIndex in @valueProperties
           values = _.map rows, (row) -> row[propertyIndex + 1]
-          smoothedValues[propertyName] = @movingAverage values, @smoothingArgs
+          if @smoothingFunction in ['weightedMovingAverage', 'movingAverage']
+            smoothedValues[propertyName] = @movingAverage values, @smoothingArgs
+          else if @smoothingFunction is 'cumulative'
+            smoothedValues[propertyName] = @cumulativeValues values
+          else
+            smoothedValues[propertyName] = values
         rowIndex = 0
         _.map rows, (row) =>
           result = [ row[0] ]
@@ -134,7 +139,13 @@
             result.push smoothedValues[propertyName][rowIndex]
           rowIndex++
           result
-
+      
+      cumulativeValues: (values) ->
+        results = []
+        for value,index in values
+          results.push _.sum values.slice(0,index)
+        results
+        
       movingAverage: (values, lookback) ->
         results = []
         window = []

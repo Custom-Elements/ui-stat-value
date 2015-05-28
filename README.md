@@ -113,7 +113,7 @@ If `false` disables simple graphic smoothing.
 
 ### smoothingFunction
 
-Possible values are `movingAverage`, `weightedMovingAverage`, or `none`, defaults to `none`
+Possible values are `movingAverage`, `weightedMovingAverage`, `cumulative` or `none`, defaults to `none`
 
 ### smoothingArgs
 
