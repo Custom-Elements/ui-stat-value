@@ -20,12 +20,10 @@
         @limit = Number.MAX_VALUE
         @value = ''
         @smooth = true
-        @smoothingFunction = ''
         @type = 'line'
         @trendline = false
         @method = 'GET'
-        @smoothingFunction = 'none'
-        @smoothingArgs = 7
+        @transformFunction = 'none'        
 
       domReady: ->
         @$.chart.options =
@@ -67,6 +65,15 @@ property handlers
             console.log "Error loading data from #{@src}", err
           else
             @data = json
+
+      transformChanged: ->
+        matches = /^(\w+)\((.*?)\)?$/.exec @transform
+        if matches
+          @transformFunction = matches[1]
+          @transformArgs = if matches[2]? then parseInt(matches[2]) else 0
+        else
+          @transformFunction = @transform
+          @transformArgs = 0
 
 deprecated properties
 
@@ -132,22 +139,22 @@ other stuff
           else
             _.sum data
 
-      applySmoothing: (rows) ->
-        return rows if @smoothingFunction is 'none'
-        smoothedValues = {}
+      applyTransform: (rows) ->
+        return rows if @transformFunction is 'none'
+        transformed = {}
         for propertyName, propertyIndex in @valueProperties
           values = _.map rows, (row) -> row[propertyIndex + 1]
-          if @smoothingFunction in ['weightedMovingAverage', 'movingAverage']
-            smoothedValues[propertyName] = @movingAverage values, @smoothingArgs
-          else if @smoothingFunction is 'cumulative'
-            smoothedValues[propertyName] = @accumulate values
+          if @transformFunction in ['weightedMovingAverage', 'movingAverage']
+            transformed[propertyName] = @movingAverage values, @transformArgs
+          else if @transformFunction is 'cumulative'
+            transformed[propertyName] = @accumulate values
           else
-            smoothedValues[propertyName] = values
+            transformed[propertyName] = values
         rowIndex = 0
         _.map rows, (row) =>
           result = [ row[0] ]
           for propertyName in @valueProperties
-            result.push smoothedValues[propertyName][rowIndex]
+            result.push transformed[propertyName][rowIndex]
           rowIndex++
           result
       
@@ -158,13 +165,14 @@ other stuff
         results
         
       movingAverage: (values, lookback) ->
+        lookback = if lookback > 0 then lookback else 7
         results = []
         window = []
         for value in values
           window.push value
           window.shift() if window.length > lookback
 
-          if @smoothingFunction is 'weightedMovingAverage'
+          if @transformFunction is 'weightedMovingAverage'
             index = 0
             results.push _.reduce window, (total, n) ->
               index++
@@ -176,7 +184,7 @@ other stuff
         results
 
       dataChanged: ->
-        rows = @applySmoothing(@createDataFromJson(@data)).slice -@limit
+        rows = @applyTransform(@createDataFromJson(@data)).slice -@limit
         
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows

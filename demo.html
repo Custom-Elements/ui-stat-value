@@ -29,17 +29,22 @@
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" smoothingFunction="movingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
+    <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" smoothingFunction="weightedMovingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" smoothingArgs="7"
+    <ui-stats-timeline label="3 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage(3)"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      valueProperty="accept_rate">
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" transform="weightedMovingAverage"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
-    <ui-stats-timeline label="Cumulative" groupBy="week" smoothingFunction="cumulative" type="area" reduction="sum"
+    <ui-stats-timeline label="Cumulative" groupBy="week" transform="cumulative" type="area" reduction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
       valueProperty="paid">
     </ui-stats-timeline>

@@ -111,13 +111,10 @@ Note that the percentage symbol triggers % formatting.
 
 If `false` disables simple graphic smoothing.
 
-### smoothingFunction
+### transform
 
-Possible values are `movingAverage`, `weightedMovingAverage`, `cumulative` or `none`, defaults to `none`
-
-### smoothingArgs
-
-Size of the sliding window for moving averages, defaults to `7`
+Possible values are `movingAverage`, `weightedMovingAverage`, `cumulative` or `none`, defaults to `none`.
+You can set the size of the sliding window for moving averages in parentheses. For example `movingAverage(3)`, defaults to `7`
 
 ### data
 
