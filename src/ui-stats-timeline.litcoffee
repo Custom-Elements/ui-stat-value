@@ -101,10 +101,21 @@ sort by date ascending
           
       applyGrouping: (arrayOfArrays) ->
         return arrayOfArrays if not @groupBy?
+        
+group by time period
+        
         grouped = _.groupBy arrayOfArrays, (array) =>
           moment(array[0]).startOf(@groupBy).format(@datePattern)
-        _.map grouped, (items, date) =>
-          dateObject = moment(date, @datePattern).toDate()
+        now = moment()
+        _.compact _.map grouped, (items, date) =>
+          m =  moment(date, @datePattern)
+
+throw out the outliers to prevent the most recent group from under reporting
+
+          if m.isSame now, @groupBy
+            return null      
+
+          dateObject = m.toDate()
           result = [ dateObject ]
           for propertyName, index in @valueProperties
             values = _.map items, (array) -> parseFloat array[index + 1]
