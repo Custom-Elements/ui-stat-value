@@ -120,7 +120,7 @@ throw out the outliers to prevent the most recent group from under reporting
           for propertyName, index in @valueProperties
             values = _.map items, (array) -> parseFloat array[index + 1]
             value = @applyReductionFunction @groupByFunction, values
-            result.push parseFloat(value.toFixed(2))
+            result.push value
           result
 
       calculateValue: (rows) ->
@@ -205,6 +205,13 @@ throw out the outliers to prevent the most recent group from under reporting
 
       dataChanged: ->
         rows = @applyTransform(@createDataFromJson(@data)).slice -@limit
+        
+Convert all values to 2 decimal points for readability
+        
+        for row in rows
+          for column,index in row
+            continue if index is 0
+            row[index] = parseFloat(column.toFixed(2))
         
         @calculateValue(rows)
         console.log "Timeline #{@label}",rows
