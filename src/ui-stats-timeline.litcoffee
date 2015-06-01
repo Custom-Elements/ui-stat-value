@@ -13,7 +13,7 @@
         @dateProperty = 'date'
         @valueProperty = 'value'
         @valueProperties = [ 'value' ]
-        @reduction = 'average'
+        @reduction = 'last'
         @groupBy = 'day'
         @groupByFunction = 'sum'
         @units = ''
