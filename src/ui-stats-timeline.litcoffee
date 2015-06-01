@@ -274,7 +274,7 @@ Pretty formatting of numbers
         numeral(value).format '0,0[.]00'
       
       percentage: (value) ->
-        numeral(value).format '0.0%'
+        numeral(value).format '0,0.0%'
         
       absv: (value) ->
         Math.abs value
