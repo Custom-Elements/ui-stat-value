@@ -140,6 +140,16 @@ If false, hide the change indicators, defaults to `true`
 
 If true, show the change as an absolute value rather than a percentage, defaults to `false`
 
+### since
+
+If specified, ignore values before this date string (uses `dateFormat`).
+Any `limit` is applied after date range filtering
+
+### until
+
+If specified, ignore values after this date string (uses `dateFormat`).
+Any `limit` is applied after date range filtering
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:

@@ -27,6 +27,8 @@
         @change = 0
         @absoluteChange = false
         @showChange = true
+        @since = null
+        @until = null
 
       domReady: ->
         @$.chart.options =
@@ -99,6 +101,17 @@ sort by date ascending, in case they come in out of order
           momentA = moment a[0]
           momentB = moment b[0]
           momentA.diff momentB
+
+filter data by date ranges
+
+        if @since? or @until?
+          sinceMoment = if @since? then moment @since, @datePattern else moment '1970-01-01'
+          sinceMoment = sinceMoment.subtract(1, 'days').endOf('day')
+          untilMoment = if @until? then moment @until, @datePattern else moment '2112-12-31'
+          untilMoment = untilMoment.add(1, 'days').startOf('day')
+          sortedValues = _.filter sortedValues, (array) ->
+            itemMoment = moment(array[0])
+            itemMoment.isBetween sinceMoment, untilMoment
 
         @applyGrouping sortedValues
           
