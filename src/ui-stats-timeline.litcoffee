@@ -27,6 +27,7 @@
         @change = 0
         @totalChange = 0
         @absoluteChange = false
+        @invertChange = false
         @showChange = true
         @since = null
         @until = null
@@ -169,6 +170,8 @@ throw out the outliers to prevent the most recent group from under reporting
             @totalChange = 0
           else
             @totalChange = totalDelta / initialValue
+        @improving = @change < 0 and @invertChange or @change > 0 and !@invertChange
+        @totalImproving = @totalChange < 0 and @invertChange or @totalChange > 0 and !@invertChange
         
       applyReductionFunction: (f, data) ->
         return 0 if not data.length?

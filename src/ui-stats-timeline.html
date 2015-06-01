@@ -1,6 +1,7 @@
 <polymer-element name="ui-stats-timeline" attributes="data src limit label
    groupBy groupByFunction reduction units dateProperty valueProperty datePattern
    smooth type valueProperties method trendline transform absoluteChange showChange since until
+   invertChange
    function
    ">
   <link rel="import" href="../google-chart/google-chart.html">
@@ -18,7 +19,7 @@
           <template if="{{units != '%'}}">{{value | decimalNumber}}{{units}}</template>
         </div>
 
-        <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}" hidden?="{{loading || !showChange}}">
+        <div class="{{ {change: true, increase: improving, decrease: !improving} | tokenList }}" hidden?="{{loading || !showChange}}">
           <template if="{{change > 0}}">▲</template>
           <template if="{{change < 0}}">▼</template>
           <template if="{{absoluteChange}}">{{change | absv | decimalNumber }}{{units}}</template>
@@ -26,7 +27,7 @@
           {{groupBy}} over {{groupBy}}
         </div>
 
-        <div class="{{ {change: true, increase: totalChange > 0, decrease: totalChange < 0} | tokenList }}" hidden?="{{loading || !showChange}}">
+        <div class="{{ {change: true, increase: totalImproving, decrease: !totalImproving} | tokenList }}" hidden?="{{loading || !showChange}}">
           <template if="{{totalChange > 0}}">▲</template>
           <template if="{{totalChange < 0}}">▼</template>
           <template if="{{absoluteChange}}">{{totalChange | absv | decimalNumber }}{{units}}</template>

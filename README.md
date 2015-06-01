@@ -140,6 +140,10 @@ If false, hide the change indicators, defaults to `true`
 
 If true, show the change as an absolute value rather than a percentage, defaults to `false`
 
+### invertChange
+
+If true, treat a decrease in value as an improvement, rather than a decline (ex. response time)
+
 ### since
 
 If specified, ignore values before this date string (uses `dateFormat`).
