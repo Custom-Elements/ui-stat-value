@@ -93,12 +93,12 @@ other stuff
             values.push parseFloat item[property]
           values
 
-sort by date ascending
+sort by date ascending, in case they come in out of order
 
         sortedValues = _.sortBy values, (a, b) ->
-          dateA = moment a[0]
-          dateB = moment b[0]
-          dateA.diff(dateB)
+          momentA = moment a[0]
+          momentB = moment b[0]
+          momentA.diff momentB
 
         @applyGrouping sortedValues
           
