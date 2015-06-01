@@ -25,6 +25,7 @@
         @method = 'GET'
         @transformFunction = 'none'
         @change = 0
+        @totalChange = 0
         @absoluteChange = false
         @showChange = true
         @since = null
@@ -151,14 +152,23 @@ throw out the outliers to prevent the most recent group from under reporting
       calculateChange: (rows) ->
         if rows.length < 2 or @valueProperties.length > 1
           return @change = 0
+        initialValue = _.first(rows)[1]
         currentValue = _.last(rows)[1]
         previousValue = rows[rows.length - 2][1]
         delta = currentValue - previousValue
+        totalDelta = currentValue - initialValue
         if @absoluteChange
           @change = delta
+          @totalChange = totalDelta
         else
-          return @change = 0 if previousValue is 0
-          @change = delta / previousValue
+          if previousValue is 0
+            @change = 0
+          else
+            @change = delta / previousValue
+          if initialValue is 0
+            @totalChange = 0
+          else
+            @totalChange = totalDelta / initialValue
         
       applyReductionFunction: (f, data) ->
         return 0 if not data.length?

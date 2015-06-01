@@ -17,13 +17,23 @@
           <template if="{{units == '%'}}">{{value | percentage}}</template>
           <template if="{{units != '%'}}">{{value | decimalNumber}}{{units}}</template>
         </div>
-        <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}" hidden?="{{loading || change == 0 || !showChange}}">
+
+        <div class="{{ {change: true, increase: change > 0, decrease: change < 0} | tokenList }}" hidden?="{{loading || !showChange}}">
           <template if="{{change > 0}}">▲</template>
           <template if="{{change < 0}}">▼</template>
           <template if="{{absoluteChange}}">{{change | absv | decimalNumber }}{{units}}</template>
           <template if="{{!absoluteChange}}">{{change | absv | percentage }}</template>
           {{groupBy}} over {{groupBy}}
         </div>
+
+        <div class="{{ {change: true, increase: totalChange > 0, decrease: totalChange < 0} | tokenList }}" hidden?="{{loading || !showChange}}">
+          <template if="{{totalChange > 0}}">▲</template>
+          <template if="{{totalChange < 0}}">▼</template>
+          <template if="{{absoluteChange}}">{{totalChange | absv | decimalNumber }}{{units}}</template>
+          <template if="{{!absoluteChange}}">{{totalChange | absv | percentage }}</template>
+          overall
+        </div>
+        
       </div>
 
       <div class="graph">
