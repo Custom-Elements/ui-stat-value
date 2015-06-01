@@ -23,7 +23,10 @@
         @type = 'line'
         @trendline = false
         @method = 'GET'
-        @transformFunction = 'none'        
+        @transformFunction = 'none'
+        @change = 0
+        @absoluteChange = false
+        @showChange = true
 
       domReady: ->
         @$.chart.options =
@@ -128,13 +131,21 @@ throw out the outliers to prevent the most recent group from under reporting
         for propertyName, index in @valueProperties
           values = _.map rows, (row) -> row[index + 1]
           seriesValues.push @applyReductionFunction @reduction, values
-        value = @applyReductionFunction @reduction, seriesValues
-        @value = switch @units
-          when '%'
-            numeral(value * 100).format '0.0'
-          else
-            numeral(value).format '0,0[.]00'
-
+        @value = @applyReductionFunction @reduction, seriesValues
+            
+      calculateChange: (rows) ->
+        if rows.length < 2 or @valueProperties.length > 1
+          return @change = 0
+        currentValue = _.last(rows)[1]
+        previousValue = rows[rows.length - 2][1]
+        delta = currentValue - previousValue
+        console.log "#{@label} #{currentValue}, #{previousValue}, #{delta}"
+        if @absoluteChange
+          @change = delta
+        else
+          return @change = 0 if previousValue is 0
+          @change = delta / previousValue
+        
       applyReductionFunction: (f, data) ->
         return 0 if not data.length?
         value = switch f
@@ -214,6 +225,7 @@ Convert all values to 2 decimal points for readability
             row[index] = parseFloat(column.toFixed(2))
         
         @calculateValue(rows)
+        @calculateChange(rows)
         console.log "Timeline #{@label}",rows
 
         columns = [ { "label": "Date", "type": "date" } ]
@@ -231,3 +243,14 @@ Convert all values to 2 decimal points for readability
           @$.chart.options.series = []
 
         @$.chart.rows = rows
+
+Pretty formatting of numbers
+
+      decimalNumber: (value) ->
+        numeral(value).format '0,0[.]00'
+      
+      percentage: (value) ->
+        numeral(value).format '0.0%'
+        
+      absv: (value) ->
+        Math.abs value

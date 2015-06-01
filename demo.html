@@ -20,7 +20,7 @@
 
     <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
-      valueProperty="accept_rate">
+      valueProperty="accept_rate" showChange="false">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Raw Data with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
@@ -58,9 +58,9 @@
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
     
-    <ui-stats-timeline label="Mean Response time" units="ms" limit="30"
+    <ui-stats-timeline label="Mean Response time" units="ms" limit="30" absoluteChange="true"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
-      valueProperty="paid">
+      valueProperty="accepted">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Multi-Series Data: Accepted and Paid"  limit="365" reduction="sum" groupBy="week"
@@ -74,7 +74,7 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" absoluteChange="true"
       dateProperty="date" valueProperty="applied">
     </ui-stats-timeline>
 

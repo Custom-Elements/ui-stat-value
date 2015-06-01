@@ -132,6 +132,14 @@ GET or POST, defaults to GET, applied only if src is specified
 
 If true, show a trendline
 
+### showChange
+
+If false, hide the change indicators, defaults to `true`
+
+### absoluteChange
+
+If true, show the change as an absolute value rather than a percentage, defaults to `false`
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:
