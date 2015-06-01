@@ -115,6 +115,8 @@ filter data by date ranges
 
         @applyGrouping sortedValues
           
+Group by date bucket
+
       applyGrouping: (arrayOfArrays) ->
         return arrayOfArrays if not @groupBy?
         
@@ -152,7 +154,6 @@ throw out the outliers to prevent the most recent group from under reporting
         currentValue = _.last(rows)[1]
         previousValue = rows[rows.length - 2][1]
         delta = currentValue - previousValue
-        console.log "#{@label} #{currentValue}, #{previousValue}, #{delta}"
         if @absoluteChange
           @change = delta
         else
