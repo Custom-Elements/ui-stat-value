@@ -96,6 +96,10 @@ Defaults to group by day.
 Sets the reduction function to apply when aggregating groupbed values. The default value
 is `sum`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`.
 
+### includePartialGroups
+
+if true, will keep incomplete groups - hours, days, weeks, etc.
+
 ### reduction
 
 Sets the reduction function to apply the data values to create the primary metric. The default value

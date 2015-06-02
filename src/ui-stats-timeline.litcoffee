@@ -31,6 +31,7 @@
         @showChange = true
         @since = null
         @until = null
+        @includePartialGroups = false
 
       domReady: ->
         @$.chart.options =
@@ -132,8 +133,9 @@ group by time period
 
 throw out the outliers to prevent the most recent group from under reporting
 
-          if m.isSame now, @groupBy
-            return null      
+          if not @includePartialGroups
+            if m.isSame now, @groupBy
+              return null      
 
           dateObject = m.toDate()
           result = [ dateObject ]
