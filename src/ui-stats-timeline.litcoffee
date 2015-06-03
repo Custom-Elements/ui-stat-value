@@ -201,15 +201,16 @@ throw out the outliers to prevent the most recent group from under reporting
 
       applyTransform: (rows) ->
         return rows if @transformFunction is 'none'
+        
+        if @transformFunction in [ 'movingAverage', 'weightedMovingAverage', 'cumulative']
+          transformFunction = eval "this.transform_#{@transformFunction}"
+        else
+          transformFunction = eval @transformFunction
+
         transformed = {}
         for propertyName, propertyIndex in @valueProperties
           values = _.map rows, (row) -> row[propertyIndex + 1]
-          if @transformFunction in ['weightedMovingAverage', 'movingAverage']
-            transformed[propertyName] = @movingAverage values, @transformArgs
-          else if @transformFunction is 'cumulative'
-            transformed[propertyName] = @accumulate values
-          else
-            transformed[propertyName] = values
+          transformed[propertyName] = transformFunction values, @transformArgs
         rowIndex = 0
         _.map rows, (row) =>
           result = [ row[0] ]
@@ -218,13 +219,13 @@ throw out the outliers to prevent the most recent group from under reporting
           rowIndex++
           result
       
-      accumulate: (values) ->
+      transform_cumulative: (values) ->
         results = []
         for value,index in values
           results.push _.sum values.slice(0,index)
         results
-        
-      movingAverage: (values, lookback) ->
+
+      transform_weightedMovingAverage: (values, lookback) ->
         lookback = if lookback > 0 then lookback else 7
         results = []
         window = []
@@ -232,15 +233,22 @@ throw out the outliers to prevent the most recent group from under reporting
           window.push value
           window.shift() if window.length > lookback
 
-          if @transformFunction is 'weightedMovingAverage'
-            index = 0
-            results.push _.reduce window, (total, n) ->
-              index++
-              multiplier = index / _.sum [1..window.length]
-              total + n * multiplier
-            , 0
-          else
-            results.push _.sum(window) / window.length
+          index = 0
+          results.push _.reduce window, (total, n) ->
+            index++
+            multiplier = index / _.sum [1..window.length]
+            total + n * multiplier
+          , 0
+        results
+      
+      transform_movingAverage: (values, lookback) ->
+        lookback = if lookback > 0 then lookback else 7
+        results = []
+        window = []
+        for value in values
+          window.push value
+          window.shift() if window.length > lookback
+          results.push _.sum(window) / window.length
         results
 
       dataChanged: ->
