@@ -32,6 +32,7 @@
         @since = null
         @until = null
         @includePartialGroups = false
+        @onLoadHandler = (json) -> json
 
       domReady: ->
         @$.chart.options =
@@ -59,6 +60,7 @@
             textStyle:
               color: '#aaa'
             baselineColor: '#aaa'
+
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
 
@@ -72,7 +74,7 @@ property handlers
           if err
             console.log "Error loading data from #{@src}", err
           else
-            @data = json
+            @data = @onLoadHandler JSON.parse JSON.stringify(json)
 
       transformChanged: ->
         matches = /^(\w+)\((.*?)\)?$/.exec @transform
@@ -82,6 +84,9 @@ property handlers
         else
           @transformFunction = @transform
           @transformArgs = 0
+          
+      onLoadChanged: ->
+        @onLoadHandler = eval @onLoad
 
 deprecated properties
 

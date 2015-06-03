@@ -158,6 +158,24 @@ Any `limit` is applied after date range filtering
 If specified, ignore values after this date string (uses `dateFormat`).
 Any `limit` is applied after date range filtering
 
+### onLoad
+
+Optional function (name) called after loading from `src`. You are passed the JSON from the server, and should
+return new JSON. Designed to allow you to customize the data returned client side. For example:
+
+```javascript
+  var custom = function (json) {
+    for (var i=0; i < json.length; i++) {
+      row = json[i];
+      for (var property in row) {
+        if (typeof row[property] == 'number')
+          row[property] = row[property] * 2
+      }
+    }
+    return json;
+  }
+````
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:

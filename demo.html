@@ -27,6 +27,23 @@
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate" showChange="false">
     </ui-stats-timeline>
+    
+    <ui-stats-timeline label="Custom LoadHandler" units="%" groupBy="day" smooth="false"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" onLoad="customLoadHandler"
+      valueProperty="accept_rate" showChange="false">
+    </ui-stats-timeline>
+    <script>
+      var customLoadHandler = function (json) {
+        for (var i=0; i < json.length; i++) {
+          row = json[i];
+          for (var property in row) {
+            if (typeof row[property] == 'number')
+              row[property] /= 2;
+          }
+        }
+        return json;
+      }
+    </script>
 
     <ui-stats-timeline label="Raw Data with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"

@@ -61,7 +61,6 @@ Special case for single column data
         if cols.length is 1
           cols = [{label:'', type:'string'}, cols[0]]
         @$.chart.cols = cols
-        console.log "cols for #{@name}", @$.chart.cols
 
 Customize chart options based on the type of data we are showing, and other settings
 
