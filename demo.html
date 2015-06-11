@@ -86,10 +86,13 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Multi-Series Data"  limit="365" reduction="sum" groupBy="week"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
-      >
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area">
     </ui-stats-timeline>
-    
+
+    <ui-stats-timeline label="Multi-Series Data (stacked)"  limit="365" reduction="sum" groupBy="week"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" valueProperties="['resume_applied','li_applied','form_applied']" isStacked="true">
+    </ui-stats-timeline>
+
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" reduction="none"
       valueProperty="paid">

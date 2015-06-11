@@ -33,6 +33,7 @@
         @until = null
         @includePartialGroups = false
         @onLoadHandler = (json) -> json
+        @isStacked = false
 
       domReady: ->
         @$.chart.options =
@@ -281,6 +282,7 @@ Convert all values to 2 decimal points for readability
         @$.chart.cols = columns
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
+        @$.chart.options.isStacked = @isStacked 
         @$.chart.options.trendlines = { 0: {} } if @trendline
 
         @$.chart.type = @type
