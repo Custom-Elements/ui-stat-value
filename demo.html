@@ -85,9 +85,9 @@
       valueProperty="accepted">
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Multi-Series Data: Accepted and Paid"  limit="365" reduction="sum" groupBy="week"
+    <ui-stats-timeline label="Multi-Series Data"  limit="365" reduction="sum" groupBy="week"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
-      valueProperties="['paid', 'accepted']">
+      >
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"

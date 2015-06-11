@@ -71,7 +71,8 @@ The moment.js date formatting pattern to use when parsing date values. Defaults 
 
 ### valueProperty
 
-The name of the data property that holds the Y-axis value. Must be a number. Defaults to `value`
+The name of the data property that holds the Y-axis value. Must be a number. Defaults to all item properties excep
+the date property
 
 ### valueProperties
 

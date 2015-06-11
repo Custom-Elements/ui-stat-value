@@ -11,8 +11,8 @@
         @data = []
         @loading = false
         @dateProperty = 'date'
-        @valueProperty = 'value'
-        @valueProperties = [ 'value' ]
+        @valueProperty = ''
+        @valueProperties = [ ]
         @reduction = 'last'
         @groupBy = 'day'
         @groupByFunction = 'sum'
@@ -99,6 +99,11 @@ other stuff
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           values = [ dateObject ]
+          
+          if @valueProperties.length is 0
+            for key of item
+              @valueProperties.push key if key isnt @dateProperty
+          
           for property in @valueProperties
             values.push parseFloat item[property]
           values
