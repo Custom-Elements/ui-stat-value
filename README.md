@@ -104,7 +104,7 @@ if true, will keep incomplete groups - hours, days, weeks, etc.
 ### reduction
 
 Sets the reduction function to apply the data values to create the primary metric. The default value
-is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, and `count`, 'cumulative'
+is `average`. Possible values are: `first`, `last`, `sum`, `average`, `min`, `max`, `count`
 and `none`. The value of `none` hides the metric area, just showing the graph.
 
 ### units

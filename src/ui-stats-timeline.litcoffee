@@ -203,8 +203,6 @@ throw out the outliers to prevent the most recent group from under reporting
             _.last data
           when 'count'
             data.length
-          when 'cumulative'
-            @accumulate data
           when 'none'
             0
           else
