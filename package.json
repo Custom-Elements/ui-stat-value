@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "browser-request": "^0.3.3",
+    "least-squares": "0.0.2",
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
     "numeral": "^1.5.3",

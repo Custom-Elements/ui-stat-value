@@ -2,6 +2,7 @@
     moment = require 'moment'
     numeral = require 'numeral'
     RequestCache = require './request.litcoffee'
+    lsq = require 'least-squares'
 
     Polymer 'ui-stats-timeline',
     
@@ -155,8 +156,17 @@ throw out the outliers to prevent the most recent group from under reporting
             value = @applyReductionFunction @groupByFunction, values
             result.push value
           result
+          
+      calculateTrendLine: (rows) =>
+        # todo deal with multiple series
+        x = _.map rows, (array, index) -> index
+        y = _.map rows, (array) -> array[1]
+        trendFunction = lsq(x, y)
+        _.each rows, (array, index) ->
+          array.push trendFunction index
 
       calculateValue: (rows) ->
+        # use trendline if present
         seriesValues = []
         for propertyName, index in @valueProperties
           values = _.map rows, (row) -> row[index + 1]
@@ -164,6 +174,7 @@ throw out the outliers to prevent the most recent group from under reporting
         @value = @applyReductionFunction @reduction, seriesValues
             
       calculateChange: (rows) ->
+        # use trendline if present
         if rows.length < 2 or @valueProperties.length > 1
           return @change = 0
         initialValue = _.first(rows)[1]
@@ -270,21 +281,33 @@ Convert all values to 2 decimal points for readability
             continue if index is 0
             row[index] = parseFloat(column.toFixed(2))
         
+        @calculateTrendLine(rows) if @trendline
         @calculateValue(rows)
         @calculateChange(rows)
         console.log "Timeline #{@label}",rows
 
         columns = [ { "label": "Date", "type": "date" } ]
-        for property in @valueProperties
+        series = []
+        for property,index in @valueProperties
           columns.push { "label": property, "type": "number" }
+          if index is 0
+            s = { color: 'black' }
+          else
+            s = {}
+          series.push s
+
+        if @trendline
+          columns.push { "label": "Trend", "type": "number" }
+          series.push { color: '#aaa', lineDashStyle: [4, 2] }
+
         @$.chart.cols = columns
+        @$.chart.options.series = series
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
         @$.chart.options.isStacked = @isStacked 
-        @$.chart.options.trendlines = { 0: {} } if @trendline
 
         @$.chart.type = @type
-        if @$.chart.cols.length > 2
+        if (not @trendline and @$.chart.cols.length > 2) or (@trendline and @$.chart.cols.length > 3)
           @$.chart.options.legend.position = 'top'
           @$.chart.options.chartArea.top += 10
           @$.chart.options.series = []
