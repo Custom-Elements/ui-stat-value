@@ -120,10 +120,9 @@ sort by date ascending, in case they come in out of order
 filter data by date ranges
 
         if @since? or @until?
-          sinceMoment = if @since? then moment @since, @datePattern else moment '1970-01-01'
-          sinceMoment = sinceMoment.subtract(1, 'days').endOf('day')
-          untilMoment = if @until? then moment @until, @datePattern else moment '2112-12-31'
-          untilMoment = untilMoment.add(1, 'days').startOf('day')
+          sinceMoment = if @since? then @parseTime @since, -1 else moment '1970-01-01'
+          untilMoment = if @until? then @parseTime @until, +1 else moment '2112-12-31'
+          
           sortedValues = _.filter sortedValues, (array) ->
             itemMoment = moment(array[0])
             itemMoment.isBetween sinceMoment, untilMoment
@@ -325,3 +324,28 @@ Pretty formatting of numbers
         
       absv: (value) ->
         Math.abs value
+
+Formatting of relative times, like +30d, -3m
+        
+      parseTime: (value, rounding) ->
+        match = /(\+|\-)(\d+)(d|m|y|h)/.exec value
+        if not match?
+          return moment value, @datePattern
+        sign = match[1]
+        qty = parseFloat match[2]
+        qty *= -1 if sign is "-"
+        units = switch match[3]
+          when 'd'
+            'days'
+          when 'h'
+            'hours'
+          when 'm'
+            'months'
+          when 'y'
+            'years'
+        m = moment().add qty, units
+        if rounding < 0
+          m = m.add(rounding, units).endOf(units)
+        if rounding > 0
+          m = m.add(rounding, units).startOf(units)
+        return m
