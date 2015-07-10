@@ -19,10 +19,13 @@
   <body unresolved class="container">
     
     <h1>Timelines</h1>
+    
+    <ui-stats-timeline label="Avg Daily Attach To Paid May to Present" since="2015-05-07" valueproperty="HoursToPaid" units="Hours" src="https://services.glgresearch.com/epiquery/statusboard/asia_timeToStatuses.mustache" trendline="true" reduction="average">
+    </ui-stats-timeline>
 
-    <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
+    <ui-stats-timeline label="Data with Trendline" units="%" groupBy="day" smooth="false"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
-      valueProperty="accept_rate" showChange="false" since="2015-05-22" until="2015-05-25">
+      valueProperty="accept_rate" showChange="true" since="2015-05-22" until="2015-07-25">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
@@ -58,7 +61,7 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="3 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage(3)"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last" trendline="true"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
@@ -106,12 +109,12 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Weekly Mean Applications" groupBy="week" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache"  trendline="true"
       valueProperty="applied">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Monthly Mean Applications" groupBy="month" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://query.glgroup.com/councilApplicant/getStats.mustache" trendline="true"
       valueProperty="applied">
     </ui-stats-timeline>
 

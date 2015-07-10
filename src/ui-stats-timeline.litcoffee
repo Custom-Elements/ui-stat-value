@@ -158,7 +158,7 @@ throw out the outliers to prevent the most recent group from under reporting
           result
           
       calculateTrendLine: (rows) =>
-        # todo deal with multiple series? just uses first for now, maybe trend=2
+        # todo deal with multiple series? just uses first for now, maybe trendline=2
         series = 1
         offset = _.first(rows)[0].getTime()
         xValues = _.map rows, (array) -> array[0].getTime() - offset
@@ -168,7 +168,6 @@ throw out the outliers to prevent the most recent group from under reporting
           array.push trendFunction(xValues[index])
 
       calculateValue: (rows) ->
-        # use trendline if present
         seriesValues = []
         for propertyName, index in @valueProperties
           values = _.map rows, (row) -> row[index + 1]
@@ -176,12 +175,12 @@ throw out the outliers to prevent the most recent group from under reporting
         @value = @applyReductionFunction @reduction, seriesValues
             
       calculateChange: (rows) ->
-        # use trendline if present
+        series = if @trendline then _.first(rows).length - 1 else 1
         if rows.length < 2 or @valueProperties.length > 1
           return @change = 0
-        initialValue = _.first(rows)[1]
-        currentValue = _.last(rows)[1]
-        previousValue = rows[rows.length - 2][1]
+        initialValue = _.first(rows)[series]
+        currentValue = _.last(rows)[series]
+        previousValue = rows[rows.length - 2][series]
         delta = currentValue - previousValue
         totalDelta = currentValue - initialValue
         if @absoluteChange
@@ -322,7 +321,7 @@ Pretty formatting of numbers
         numeral(value).format '0,0[.]00'
       
       percentage: (value) ->
-        numeral(value).format '0,0.0%'
+        numeral(value).format('0,0.0%').replace('%','')
         
       absv: (value) ->
         Math.abs value
