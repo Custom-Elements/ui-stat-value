@@ -274,6 +274,7 @@ throw out the outliers to prevent the most recent group from under reporting
 
       dataChanged: ->
         rows = @applyTransform(@createDataFromJson(@data)).slice -@limit
+        @calculateTrendLine(rows) if @trendline
         
 Convert all values to 2 decimal points for readability
         
@@ -282,7 +283,6 @@ Convert all values to 2 decimal points for readability
             continue if index is 0
             row[index] = parseFloat(column.toFixed(2))
         
-        @calculateTrendLine(rows) if @trendline
         @calculateValue(rows)
         @calculateChange(rows)
         console.log "Timeline #{@label}",rows
