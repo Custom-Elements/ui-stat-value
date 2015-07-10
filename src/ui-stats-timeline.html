@@ -31,7 +31,7 @@
           <template if="{{totalChange > 0}}">▲</template>
           <template if="{{totalChange < 0}}">▼</template>
           <template if="{{absoluteChange}}">{{totalChange | absv | decimalNumber }} {{units}}</template>
-          <template if="{{!absoluteChange}}">{{totalChange | absv | percentage }}{{units}}</template>
+          <template if="{{!absoluteChange}}">{{totalChange | absv | percentage }}%</template>
         </div>
         
       </div>

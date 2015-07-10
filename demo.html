@@ -20,12 +20,14 @@
     
     <h1>Timelines</h1>
     
-    <ui-stats-timeline label="Avg Daily Attach To Paid May to Present" since="2015-05-07" valueproperty="HoursToPaid" units="Hours" src="https://services.glgresearch.com/epiquery/statusboard/asia_timeToStatuses.mustache" trendline="true" reduction="average">
+    <ui-stats-timeline label="Avg Daily Attach To Paid May to Present" since="2015-05-07"
+    valueproperty="HoursToPaid" units="Hours" src="https://services.glgresearch.com/epiquery/statusboard/asia_timeToStatuses.mustache"
+     trendline="true" reduction="trend">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Data with Trendline" units="%" groupBy="day" smooth="false"
       src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
-      valueProperty="accept_rate" showChange="true" since="-32d" until="-2d">
+      valueProperty="accept_rate" showChange="true" since="-32d" until="-2d" reduction="trend">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"

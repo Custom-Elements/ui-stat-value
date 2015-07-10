@@ -94,6 +94,9 @@ deprecated properties
 
       functionChanged: ->
         @reduction = @function
+        
+      reductionChanged: ->
+        @trendline = true if @reduction is 'trend'
 
 other stuff
       
@@ -167,11 +170,11 @@ throw out the outliers to prevent the most recent group from under reporting
           array.push trendFunction(xValues[index])
 
       calculateValue: (rows) ->
-        seriesValues = []
-        for propertyName, index in @valueProperties
-          values = _.map rows, (row) -> row[index + 1]
-          seriesValues.push @applyReductionFunction @reduction, values
-        @value = @applyReductionFunction @reduction, seriesValues
+        # todo deal with multiple series? just uses first for now
+        series = 0
+        series = @valueProperties.length if @reduction is 'trend'
+        values = _.map rows, (row) -> row[series + 1]
+        @value = @applyReductionFunction @reduction, values
             
       calculateChange: (rows) ->
         series = if @trendline then _.first(rows).length - 1 else 1
@@ -216,6 +219,8 @@ throw out the outliers to prevent the most recent group from under reporting
             data.length
           when 'none'
             0
+          when 'trend'
+            _.last data
           else
             _.sum data
 
