@@ -158,12 +158,14 @@ throw out the outliers to prevent the most recent group from under reporting
           result
           
       calculateTrendLine: (rows) =>
-        # todo deal with multiple series
-        x = _.map rows, (array, index) -> index
-        y = _.map rows, (array) -> array[1]
-        trendFunction = lsq(x, y)
+        # todo deal with multiple series? just uses first for now, maybe trend=2
+        series = 1
+        offset = _.first(rows)[0].getTime()
+        xValues = _.map rows, (array) -> array[0].getTime() - offset
+        yValues = _.map rows, (array) -> array[series]
+        trendFunction = lsq(xValues, yValues)
         _.each rows, (array, index) ->
-          array.push trendFunction index
+          array.push trendFunction(xValues[index])
 
       calculateValue: (rows) ->
         # use trendline if present
