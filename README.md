@@ -153,12 +153,14 @@ If true, treat a decrease in value as an improvement, rather than a decline (ex.
 ### since
 
 If specified, ignore values before this date string (uses `dateFormat`). Supports relatives in the format
-`-30d` or `+30d`, where you can use days, hours, months, or years.
+`-30d` or `+30d`, where you can use days, hours, weeks. months, or years.
 Any `limit` is applied after date range filtering
 
 ### until
 
 If specified, ignore values after this date string (uses `dateFormat`).
+Supports relatives in the format
+`-30d` or `+30d`, where you can use days, hours, weeks. months, or years.
 Any `limit` is applied after date range filtering
 
 ### onLoad

@@ -344,6 +344,8 @@ Formatting of relative times, like +30d, -3m
         units = switch match[3]
           when 'd'
             'days'
+          when 'w'
+            'weeks'
           when 'h'
             'hours'
           when 'm'
