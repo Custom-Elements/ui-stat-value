@@ -14,7 +14,7 @@
         @dateProperty = 'date'
         @valueProperty = ''
         @valueProperties = [ ]
-        @reduction = 'last'
+        @reduction = ''
         @groupBy = 'day'
         @groupByFunction = 'sum'
         @units = ''
@@ -171,6 +171,8 @@ throw out the outliers to prevent the most recent group from under reporting
 
       calculateValue: (rows) ->
         # todo deal with multiple series? just uses first for now
+        if @reduction is ''
+          @reduction = if @trendline then 'trend' else 'last'
         series = if @reduction is 'trend' then @valueProperties.length + 1 else 1
         values = _.map rows, (row) -> row[series]
         @value = @applyReductionFunction @reduction, values
