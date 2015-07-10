@@ -54,7 +54,7 @@
             top: 15
             width: "100%"
           vAxis:
-            format: "#,####{@units}"
+            format: "#,####{if @units.length > 2 then ' ' else ''}#{@units}"
             textStyle:
               color: '#aaa'
             baselineColor: '#aaa'
