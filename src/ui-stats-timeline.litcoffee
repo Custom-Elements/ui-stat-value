@@ -171,18 +171,18 @@ throw out the outliers to prevent the most recent group from under reporting
 
       calculateValue: (rows) ->
         # todo deal with multiple series? just uses first for now
-        series = 0
-        series = @valueProperties.length if @reduction is 'trend'
-        values = _.map rows, (row) -> row[series + 1]
+        series = if @reduction is 'trend' then @valueProperties.length + 1 else 1
+        values = _.map rows, (row) -> row[series]
         @value = @applyReductionFunction @reduction, values
             
       calculateChange: (rows) ->
-        series = if @trendline then _.first(rows).length - 1 else 1
-        if rows.length < 2 or @valueProperties.length > 1
+        series = if @trendline then @valueProperties.length + 1 else 1
+        if rows.length < 2
           return @change = 0
-        initialValue = _.first(rows)[series]
-        currentValue = _.last(rows)[series]
-        previousValue = rows[rows.length - 2][series]
+        values = _.map rows, (row) -> row[series]
+        initialValue = _.first values
+        currentValue = _.last values
+        previousValue = values[values.length - 2]
         delta = currentValue - previousValue
         totalDelta = currentValue - initialValue
         if @absoluteChange
