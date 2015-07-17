@@ -182,6 +182,10 @@ return new JSON. Designed to allow you to customize the data returned client sid
   }
 ````
 
+### labels
+
+Optional list of labels to use for the `valueProperties`. Defaults to property name.
+
 ## ui-stats-number
 
 The Number tile is focused on the display of a metric that can be represented by a single number, along with associated secondary metrics, such as a comparison to the previous value or a sparkline. For example:

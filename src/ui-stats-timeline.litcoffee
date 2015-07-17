@@ -14,6 +14,8 @@
         @dateProperty = 'date'
         @valueProperty = ''
         @valueProperties = [ ]
+        @label = null
+        @labels = [ ]
         @reduction = ''
         @groupBy = 'day'
         @groupByFunction = 'sum'
@@ -63,8 +65,13 @@
               color: '#aaa'
             baselineColor: '#aaa'
 
+Single version of arrayh properties
+
       valuePropertyChanged: ->
         @valueProperties = [ @valueProperty ]
+
+      labelPropertyChanged: ->
+        @labels = [ @label ]
 
 property handlers
         
@@ -89,20 +96,25 @@ property handlers
           
       onLoadChanged: ->
         @onLoadHandler = eval @onLoad
+
+      reductionChanged: ->
+        @trendline = true if @reduction is 'trend'
+
+Accept simple strings, in addition to arrays, for array properties
         
       valuePropertiesChanged: ->
-        console.log "instance is #{typeof @valueProperties}, isArray=#{@valueProperties instanceof Array}"
         if typeof @valueProperties is 'string'
-          @valueProperties = @valueProperties.split /[\s,]+/g
+          @valueProperties = _.map @valueProperties.split(','), (value) -> value.trim()
+      
+      labelsChanged: ->
+        if typeof @labels is 'string'
+          @labels =  _.map @labels.split(','), (value) -> value.trim()
 
 deprecated properties
 
       functionChanged: ->
         @reduction = @function
         
-      reductionChanged: ->
-        @trendline = true if @reduction is 'trend'
-
 other stuff
       
       createDataFromJson: (json) ->
@@ -110,6 +122,8 @@ other stuff
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           values = [ dateObject ]
           
+default to all properties, if none specified
+
           if @valueProperties.length is 0
             for key of item
               @valueProperties.push key if key isnt @dateProperty
@@ -301,7 +315,8 @@ Convert all values to 2 decimal points for readability
         columns = [ { "label": "Date", "type": "date" } ]
         series = []
         for property,index in @valueProperties
-          columns.push { "label": property, "type": "number" }
+          label = if @labels[index] then @labels[index] else property
+          columns.push { "label": label, "type": "number" }
           if index is 0
             s = { color: 'black' }
           else
