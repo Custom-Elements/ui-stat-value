@@ -31,7 +31,7 @@ you'll need to add one, though it can be empty. Here's a starting template that 
 
   <body>
     <ui-stats-timeline label="CM Acceptance Percentage" units="%" groupBy="week" valueProperty="accept_rate"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache">
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache">
     </ui-stats-timeline>
   </body>
 
@@ -47,7 +47,7 @@ attributes to select your X and Y columns.
 
 ```html
 <ui-stats-timeline label="Avg Daily CM Applications" groupBy="day" limit="30"
-  src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+  src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
   valueProperty="applied">
 </ui-stats-timeline>
 ```
@@ -229,7 +229,7 @@ The layout of the tile is automatically configured by the type of data you pass 
   
   ```html
   <ui-stats-number name="CM Applications (7 days)" 
-    src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+    src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
     property="applied" limit="7">
   </ui-stats>
   ```

@@ -26,17 +26,17 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Data with Trendline" units="%" groupBy="day" smooth="false"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate" showChange="true" since="-32d" until="-2d" reduction="trend">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate" showChange="false">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Custom LoadHandler" units="%" groupBy="day" smooth="false"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" onLoad="customLoadHandler"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" onLoad="customLoadHandler"
       valueProperty="accept_rate" showChange="false">
     </ui-stats-timeline>
     <script>
@@ -53,70 +53,70 @@
     </script>
 
     <ui-stats-timeline label="Raw Data with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="7 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="3 day Simple Moving Average" units="%" groupBy="day" transform="movingAverage(3)"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last" trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" reduction="last" trendline="true"
       valueProperty="accept_rate">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="7 day Weighted Moving Average" units="%" groupBy="day" transform="weightedMovingAverage"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30" reduction="last"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Cumulative" groupBy="week" transform="cumulative" type="area" reduction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" limit="30"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30"
       valueProperty="paid">
     </ui-stats-timeline>
         
     <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       valueProperty="accept_rate">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" reduction="max" smooth="false"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="column"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="column"
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
     
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" absoluteChange="true" invertChange="true"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       valueProperty="accepted">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Multi-Series Data"  limit="365" reduction="sum" groupBy="week"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area">
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Multi-Series Data (stacked)"  limit="365" reduction="sum" groupBy="week"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" valueProperties="['resume_applied','li_applied','form_applied']" isStacked="true">
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area" valueProperties="['resume_applied','li_applied','form_applied']" isStacked="true">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area" reduction="none"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area" reduction="none"
       valueProperty="paid">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Daily Mean CM Applications" groupBy="day" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" absoluteChange="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" absoluteChange="true"
       dateProperty="date" valueProperty="applied">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Weekly Mean Applications" groupBy="week" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"  trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"  trendline="true"
       valueProperty="applied">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Monthly Mean Applications" groupBy="month" groupByFunction="sum"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" trendline="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" trendline="true"
       valueProperty="applied">
     </ui-stats-timeline>
 
@@ -163,7 +163,7 @@
     <ui-stats-number name="History - Avg" data="[10, 20, 15, 30, 45, 12]" smooth="true" reduction="average">
     </ui-stats-number>
 
-    <ui-stats-number name="Epiquery Results" src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+    <ui-stats-number name="Epiquery Results" src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
      property="applied" limit="7">
     </ui-stats-number>
       
@@ -200,47 +200,47 @@
     <h1>Charts From Epiquery</h1>
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: CM Applications (1 year, weekly)" limit="365" groupBy="week"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
     </ui-stats-chart>
       
     <ui-stats-chart name="Epiquery: Custom Labels" limit="30"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'label':'Applications'}]">       
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (line)" limit="30"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (column)" limit="7"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="column"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="column"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area)" limit="30"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by day)" limit="365" groupBy="day" width="54.5em"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
     
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by week)" limit="365" groupBy="week" width="54.5em"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by month)" limit="365" groupBy="month" width="54.5em"
-      src="https://query.glgroup.com/councilApplicant/getStats.mustache" type="area"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
          
