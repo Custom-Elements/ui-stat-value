@@ -335,7 +335,7 @@ Pretty formatting of numbers
 Formatting of relative times, like +30d, -3m
         
       parseTime: (value, rounding) ->
-        match = /(\+|\-)(\d+)(d|m|y|h)/.exec value
+        match = /(\+|\-)(\d+)(d|m|y|w|h)/.exec value
         if not match?
           return moment value, @datePattern
         sign = match[1]
