@@ -97,7 +97,8 @@
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Multi-Series Data (stacked)"  limit="365" reduction="sum" groupBy="week"
-      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area" valueProperties="['resume_applied','li_applied','form_applied']" isStacked="true">
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
+      valueProperties="resume_applied, li_applied, form_applied" isStacked="true">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" groupByFunction="sum"

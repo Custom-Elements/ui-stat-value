@@ -77,9 +77,10 @@ the date property
 ### valueProperties
 
 An array of data properties for the Y-axis values. Will generate multi-series data with a legend.
+You can specify an actual array of strings, or a comma seperated list which will be parsed into an array.
 If you specify multiple properties here, the `reduction` attribute will be applied to each series first,
 and then to the collection of resulting values. Rolling up the roll ups as it were. If you want to hide
-the primary metric, set the `reduction` attribute to `none`
+the primary metric, set the `reduction` attribute to `none`.
 
 ### limit
 

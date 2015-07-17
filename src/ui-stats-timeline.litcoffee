@@ -89,6 +89,11 @@ property handlers
           
       onLoadChanged: ->
         @onLoadHandler = eval @onLoad
+        
+      valuePropertiesChanged: ->
+        console.log "instance is #{typeof @valueProperties}, isArray=#{@valueProperties instanceof Array}"
+        if typeof @valueProperties is 'string'
+          @valueProperties = @valueProperties.split /[\s,]+/g
 
 deprecated properties
 
