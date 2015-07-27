@@ -13,7 +13,8 @@
         @loading = false
         @dateProperty = 'date'
         @valueProperty = ''
-        @valueProperties = [ ]
+        @valueProperties = []
+        @properties = []
         @label = null
         @labels = [ ]
         @reduction = ''
@@ -37,6 +38,9 @@
         @includePartialGroups = false
         @onLoadHandler = (json) -> json
         @isStacked = false
+        
+      ready: ->
+        @processValueProperties()
 
       domReady: ->
         @$.chart.options =
@@ -65,10 +69,10 @@
               color: '#aaa'
             baselineColor: '#aaa'
 
-Single version of arrayh properties
+        # defer loading data until other attributes
+        if @data?.length > 0
+          @chartdata = @data
 
-      valuePropertyChanged: ->
-        @valueProperties = [ @valueProperty ]
 
       labelPropertyChanged: ->
         @labels = [ @label ]
@@ -83,7 +87,7 @@ property handlers
           if err
             console.log "Error loading data from #{@src}", err
           else
-            @data = @onLoadHandler JSON.parse JSON.stringify(json)
+            @chartdata = @onLoadHandler JSON.parse JSON.stringify(json)
 
       transformChanged: ->
         matches = /^(\w+)\((.*?)\)?$/.exec @transform
@@ -100,12 +104,24 @@ property handlers
       reductionChanged: ->
         @trendline = true if @reduction is 'trend'
 
-Accept simple strings, in addition to arrays, for array properties
+      processValueProperties: ->
+        @valueProperties = @valueProperty if @valueProperty?.length > 0
         
-      valuePropertiesChanged: ->
         if typeof @valueProperties is 'string'
-          @valueProperties = _.map @valueProperties.split(','), (value) -> value.trim()
-      
+          vp = _.map @valueProperties.split(','), (value) -> value.trim()
+        else
+          vp = @valueProperties
+          
+        @propertyFunctions = {}
+        @properties = _.map vp, (propertyString) =>
+          [property, expression] = propertyString.split '='
+          property = property.trim()
+          expression ?= "#{property}"
+          expression = "with (this) { return #{expression} }"
+          @propertyFunctions[property] = new Function expression
+          property
+        @properties ?= []
+
       labelsChanged: ->
         if typeof @labels is 'string'
           @labels =  _.map @labels.split(','), (value) -> value.trim()
@@ -118,19 +134,23 @@ deprecated properties
 other stuff
       
       createDataFromJson: (json) ->
+        # defaults to all properties
+        if @properties.length is 0
+          @valueProperties = []
+          item = _.first json
+          for key of item
+            if key isnt @dateProperty
+              @valueProperties.push key
+          @processValueProperties()
+
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
-          values = [ dateObject ]
+          row = [ dateObject ]
           
-default to all properties, if none specified
-
-          if @valueProperties.length is 0
-            for key of item
-              @valueProperties.push key if key isnt @dateProperty
-          
-          for property in @valueProperties
-            values.push parseFloat item[property]
-          values
+          for property in @properties
+            f = @propertyFunctions[property].bind(item)
+            row.push parseFloat f()
+          row
 
 sort by date ascending, in case they come in out of order
 
@@ -172,7 +192,7 @@ throw out the outliers to prevent the most recent group from under reporting
 
           dateObject = m.toDate()
           result = [ dateObject ]
-          for propertyName, index in @valueProperties
+          for propertyName, index in @properties
             values = _.map items, (array) -> parseFloat array[index + 1]
             value = @applyReductionFunction @groupByFunction, values
             result.push value
@@ -192,12 +212,12 @@ throw out the outliers to prevent the most recent group from under reporting
         # todo deal with multiple series? just uses first for now
         if @reduction is ''
           @reduction = if @trendline then 'trend' else 'last'
-        series = if @reduction is 'trend' then @valueProperties.length + 1 else 1
+        series = if @reduction is 'trend' then @properties.length + 1 else 1
         values = _.map rows, (row) -> row[series]
         @value = @applyReductionFunction @reduction, values
             
       calculateChange: (rows) ->
-        series = if @trendline then @valueProperties.length + 1 else 1
+        series = if @trendline then @properties.length + 1 else 1
         if rows.length < 2
           return @change = 0
         values = _.map rows, (row) -> row[series]
@@ -254,13 +274,13 @@ throw out the outliers to prevent the most recent group from under reporting
           transformFunction = eval @transformFunction
 
         transformed = {}
-        for propertyName, propertyIndex in @valueProperties
+        for propertyName, propertyIndex in @properties
           values = _.map rows, (row) -> row[propertyIndex + 1]
           transformed[propertyName] = transformFunction values, @transformArgs
         rowIndex = 0
         _.map rows, (row) =>
           result = [ row[0] ]
-          for propertyName in @valueProperties
+          for propertyName in @properties
             result.push transformed[propertyName][rowIndex]
           rowIndex++
           result
@@ -297,8 +317,8 @@ throw out the outliers to prevent the most recent group from under reporting
           results.push _.sum(window) / window.length
         results
 
-      dataChanged: ->
-        rows = @applyTransform(@createDataFromJson(@data)).slice -@limit
+      chartdataChanged: ->
+        rows = @applyTransform(@createDataFromJson(@chartdata).slice -@limit)
         @calculateTrendLine(rows) if @trendline
         
 Convert all values to 2 decimal points for readability
@@ -313,31 +333,31 @@ Convert all values to 2 decimal points for readability
         console.log "Timeline #{@label}",rows
 
         columns = [ { "label": "Date", "type": "date" } ]
-        series = []
-        for property,index in @valueProperties
+        series = [ ]
+        for property,index in @properties
           label = if @labels[index] then @labels[index] else property
           columns.push { "label": label, "type": "number" }
-          if index is 0
-            s = { color: 'black' }
+          if index is 0 and @properties.length is 1
+            series.push { color: 'black' }
           else
-            s = {}
-          series.push s
+            series.push {}
 
         if @trendline
           columns.push { "label": "Trend", "type": "number" }
           series.push { color: '#aaa', lineDashStyle: [4, 2] }
+          console.log "Trend", series, columns
 
         @$.chart.cols = columns
         @$.chart.options.series = series
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
         @$.chart.options.isStacked = @isStacked 
-
         @$.chart.type = @type
-        if (not @trendline and @$.chart.cols.length > 2) or (@trendline and @$.chart.cols.length > 3)
+        
+        # show legend if we have more than one property
+        if @properties.length > 1
           @$.chart.options.legend.position = 'top'
           @$.chart.options.chartArea.top += 10
-          @$.chart.options.series = []
 
         @$.chart.rows = rows
 
@@ -353,7 +373,7 @@ Pretty formatting of numbers
         Math.abs value
 
 Formatting of relative times, like +30d, -3m
-        
+
       parseTime: (value, rounding) ->
         match = /(\+|\-)(\d+)(d|m|y|w|h)/.exec value
         if not match?

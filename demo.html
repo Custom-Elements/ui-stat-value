@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel="import" href="node_modules/polymer/polymer.html">
     <link rel="import" href="src/ui-stats.html">
+    <script><!-- empty script tag to appease polymer bug --></script>
     <style>
     body {
       font-family: "Helvetica Neue", "Helvetica", Arial;
@@ -20,6 +21,18 @@
     
     <h1>Timelines</h1>
     
+    <ui-stats-timeline label="Derived"
+      data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
+      valueProperties="count, half=count/2"
+    >
+    </ui-stats-timeline>
+
+    <ui-stats-timeline label="Derived Value with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
+      labels="Accept Rate, Paid Rate"
+      valueProperties="pct_accepted=accepted / applied, pct_paid=paid / applied">
+    </ui-stats-timeline>
+    
     <ui-stats-timeline label="Avg Daily Attach To Paid May to Present" since="2015-05-07"
     valueproperty="HoursToPaid" units="Hours" src="https://services.glgresearch.com/epiquery/statusboard/asia_timeToStatuses.mustache"
      trendline="true">
@@ -27,7 +40,7 @@
 
     <ui-stats-timeline label="Data with Trendline" units="%" groupBy="day" smooth="false"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
-      valueProperty="accept_rate" showChange="true" since="-32d" until="-2d" reduction="trend">
+      valueProperty="accept_rate, paid_rate" showChange="true" since="-32d" until="-2d" reduction="trend">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Raw Data with Trendline" units="%" groupBy="day" smooth="false"
@@ -260,7 +273,7 @@
         document.getElementById('dynamic').setAttribute("data", JSON.stringify(data));
       }
       updateRandomData();
-      window.setInterval(updateRandomData, 3000);
+      //window.setInterval(updateRandomData, 3000);
     </script>
 
   </body>
