@@ -41,6 +41,7 @@
         
       ready: ->
         @processValueProperties()
+        @comment = this.textContent;
 
       domReady: ->
         @$.chart.options =
@@ -69,10 +70,9 @@
               color: '#aaa'
             baselineColor: '#aaa'
 
-        # defer loading data until other attributes
+        # defer loading data until other attributes processed
         if @data?.length > 0
           @chartdata = @data
-
 
       labelPropertyChanged: ->
         @labels = [ @label ]

@@ -41,9 +41,11 @@ you'll need to add one, though it can be empty. Here's a starting template that 
 ## ui-stats-timeline
 
 Display a value and its changes over time, with optional grouping by month, day, or hour. You can pass
-propertly formated JSON data via the `data` attribute, but the typical usage is to use the `src` attribute
+property formatted JSON data via the `data` attribute, but the typical usage is to use the `src` attribute
 to specify the URL of query that returns an array of JSON objects, and use the `dateProperty` and `valueProperty`
 attributes to select your X and Y columns.
+
+The body of the tag is interpreted as descriptive comment and will appear under the title.
 
 ```html
 <ui-stats-timeline label="Avg Daily CM Applications" groupBy="day" limit="30"

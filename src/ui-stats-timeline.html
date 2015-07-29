@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./ui-stats-timeline.less">
 
     <h2>{{label}}</h2>
+    <span class="comment">{{comment}}</span>
     <div class="timeline">
 
       <div class="data" hidden?="{{reduction == 'none'}}">
@@ -18,14 +19,6 @@
           <template if="{{units == '%'}}">{{value | percentage}}<span class="units">{{units}}</span></template>
           <template if="{{units != '%'}}">{{value | decimalNumber}}<span class="units"> {{units}}</span></template>
         </div>
-
-        <!-- <div class="{{ {change: true, increase: improving, decrease: !improving} | tokenList }}" hidden?="{{loading || !showChange}}">
-          <template if="{{change > 0}}">▲</template>
-          <template if="{{change < 0}}">▼</template>
-          <template if="{{absoluteChange}}">{{change | absv | decimalNumber }}{{units}}</template>
-          <template if="{{!absoluteChange}}">{{change | absv | percentage }}{{units}}</template>
-          {{groupBy}} over {{groupBy}}
-        </div> -->
 
         <div class="{{ {change: true, increase: totalImproving, decrease: !totalImproving} | tokenList }}" hidden?="{{loading || !showChange}}">
           <template if="{{totalChange > 0}}">▲</template>
@@ -41,8 +34,7 @@
           <google-chart id="chart">
           </google-chart>
       </div>
-    </div>
-
+    </div>    
   </template>
 
   <script src="./ui-stats-timeline.litcoffee"></script>
