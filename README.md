@@ -77,10 +77,21 @@ the date property
 ### valueProperties
 
 An array of data properties for the Y-axis values. Will generate multi-series data with a legend.
-You can specify an actual array of strings, or a comma seperated list which will be parsed into an array.
+You can specify an actual array of strings, or a comma separated list which will be parsed into an array.
 If you specify multiple properties here, the `reduction` attribute will be applied to each series first,
 and then to the collection of resulting values. Rolling up the roll ups as it were. If you want to hide
 the primary metric, set the `reduction` attribute to `none`.
+
+You can derive properties by using simple javascript expressions referencing other properties. For example
+in this case `accepted`, `paid` and `applied` are properties in the return json and we are calculating the ratio.
+
+````html
+<ui-stats-timeline label="Derived Value with Trendline (smoothed)" units="%" groupBy="day" smooth="true"
+  src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
+  labels="Accept Rate, Paid Rate"
+  valueProperties="pct_accepted=accepted / applied, pct_paid=paid / applied">
+</ui-stats-timeline>
+````
 
 ### limit
 
