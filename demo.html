@@ -25,14 +25,15 @@
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
       valueProperties="count, half=count/2"
     >
-    Some meaningful commentary on exactly what this graph is showing, why it's important, and perhaps what direction it should be moving.
+    Some meaningful commentary on exactly what this graph is showing, why it's important, and perhaps what direction it should be moving,
+    and perhaps a <a href="https://github.com/glg/epiquery-templates/blob/prod/councilApplicant/getStats.mustache" target="_blank">link to the query</a>
+    that powers the data.
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Derived Property on Manual Data"
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
       valueProperty="half_count=count/2"
     >
-    Some meaningful commentary on exactly what this graph is showing, why it's important, and perhaps what direction it should be moving.
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Derived Value with Trendline (smoothed)" units="%" groupBy="day" smooth="true"

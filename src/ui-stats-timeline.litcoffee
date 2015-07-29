@@ -41,7 +41,6 @@
         
       ready: ->
         @processValueProperties()
-        @comment = this.textContent;
 
       domReady: ->
         @$.chart.options =
