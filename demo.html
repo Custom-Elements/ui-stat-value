@@ -30,7 +30,12 @@
     >
     </ui-stats-timeline>
 
-    
+    <ui-stats-timeline label="Recommender Attendance (last 30 days)" groupby="day"
+     src="https://services.glgresearch.com/event-rec-text-matching/responseCounts?when=LAST_N_DAYS:30"
+     dateProperty="when" valueProperties="Confirmed or RSVP, Confirmed, Half_of_RSVP = Confirmed_or_RSVP / 2"
+     smooth="false" type="area" isStacked="false" includepPartialGroups="true" reduction="sum">
+    </ui-stats-timeline>
+
     <ui-stats-timeline label="Derived Property on Manual Data"
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
       valueProperties="count, half=count/2"

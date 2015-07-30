@@ -110,13 +110,14 @@ property handlers
           vp = _.map @valueProperties.split(','), (value) -> value.trim()
         else
           vp = @valueProperties
-          
+
         @propertyFunctions = {}
         @properties = _.map vp, (propertyString) =>
           [property, expression] = propertyString.split '='
-          property = property.trim()
+          property = property.trim().replace /\s/g, "_"
           expression ?= "#{property}"
           expression = "with (this) { return #{expression}; }"
+          console.log "expression", expression
           @propertyFunctions[property] = new Function expression
           property
         @properties ?= []
@@ -139,13 +140,15 @@ other stuff
           item = _.first json
           for key of item
             if key isnt @dateProperty
-              @valueProperties.push key
+              @valueProperties.push key.trim().replace /\s/g, "_"
           @processValueProperties()
 
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           row = [ dateObject ]
-          
+
+          for key of item
+            item[key.replace /\s/g, "_"] = item[key]
           for property in @properties
             f = @propertyFunctions[property].bind(item)
             try
@@ -338,7 +341,7 @@ Convert all values to 2 decimal points for readability
         columns = [ { "label": "Date", "type": "date" } ]
         series = [ ]
         for property,index in @properties
-          label = if @labels[index] then @labels[index] else property
+          label = if @labels[index] then @labels[index] else property.replace /_/g, " "
           columns.push { "label": label, "type": "number" }
           if index is 0 and @properties.length is 1
             series.push { color: 'black' }
