@@ -21,6 +21,16 @@
     
     <h1>Timelines</h1>
     
+    <ui-stats-timeline label="Missing some Properties"
+      data="[ {'date':'2015-01-01', 'count':3, 'size':4},
+              {'date':'2015-02-01','count':11, 'size': 3},
+              {'date':'2015-03-01','count':2},
+              {'date':'2015-04-01','count':5, 'size':5} ]"
+      valueProperties="count,size"
+    >
+    </ui-stats-timeline>
+
+    
     <ui-stats-timeline label="Derived Property on Manual Data"
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
       valueProperties="count, half=count/2"
