@@ -116,7 +116,7 @@ property handlers
           [property, expression] = propertyString.split '='
           property = property.trim()
           expression ?= "#{property}"
-          expression = "with (this) { return #{expression} }"
+          expression = "with (this) { return #{expression}; }"
           @propertyFunctions[property] = new Function expression
           property
         @properties ?= []
@@ -148,7 +148,11 @@ other stuff
           
           for property in @properties
             f = @propertyFunctions[property].bind(item)
-            row.push parseFloat f()
+            try
+              row.push parseFloat f()
+            catch e
+              console.log "Skipping value - Error evaluating '#{property}' for ", item, e
+              row.push 0
           row
 
 sort by date ascending, in case they come in out of order
