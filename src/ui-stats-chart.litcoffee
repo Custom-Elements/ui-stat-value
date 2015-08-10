@@ -18,7 +18,7 @@ The Chart tile displays a chart in various formats
         request.loadDataForUrlAsync @src, @method, (err, json) =>
           @loading = false
           if err
-            console.log "Error loading data from #{@src}", err
+            console.error "Error loading data from #{@src}", err
           else
             @data = json
       
@@ -93,7 +93,7 @@ Prepare the row data
                 @getValue item, col
           else if typeof item is "number"
             [ "", item ]
-        console.log "Charting #{@name}: ", @$.chart.rows
+        #console.log "Charting #{@name}: ", @$.chart.rows
 
 Parse values to the correct type
 

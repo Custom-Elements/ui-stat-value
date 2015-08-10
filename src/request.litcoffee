@@ -1,6 +1,7 @@
 Request Cache
 
     request = require 'browser-request'
+    debugging = false
     
     module.exports = class RequestCache
       constructor: () ->
@@ -20,7 +21,7 @@ Request Cache
             @data[url] = json
             for observer in observers
               observer null, @data[url]
-              console.log "Cache completed request for #{url}"
+              console.debug "Cache completed request for #{url}" if debugging
             delete @observers[url]
 
         @observers[url].push next

@@ -21,6 +21,22 @@
     
     <h1>Timelines</h1>
     
+    <ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste (Stacked)" limit="30" function="none"
+  src="https://sfapi.glgroup.com/api/cptool/stats" 
+  type="area" valueProperties="Corporate - Industrials, Corporate - Corporation, Corporate - Technology & Services" isStacked="true">
+</ui-stats-timeline>
+
+<ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste" limit="30" function="none"
+  src="https://sfapi.glgroup.com/api/cptool/stats" 
+  type="area" valueProperties="Corporate - Industrials, Corporate - Corporation, Corporate - Technology & Services">
+</ui-stats-timeline>
+
+<ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste" limit="30" function="none"
+  src="https://sfapi.glgroup.com/api/cptool/stats" 
+  type="column">
+</ui-stats-timeline>
+
+    
     <ui-stats-timeline label="Missing some Properties"
       data="[ {'date':'2015-01-01', 'count':3, 'size':4},
               {'date':'2015-02-01','count':11, 'size': 3},
@@ -45,9 +61,9 @@
     that powers the data.
     </ui-stats-timeline>
 
-    <ui-stats-timeline label="Derived Property on Manual Data"
+    <ui-stats-timeline label="Derived Property on Manual Data, Dupe Name"
       data="[ {'date':'2015-01-01', 'count':3}, {'date':'2015-02-01','count':11}, {'date':'2015-03-01','count':2}, {'date':'2015-04-01','count':5} ]"
-      valueProperty="half_count=count/2"
+      valueProperty="half count=count/2,count"
     >
     </ui-stats-timeline>
 

@@ -33,7 +33,7 @@ if we have more than 2 values, otherwise we show the last value
           @reduction = "last" if data.length <= 2
         @primaryMetric = @reduce @reduction, data
           
-        console.log "NumberStat: #{@name}, #{data}"
+        #console.log "NumberStat: #{@name}, #{data}"
         switch data.length
           when 1
             @change = null
@@ -53,7 +53,7 @@ if we have more than 2 values, otherwise we show the last value
         request.loadDataForUrlAsync @src, @method, (err, json) =>
           @loading = false
           if err
-            console.log "Error loading data from #{@src}", err
+            console.error "Error loading data from #{@src}", err
           else
             @data = _.pluck json, @property
 

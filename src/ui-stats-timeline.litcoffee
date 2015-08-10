@@ -4,6 +4,8 @@
     RequestCache = require './request.litcoffee'
     lsq = require 'least-squares'
 
+    debugging = false
+    
     Polymer 'ui-stats-timeline',
     
       created: ->
@@ -40,7 +42,7 @@
         @isStacked = false
         
       ready: ->
-        @processValueProperties()
+        #@processValueProperties()
 
       domReady: ->
         @$.chart.options =
@@ -84,7 +86,7 @@ property handlers
         request.loadDataForUrlAsync @src, @method, (err, json) =>
           @loading = false
           if err
-            console.log "Error loading data from #{@src}", err
+            console.error "Error loading data from #{@src}", err
           else
             @chartdata = @onLoadHandler JSON.parse JSON.stringify(json)
 
@@ -103,30 +105,46 @@ property handlers
       reductionChanged: ->
         @trendline = true if @reduction is 'trend'
 
-      processValueProperties: ->
+      processValueProperties: (objectProperties) ->
         @valueProperties = @valueProperty if @valueProperty?.length > 0
         
         if typeof @valueProperties is 'string'
           vp = _.map @valueProperties.split(','), (value) -> value.trim()
         else
           vp = @valueProperties
-
+          
         # build up an library of expressions to evaluate for each property
         @propertyFunctions = {}
+
+        # get out known names
+        propertyNames = _.map vp, (propertyString) ->
+          [property, expression] = propertyString.split /\s*[=]\s*/
+          property.trim()
+        console.debug "property names", propertyNames if debugging
+        objectProperties ?= propertyNames
+        console.debug "object names", objectProperties if debugging
+
+        # create our evaulation functions
         @properties = _.map vp, (propertyString) =>
           [property, expression] = propertyString.split /\s*[=]\s*/
           property = property.trim()
           expression ?= "#{property}"
-
-          # parse the expression so we can fix up property references, ignoring operators
-          parts = expression.split /\s*([\+\/\-\*\(\)]{1})\s*/
-          expression = "return " + _.map parts, (component) ->
-            return null if component is ""
-            return component if /^[\+\/\-\*\(\)0-9]/.test component
-            "this['#{component}']"
-          .join ' '
           
-          console.log "resulting expression for '#{property}' is", expression
+          for propertyName in objectProperties
+            continue if propertyName is ""
+            expression = expression.replace RegExp("\\b#{propertyName}\\b"), "(this['#{propertyName}'] || 0)"
+          expression = "return #{expression}"
+          
+          # # parse the expression so we can fix up property references, ignoring operators
+          # parts = expression.split /\s*([\+\/\-\*\(\)]{1})\s*/
+          # expression = "return " + _.map parts, (component) ->
+          #   return null if component is ""
+          #   return component if /^[\+\/\-\*\(\)0-9]/.test component
+          #   return "this['#{component}']" if component in propertyNames
+          #   return component
+          # .join ' '
+
+          console.debug "resulting expression for '#{property}' is", expression if debugging
           @propertyFunctions[property] = new Function expression
           property
         @properties ?= []
@@ -148,9 +166,9 @@ other stuff
           @valueProperties = []
           item = _.first json
           for key of item
-            if key isnt @dateProperty
-              @valueProperties.push key.trim().replace /\s/g, "_"
-          @processValueProperties()
+            if key isnt @dateProperty and key isnt ""
+              @valueProperties.push key.trim()
+        @processValueProperties Object.keys _.first(json)
 
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
@@ -159,9 +177,12 @@ other stuff
           for property in @properties
             f = @propertyFunctions[property].bind(item)
             try
-              row.push parseFloat f()
+              value = parseFloat f()
+              throw "NaN" if isNaN value
+              # console.debug "Value for '#{property}' is '#{value}', f is #{f}" if debugging
+              row.push value
             catch e
-              console.log "Skipping value - Error evaluating '#{property}' for ", item, e
+              console.error "Skipping - Error evaluating '#{property}' for ", item, e
               row.push 0
           row
 
@@ -343,7 +364,7 @@ Convert all values to 2 decimal points for readability
         
         @calculateValue(rows)
         @calculateChange(rows)
-        console.log "Timeline #{@label}",rows
+        #console.debug "Timeline #{@label}",rows if debugging
 
         columns = [ { "label": "Date", "type": "date" } ]
         series = [ ]
@@ -358,7 +379,7 @@ Convert all values to 2 decimal points for readability
         if @trendline
           columns.push { "label": "Trend", "type": "number" }
           series.push { color: '#aaa', lineDashStyle: [4, 2] }
-          console.log "Trend", series, columns
+          #console.debug "Trend", series, columns if debugging
 
         @$.chart.cols = columns
         @$.chart.options.series = series
