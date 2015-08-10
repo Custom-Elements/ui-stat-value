@@ -391,3 +391,4 @@ Width of the nested chart element. Defaults to 26em
 ### method
 
 GET or POST, defaults to GET, applied only if src is specified
+
