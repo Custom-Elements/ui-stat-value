@@ -111,13 +111,22 @@ property handlers
         else
           vp = @valueProperties
 
+        # build up an library of expressions to evaluate for each property
         @propertyFunctions = {}
         @properties = _.map vp, (propertyString) =>
-          [property, expression] = propertyString.split '='
-          property = property.trim().replace /\s/g, "_"
+          [property, expression] = propertyString.split /\s*[=]\s*/
+          property = property.trim()
           expression ?= "#{property}"
-          expression = "with (this) { return #{expression}; }"
-          console.log "expression", expression
+
+          # parse the expression so we can fix up property references, ignoring operators
+          parts = expression.split /\s*([\+\/\-\*\(\)]{1})\s*/
+          expression = "return " + _.map parts, (component) ->
+            return null if component is ""
+            return component if /^[\+\/\-\*\(\)0-9]/.test component
+            "this['#{component}']"
+          .join ' '
+          
+          console.log "resulting expression for '#{property}' is", expression
           @propertyFunctions[property] = new Function expression
           property
         @properties ?= []
@@ -147,8 +156,6 @@ other stuff
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
           row = [ dateObject ]
 
-          for key of item
-            item[key.replace /\s/g, "_"] = item[key]
           for property in @properties
             f = @propertyFunctions[property].bind(item)
             try
