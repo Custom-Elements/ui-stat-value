@@ -42,7 +42,6 @@
         @isStacked = false
         
       ready: ->
-        #@processValueProperties()
 
       domReady: ->
         @$.chart.options =
