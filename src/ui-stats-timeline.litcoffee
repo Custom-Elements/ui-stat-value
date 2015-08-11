@@ -4,7 +4,7 @@
     RequestCache = require './request.litcoffee'
     lsq = require 'least-squares'
 
-    debugging = true
+    debugging = false
     
     Polymer 'ui-stats-timeline',
     
