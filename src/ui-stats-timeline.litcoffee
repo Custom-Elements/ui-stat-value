@@ -4,7 +4,7 @@
     RequestCache = require './request.litcoffee'
     lsq = require 'least-squares'
 
-    debugging = false
+    debugging = true
     
     Polymer 'ui-stats-timeline',
     
@@ -103,47 +103,59 @@ property handlers
 
       reductionChanged: ->
         @trendline = true if @reduction is 'trend'
-
-      processValueProperties: (objectProperties) ->
-        @valueProperties = @valueProperty if @valueProperty?.length > 0
         
+      valuePropertyChanged: ->
+        @valueProperties = @valueProperty
+
+      processValueProperties: ->
         if typeof @valueProperties is 'string'
           vp = _.map @valueProperties.split(','), (value) -> value.trim()
         else
           vp = @valueProperties
-          
+
         # build up an library of expressions to evaluate for each property
         @propertyFunctions = {}
-
-        # get out known names
-        propertyNames = _.map vp, (propertyString) ->
-          [property, expression] = propertyString.split /\s*[=]\s*/
-          property.trim()
-        console.debug "property names", propertyNames if debugging
-        objectProperties ?= propertyNames
-        console.debug "object names", objectProperties if debugging
-
         # create our evaulation functions
         @properties = _.map vp, (propertyString) =>
           [property, expression] = propertyString.split /\s*[=]\s*/
-          property = property.trim()
-          expression ?= "#{property}"
-          
-          for propertyName in objectProperties
-            continue if propertyName is ""
-            expression = expression.replace RegExp("\\b#{propertyName}\\b"), "(this['#{propertyName}'] || 0)"
-          expression = "return #{expression}"
-          
-          # # parse the expression so we can fix up property references, ignoring operators
-          # parts = expression.split /\s*([\+\/\-\*\(\)]{1})\s*/
-          # expression = "return " + _.map parts, (component) ->
-          #   return null if component is ""
-          #   return component if /^[\+\/\-\*\(\)0-9]/.test component
-          #   return "this['#{component}']" if component in propertyNames
-          #   return component
-          # .join ' '
+          property = property.trim().replace(/[\"\']/g, '')
+          expression ?= "'#{property}'"
 
-          console.debug "resulting expression for '#{property}' is", expression if debugging
+          console.debug "raw expression for \"#{property}\" is", expression if debugging
+          
+          tokens = []
+          b = []
+          inQuote = false
+          inVariable = false
+          for c in expression
+            # if we hit an operator and not in a quote, pop
+            if c in ['-', '+', '*', '/', '^'] and not inQuote
+              tokens.push b.join("") if b.length > 0
+              tokens.push c
+              b = []
+            # if we hit a space and not in a quote, pop
+            else if c is ' ' and not inQuote
+              tokens.push b.join("") if b.length > 0
+              b = []
+            # if we hit a quote, change state and pop
+            else if c is '\'' or c is '\"'
+              tokens.push b.join("") if b.length > 0
+              b = []
+              inQuote = !inQuote
+            else 
+              b.push c
+          tokens.push b.join("") if b.length > 0
+          
+          console.debug "Tokens", tokens if debugging
+          e = []
+          for token in tokens
+            if /^[a-zA-Z_$]+/.test token
+              e.push "(this['#{token}'] || 0)"
+            else
+              e.push token
+          expression = "return #{e.join ' '}"
+          
+          console.debug "resulting expression for \"#{property}\" is", expression if debugging
           @propertyFunctions[property] = new Function expression
           property
         @properties ?= []
@@ -160,14 +172,11 @@ deprecated properties
 other stuff
       
       createDataFromJson: (json) ->
-        # defaults to all properties
+        # set valueProperties to all properties in the data
         if @valueProperties.length is 0
-          @valueProperties = []
-          item = _.first json
-          for key of item
-            if key isnt @dateProperty and key isnt ""
-              @valueProperties.push key.trim()
-        @processValueProperties _.union _.map json, (item) -> Object.keys item
+          allProperties =  _.union _.flatten _.map json, (item) -> Object.keys item
+          @valueProperties = _.difference allProperties, ["", @dateProperty]
+        @processValueProperties()
 
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
@@ -368,7 +377,7 @@ Convert all values to 2 decimal points for readability
         columns = [ { "label": "Date", "type": "date" } ]
         series = [ ]
         for property,index in @properties
-          label = if @labels[index] then @labels[index] else property.replace /_/g, " "
+          label = if @labels[index] then @labels[index] else property.replace(/_/g, " ").replace(/[\"\']/g, '')
           columns.push { "label": label, "type": "number" }
           if index is 0 and @properties.length is 1
             series.push { color: 'black' }
