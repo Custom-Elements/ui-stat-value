@@ -161,13 +161,13 @@ other stuff
       
       createDataFromJson: (json) ->
         # defaults to all properties
-        if @properties.length is 0
+        if @valueProperties.length is 0
           @valueProperties = []
           item = _.first json
           for key of item
             if key isnt @dateProperty and key isnt ""
               @valueProperties.push key.trim()
-        @processValueProperties Object.keys _.first(json)
+        @processValueProperties _.union _.map json, (item) -> Object.keys item
 
         values = _.map json, (item) =>
           dateObject = moment(item[@dateProperty], @datePattern).toDate()
