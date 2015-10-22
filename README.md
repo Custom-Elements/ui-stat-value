@@ -394,7 +394,7 @@ GET or POST, defaults to GET, applied only if src is specified
 
 ### minValue
 
-&lt;minValue&gt;
+&lt;integer&gt;
 
 Moves the min value of the horizontal axis to the specified value for bar charts
 
