@@ -18,25 +18,25 @@
   </head>
 
   <body unresolved class="container">
-    
+
     <h1>Timelines</h1>
-    
+
     <ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste (Stacked)" limit="30" function="none"
-      src="https://sfapi.glgroup.com/api/cptool/stats" 
+      src="https://sfapi.glgroup.com/api/cptool/stats"
       type="area" valueProperties="'Corporate - Industrials', 'Corporate - Corporation', 'Corporate - Technology & Services'" isStacked="true">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste (Stacked)" limit="30" function="none"
-      src="https://sfapi.glgroup.com/api/cptool/stats" 
+      src="https://sfapi.glgroup.com/api/cptool/stats"
       type="area" valueProperties="Corporate - Industrials, Corporate - Corporation, Corporate - Technology & Services" isStacked="true">
     </ui-stats-timeline>
 
     <ui-stats-timeline label="Contacts Created Using LinkedIn Copy/Paste" limit="30" function="none"
-      src="https://sfapi.glgroup.com/api/cptool/stats" 
+      src="https://sfapi.glgroup.com/api/cptool/stats"
       type="area">
     </ui-stats-timeline>
 
-    
+
     <ui-stats-timeline label="Missing some Properties"
       data="[ {'date':'2015-01-01', 'count':3, 'size':4},
               {'date':'2015-02-01','count':11, 'size': 3},
@@ -66,7 +66,7 @@
       labels="Accept Rate, Paid Rate"
       valueProperties="pct_accepted=accepted / applied, pct_paid=paid / applied">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Avg Daily Attach To Paid May to Present" since="2015-05-07"
     valueproperty="HoursToPaid" units="Hours" src="https://services.glgresearch.com/epiquery/statusboard/asia_timeToStatuses.mustache"
      trendline="true">
@@ -81,7 +81,7 @@
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" trendline="true"
       valueProperty="accept_rate" showChange="false">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Custom LoadHandler" units="%" groupBy="day" smooth="false"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" onLoad="customLoadHandler"
       valueProperty="accept_rate" showChange="false">
@@ -118,22 +118,22 @@
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30" reduction="last"
       valueProperty="accept_rate">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Cumulative" groupBy="week" transform="cumulative" type="area" reduction="sum"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" limit="30"
       valueProperty="paid">
     </ui-stats-timeline>
-        
+
     <ui-stats-timeline label="Mean CM Acceptance Percentage" units="%" groupBy="week" groupByFunction="average"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       valueProperty="accept_rate">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Peak CM Acceptance Percentage" units="%" groupBy="week" reduction="max" smooth="false"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="column"
       valueProperty="accept_rate" groupByFunction="average">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Mean Response time" units="ms" limit="30" absoluteChange="true" invertChange="true"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       valueProperty="accepted">
@@ -183,12 +183,12 @@
       data="[ {'date':'2015-01-01', 'count':'3'}, {'date':'2015-02-01','count':'11'}, {'date':'2015-03-01','count':'2'}, {'date':'2015-04-01','count':'5'} ]"
       valueProperty="count" reduction="last">
     </ui-stats-timeline>
-    
+
     <ui-stats-timeline label="Static Object Array Defaults"
       data="[ {'date':'2015-01-01', 'value':3}, {'date':'2015-02-01','value':11}, {'date':'2015-03-01','value':2}, {'date':'2015-04-01','value':5} ]"
       reduction="last">
     </ui-stats-timeline>
-    
+
     <h1>Number Tiles</h1>
 
     <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
@@ -202,7 +202,7 @@
 
     <ui-stats-number name="History - Not Smooth" data="[10, 20, 15, 30, 45, 12]" smooth="false">
     </ui-stats-number>
-    
+
     <ui-stats-number name="History - Smooth" data="[10, 20, 15, 30, 45, 12]" smooth="true">
     </ui-stats-number>
 
@@ -215,7 +215,7 @@
     <ui-stats-number name="Epiquery Results" src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
      property="applied" limit="7">
     </ui-stats-number>
-      
+
     <h1>Charts From Data</h1>
 
     <ui-stats-chart name="Array of numbers" data="[10, 20, 15, 30, 45, 12]">
@@ -237,15 +237,15 @@
       data="[ {'color':'blue', 'count':3}, {'color':'white', 'count':11}, {'color':'yellow', 'count':2}, {'color':'red', 'count':5} ]"
       cols="[{'id':'color', 'type':'string'}, {'id':'count'}]">
     </ui-stats-chart>
-    
+
     <ui-stats-chart name="Single Value Object Array"
       data="[ {'count':3}, {'count':11}, {'count':2}, {'count':5} ]"
       cols="[{'id':'count'}]">
     </ui-stats-chart>
-    
+
     <ui-stats-chart id="dynamic" name="Random Data" type="column">
     </ui-stats-chart>
-    
+
     <h1>Charts From Epiquery</h1>
 
     <ui-stats-chart name="Epiquery: CM Applications (30 days)" limit="30"
@@ -257,10 +257,10 @@
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}]">
     </ui-stats-chart>
-      
+
     <ui-stats-chart name="Epiquery: Custom Labels" limit="30"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
-      cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'label':'Applications'}]">       
+      cols="[{'id':'date', 'type':'date', 'label':'Date', 'pattern':'YYYY-MM-DD'}, {'id':'applied', 'label':'Applications'}]">
     </ui-stats-chart>
 
     <ui-stats-chart name="Epiquery: Multiple Y Columns (line)" limit="30"
@@ -273,6 +273,33 @@
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
 
+    <ui-stats-chart name="Epiquery: onLoad Demo" limit="7"
+      src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="bar"
+      cols="[{'id':'state', 'type':'string'}, {'id':'count'}]"
+      onLoad="totalOfStats">
+    </ui-stats-chart>
+    <script>
+      function totalOfStats(json) {
+        var appliedCount = 0;
+        var acceptedCount = 0;
+        var paidCount = 0;
+
+        json.forEach(function(item){
+          appliedCount += parseInt(item.applied);
+          acceptedCount += parseInt(item.accepted);
+          paidCount += parseInt(item.paid);
+        });
+
+        var result = [
+          {state: 'applied', count: appliedCount},
+          {state: 'accepted', count: acceptedCount},
+          {state: 'paid', count: paidCount}
+        ];
+
+        return result;
+      }
+    </script>
+
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area)" limit="30"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
@@ -282,7 +309,7 @@
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
-    
+
     <ui-stats-chart name="Epiquery: Multiple Y Columns (area, by week)" limit="365" groupBy="week" width="54.5em"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
@@ -292,11 +319,11 @@
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="area"
       cols="[{'id':'date', 'type':'date'}, {'id':'applied'}, {'id':'accepted'}, {'id':'paid'}]">
     </ui-stats-chart>
-         
+
     <ui-stats-chart name="Pie from Object Array" type="pie"
       data="[ {'method':'boat', 'count':3}, {'method':'airplane', 'count':11}, {'method':'car', 'count':2}, {'method':'truck', 'count':5} ]"
       cols="[{'id':'method', 'type':'string'}, {'id':'count'}]">
-    </ui-stats-chart> 
+    </ui-stats-chart>
 
     <script>
       function updateRandomData() {

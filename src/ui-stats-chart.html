@@ -1,4 +1,4 @@
-<polymer-element name="ui-stats-chart" attributes="data src limit name smooth type cols groupBy width method">
+<polymer-element name="ui-stats-chart" attributes="data src limit name smooth type cols groupBy width method onLoad">
   <link rel="import" href="../google-chart/google-chart.html">
 
   <template>
@@ -12,7 +12,7 @@
       <div class="loader {{ {hidden: !loading} | tokenList }}">
         Loading....
       </div>
-      
+
       <google-chart id="chart" type="{{type}}">
       </google-chart>
     </section>
@@ -20,4 +20,3 @@
 
   <script src="./ui-stats-chart.litcoffee"></script>
 </polymer-element>
-  

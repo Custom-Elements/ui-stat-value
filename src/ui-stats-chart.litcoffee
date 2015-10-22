@@ -9,6 +9,9 @@ The Chart tile displays a chart in various formats
 
 ## Attributes and Change Handlers
 
+      onLoadChanged: ->
+        @onLoadHandler = eval @onLoad
+
       widthChanged: ->
         @$.chart.style.width = @width
 
@@ -20,8 +23,8 @@ The Chart tile displays a chart in various formats
           if err
             console.error "Error loading data from #{@src}", err
           else
-            @data = json
-      
+            @data = @onLoadHandler JSON.parse JSON.stringify(json)
+
       dataChanged: ->
         @values = @data
         if @groupBy in ['week', 'month', 'day']
@@ -45,13 +48,13 @@ The Chart tile displays a chart in various formats
             o
 
         @redraw()
-      
+
       redraw: ->
-      
+
 Normalize columns, adding default labels, etc
 
         cols = _.map @cols, (col) ->
-          col.label = col.label ? col.id 
+          col.label = col.label ? col.id
           col.type = col.type ? "number"
           col.pattern = col.pattern ? 'YYYY-MM-DD'
           col
@@ -72,12 +75,12 @@ Customize chart options based on the type of data we are showing, and other sett
           @$.chart.options.legend = { position: 'top', alignment: 'center' }
         else
           @$.chart.options.legend = { position: 'none' }
-          
+
         if cols[0].type is 'date'
           @$.chart.options.hAxis = { format: 'M/d' }
         else if @type isnt 'pie'
           @$.chart.options.hAxis = { }
-        
+
 Prepare the row data
 
         @$.chart.rows = _.map @values.slice(-@limit), (item) =>
@@ -124,6 +127,7 @@ Parse values to the correct type
         @initialized = false
         @groupBy = ''
         @method = 'GET'
+        @onLoadHandler = (json) -> json
 
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]
 
@@ -131,7 +135,7 @@ Parse values to the correct type
         @initialized = true
 
 ## Helpers
-    
+
     typeIsArray = Array.isArray || ( value ) -> return {}.toString.call( value ) is '[object Array]'
 
     isNumeric = (n) -> not isNaN(parseFloat(n)) && isFinite(n)

@@ -228,7 +228,7 @@ Data can be provided in one of several ways:
   </ui-stats>
   ```
 
-* Via the `src` attribute, passing in the URL to a resource containing an array of data, in JSON format. This option also requires the `property` attribute. JSON is loaded from the URL and assigned to the `data` attribute. Note that this is a client side call, and requires CORS if it's not hitting the same server. This is intended to be the the primary use case.
+* Via the `src` attribute, passing in the URL to a resource containing an array of data, in JSON format. This option also requires the `property` attribute. JSON is loaded from the URL and assigned to the `data` attribute. Note that this is a client side call, and requires CORS if it&#39;s not hitting the same server. This is intended to be the the primary use case.
 
   ```html
   <ui-stats-number property="count" src="http://example.com/data.json">
@@ -244,9 +244,9 @@ The layout of the tile is automatically configured by the type of data you pass 
 * If you set the `data` attribute to exactly two values, the first value will be used as the primary metric, and the second value will be considered the previous value for that metric. A percent change will automatically be shown in this case. If you want to display the previous value, rather than the change, set the `absolute` attribute to `true`.
 
 * If you set the `data` attribute to three or more values, a primary metric will be displayed and a sparkline of the values will be generated. By default the sum of the array will be the primary metric, but this can be controlled via the `reduction` attribute. If you only want to consider a subset of the values, set the `limit` attribute to truncate the list to the last `limit` elements. For example, the following URL returns 365 days of data in JSON format, but we only care about the last 7 days, and the "applied" property.
-  
+
   ```html
-  <ui-stats-number name="CM Applications (7 days)" 
+  <ui-stats-number name="CM Applications (7 days)"
     src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache"
     property="applied" limit="7">
   </ui-stats>
@@ -392,3 +392,20 @@ Width of the nested chart element. Defaults to 26em
 
 GET or POST, defaults to GET, applied only if src is specified
 
+### onLoad
+
+Optional function (name) called after loading from `src`. You are passed the JSON from the server, and should
+return new JSON. Designed to allow you to customize the data returned client side. For example:
+
+```javascript
+  var custom = function (json) {
+    for (var i=0; i < json.length; i++) {
+      row = json[i];
+      for (var property in row) {
+        if (typeof row[property] == 'number')
+          row[property] = row[property] * 2
+      }
+    }
+    return json;
+  }
+````
