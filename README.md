@@ -392,6 +392,12 @@ Width of the nested chart element. Defaults to 26em
 
 GET or POST, defaults to GET, applied only if src is specified
 
+### minValue
+
+&lt;minValue&gt;
+
+Moves the min value of the horizontal axis to the specified value for bar charts
+
 ### onLoad
 
 Optional function (name) called after loading from `src`. You are passed the JSON from the server, and should

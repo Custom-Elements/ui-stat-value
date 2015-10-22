@@ -81,6 +81,10 @@ Customize chart options based on the type of data we are showing, and other sett
         else if @type isnt 'pie'
           @$.chart.options.hAxis = { }
 
+        if @minValue and (@type is 'bar')
+          @$.chart.options.hAxis = {minValue: @minValue}
+
+
 Prepare the row data
 
         @$.chart.rows = _.map @values.slice(-@limit), (item) =>
@@ -127,6 +131,7 @@ Parse values to the correct type
         @initialized = false
         @groupBy = ''
         @method = 'GET'
+        @minValue = undefined
         @onLoadHandler = (json) -> json
 
         @cols = [{label:'', type:'string'}, {label:'', type:'number'}]

@@ -276,7 +276,8 @@
     <ui-stats-chart name="Epiquery: onLoad Demo" limit="7"
       src="https://services.glgresearch.com/epiquery/councilApplicant/getStats.mustache" type="bar"
       cols="[{'id':'state', 'type':'string'}, {'id':'count'}]"
-      onLoad="totalOfStats">
+      onLoad="totalOfStats"
+      minValue="0">
     </ui-stats-chart>
     <script>
       function totalOfStats(json) {
@@ -292,8 +293,8 @@
 
         var result = [
           {state: 'applied', count: appliedCount},
-          {state: 'accepted', count: acceptedCount},
-          {state: 'paid', count: paidCount}
+          {state: 'accepted', count: acceptedCount + 2000},
+          {state: 'paid', count: paidCount + 5000}
         ];
 
         return result;
