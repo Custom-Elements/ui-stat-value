@@ -76,10 +76,21 @@ Customize chart options based on the type of data we are showing, and other sett
         else
           @$.chart.options.legend = { position: 'none' }
 
+        # if @type is 'pie'
+        #   @$.chart.options.legend = { position: 'right' }
+        # else 
+        #   @$.chart.options.legend = { position: 'top', alignment: 'center' }
+        
         if cols[0].type is 'date'
           @$.chart.options.hAxis = { format: 'M/d' }
         else if @type isnt 'pie'
           @$.chart.options.hAxis = { }
+
+        if @textPosition
+          @$.chart.options.hAxis.textPosition = @textPosition
+
+        if @hAxisTextColor
+          @$.chart.options.hAxis.textStyle = {color: @hAxisTextColor}
 
         if @minValue and (@type is 'bar')
           @$.chart.options.hAxis = {minValue: @minValue}
