@@ -15,6 +15,9 @@ The Chart tile displays a chart in various formats
       widthChanged: ->
         @$.chart.style.width = @width
 
+      heightChanged: ->
+        @$.chart.style.height = @height
+
       srcChanged: ->
         @loading = true
         request = window.ui_stats_cache ?= new RequestCache()
