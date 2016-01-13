@@ -15,7 +15,13 @@ Request Cache
 
         if not @observers[url]
           observers = @observers[url] = []
-          options = { method: method, url: url,  json: { relaxed: true }, withCredentials: true }
+          options =
+            method: method
+            url: url
+            json:
+              relaxed: true
+            withCredentials: true
+            timeout: 5 * 60 * 1000
           request options, (err, response, json) =>
             return @observer(err, null) if err?
             @data[url] = json
