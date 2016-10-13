@@ -189,6 +189,11 @@
       reduction="last">
     </ui-stats-timeline>
 
+    <ui-stats-timeline label="Static Object Array height=4em" height="4em"
+                       data="[ {'date':'2015-01-01', 'value':3}, {'date':'2015-02-01','value':11}, {'date':'2015-03-01','value':2}, {'date':'2015-04-01','value':5} ]"
+                       reduction="last">
+    </ui-stats-timeline>
+
     <h1>Number Tiles</h1>
 
     <ui-stats-number name="Single Value with Prefix" units="$" value="101.25">
@@ -222,6 +227,9 @@
     </ui-stats-chart>
 
     <ui-stats-chart name="Array of numbers (smooth)" data="[10, 20, 15, 30, 45, 12]" smooth="true">
+    </ui-stats-chart>
+
+    <ui-stats-chart name="Array of numbers (height=4em)" data="[10, 20, 15, 30, 45, 12]" smooth="true" height="4em">
     </ui-stats-chart>
 
     <ui-stats-chart name="2 Dimensional Array (Bar)" type="bar"

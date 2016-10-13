@@ -107,6 +107,9 @@ property handlers
       valuePropertyChanged: ->
         @valueProperties = @valueProperty
 
+      heightChanged: ->
+        @$.chart.style.height = @height
+
       processValueProperties: ->
         if typeof @valueProperties is 'string'
           vp = _.map @valueProperties.split(','), (value) -> value.trim()
