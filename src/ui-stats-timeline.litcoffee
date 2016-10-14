@@ -396,7 +396,9 @@ Convert all values to 2 decimal points for readability
         @$.chart.options.series = series
 
         @$.chart.options.curveType = if @smooth is true then "function" else "none"
-        @$.chart.options.isStacked = @isStacked 
+        @$.chart.options.isStacked = @isStacked
+        if @minValue
+          @$.chart.options.vAxis.viewWindow = {min:@minValue}
         @$.chart.type = @type
         
         # show legend if we have more than one property
