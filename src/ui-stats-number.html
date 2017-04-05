@@ -1,5 +1,5 @@
 <polymer-element name="ui-stats-number" attributes="value data name units src property limit
- function reduction smooth absolute method">
+ function reduction smooth absolute method showTrendLine">
   <link rel="import" href="../google-chart/google-chart.html">
 
   <template>
@@ -9,7 +9,7 @@
       <div class="title">
         {{name}}
       </div>
-      
+
       <div class="loader {{ {hidden: !loading} | tokenList }}">
         Loading....
       </div>
@@ -31,17 +31,16 @@
               </template>
           </div>
         </template>
-        
+
         <template if="{{sparkline}}">
           <div class="annotation">{{lastValue | decimalNumber}}</div>
         </template>
         <google-chart id="trend" type="line" on-google-chart-render="{{onGoogleChartRender}}">
         </google-chart>
       </div>
-      
+
     </section>
   </template>
 
   <script src="./ui-stats-number.litcoffee"></script>
 </polymer-element>
-    

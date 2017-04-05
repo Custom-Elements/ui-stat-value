@@ -7,7 +7,7 @@ along with associated secondary metrics, such as a change indicator or sparkline
     RequestCache = require './request.litcoffee'
 
     Polymer 'ui-stats-number',
-    
+
 ## Attributes and Change Handlers
 
       valueChanged: ->
@@ -20,11 +20,11 @@ deprecated properties
 
 
       dataChanged: ->
-        
+
 Data is trunctated to the last `limit` elements of the array
 
         data = @data.slice -@limit
-        
+
 The primary value is the result of applying the reduction `function`, unless overriden. By default we sum the values
 if we have more than 2 values, otherwise we show the last value
 
@@ -32,7 +32,7 @@ if we have more than 2 values, otherwise we show the last value
           @reduction = "sum" if data.length > 2
           @reduction = "last" if data.length <= 2
         @primaryMetric = @reduce @reduction, data
-          
+
         #console.log "NumberStat: #{@name}, #{data}"
         switch data.length
           when 1
@@ -42,10 +42,11 @@ if we have more than 2 values, otherwise we show the last value
             @change = data[1] - data[0] if @absolute is true
           else
             @change = null
-            chartValues = _.map data, (value) -> ["x", value]
-            chartValues.unshift ["x", "y"]
-            @$.trend.data = chartValues
-            @lastValue = _.last data
+            if @showTrendLine
+              chartValues = _.map data, (value) -> ["x", value]
+              chartValues.unshift ["x", "y"]
+              @$.trend.data = chartValues
+              @lastValue = _.last data
 
       srcChanged: ->
         @loading = true
@@ -67,15 +68,15 @@ Pretty formatting of numbers
 
       decimalNumber: (value) ->
         numeral(value).format '0,0[.]00'
-      
+
       percentage: (value) ->
         numeral(value).format '0.0%'
 
 Splits numbers into whole and fractional parts so we can style them separately
-        
+
       wholenumber: (string) ->
         _.first string.split '.'
-      
+
       fraction: (string) ->
         ".#{_.last string.split '.'}" if string.match /\./
 
@@ -98,7 +99,14 @@ Reduction function, specified by the `@reduction` attribute
             sum = _.reduce values, (sum, value) ->
               sum + value
             ,0
-            return sum / values.length       
+            return sum / values.length
+          when "median"
+            values.sort  (a,b)=> return a - b
+            half = Math.floor values.length/2
+            if values.length % 2
+              return values[half]
+            else
+              return (values[half-1] + values[half]) / 2.0
           else return _.last values
 
 ## Event Handlers
@@ -119,6 +127,7 @@ Reduction function, specified by the `@reduction` attribute
         @absolute = false
         @smooth = false
         @method = 'GET'
+        @showTrendLine = true
 
         @sparklineOptions =
           chartArea:
