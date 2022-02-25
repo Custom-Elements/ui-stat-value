@@ -36,7 +36,7 @@
     "tag": "v0.2.1",
     "commit": "75f12ed7742f23bcd360a86db84127970f2617c9"
   },
-  "_source": "git://github.com/GoogleWebComponents/google-chart.git",
+  "_source": "git+https://github.com/GoogleWebComponents/google-chart.git",
   "_target": "~0.2.1",
   "_originalSource": "google-chart"
 }
