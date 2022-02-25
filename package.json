@@ -7,9 +7,9 @@
     "lodash": "^3.6.0",
     "moment": "^2.10.2",
     "numeral": "^1.5.3",
-    "polymer": "git://github.com/custom-elements/polymer#master",
+    "polymer": "git+https://github.com/custom-elements/polymer#master",
     "polymer-serve": "^0.0.36",
-    "ui-styles": "git://github.com/custom-elements/ui-styles#master"
+    "ui-styles": "git+https://github.com/custom-elements/ui-styles#master"
   },
   "description": "",
   "main": "index.js",
