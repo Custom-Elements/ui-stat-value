@@ -15,7 +15,7 @@
     "tag": "0.5.5",
     "commit": "05890bf9aed7140c072c99c591cf109e3bc85190"
   },
-  "_source": "git://github.com/Polymer/core-shared-lib.git",
+  "_source": "git+https://github.com/Polymer/core-shared-lib.git",
   "_target": "^0.5.5",
   "_originalSource": "Polymer/core-shared-lib"
 }
